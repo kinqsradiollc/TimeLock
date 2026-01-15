@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, SectionList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -25,6 +25,7 @@ export default function TasksScreen() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeFilter, setActiveFilter] = useState<'all' | 'today' | 'upcoming'>('all');
   const [taskStatusFilter, setTaskStatusFilter] = useState<'all' | 'active' | 'completed'>('active');
+  const sectionListRef = useRef<SectionList>(null);
 
   // Update current time every minute for countdown updates
   useEffect(() => {
@@ -137,6 +138,17 @@ export default function TasksScreen() {
       });
     }
     
+    // Always add Today section (even if empty) when on 'all' or 'today' filter
+    const todayDateString = today.toDateString();
+    if (activeFilter !== 'upcoming') {
+      const todayTasks = upcomingGroups[todayDateString] || [];
+      sections.push({
+        title: todayDateString,
+        data: todayTasks,
+      });
+      delete upcomingGroups[todayDateString];
+    }
+    
     // Add upcoming sections sorted by date
     const upcomingSections = Object.entries(upcomingGroups)
       .map(([dateString, tasks]) => ({
@@ -174,6 +186,25 @@ export default function TasksScreen() {
       day: 'numeric' 
     });
   };
+
+  // Auto-scroll to Today section when tasks load
+  useEffect(() => {
+    if (!loading && groupedTasks.length > 0) {
+      const todayIndex = groupedTasks.findIndex(section => 
+        formatSectionDate(section.title) === 'Today'
+      );
+      if (todayIndex !== -1) {
+        setTimeout(() => {
+          sectionListRef.current?.scrollToLocation({
+            sectionIndex: todayIndex,
+            itemIndex: 0,
+            animated: true,
+            viewPosition: 0,
+          });
+        }, 100);
+      }
+    }
+  }, [loading, groupedTasks]);
 
   // Loading check after all hooks
   if (loading) {
@@ -230,6 +261,7 @@ export default function TasksScreen() {
       />
 
       <SectionList
+        ref={sectionListRef}
         sections={groupedTasks}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
@@ -239,7 +271,7 @@ export default function TasksScreen() {
             onPress={() => router.push(`/task-detail?id=${item.id}`)}
           />
         )}
-        renderSectionHeader={({ section: { title } }) => (
+        renderSectionHeader={({ section: { title, data } }) => (
           <View style={[styles.sectionHeader, { backgroundColor: colors.background }]}>
             <Text style={[styles.sectionTitle, { color: colors.textPrimary }]}>
               {formatSectionDate(title)}
@@ -247,6 +279,18 @@ export default function TasksScreen() {
             <View style={[styles.sectionLine, { backgroundColor: colors.border }]} />
           </View>
         )}
+        renderSectionFooter={({ section: { title, data } }) => {
+          // Show message when Today section is empty
+          if (formatSectionDate(title) === 'Today' && data.length === 0) {
+            return (
+              <View style={[styles.emptyTodayContainer, { backgroundColor: colors.surfaceAlt }]}>
+                <Text style={[styles.emptyTodayText, { color: colors.textSecondary }]}>✨ No tasks for today</Text>
+                <Text style={[styles.emptyTodaySubtext, { color: colors.textTertiary }]}>Enjoy your free time!</Text>
+              </View>
+            );
+          }
+          return null;
+        }}
         contentContainerStyle={tasks.length === 0 ? styles.emptyContainer : styles.listContent}
         stickySectionHeadersEnabled={false}
         refreshControl={
@@ -296,6 +340,21 @@ const styles = StyleSheet.create({
   sectionLine: {
     flex: 1,
     height: 1,
+  },
+  emptyTodayContainer: {
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.md,
+    padding: Spacing.lg,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  emptyTodayText: {
+    fontSize: Typography.md,
+    fontWeight: Typography.semibold,
+    marginBottom: Spacing.xs,
+  },
+  emptyTodaySubtext: {
+    fontSize: Typography.sm,
   },
 });
   

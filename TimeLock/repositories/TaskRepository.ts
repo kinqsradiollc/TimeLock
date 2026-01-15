@@ -17,7 +17,8 @@ export class TaskRepository {
         priority TEXT CHECK(priority IN ('low','medium','high','urgent')) DEFAULT 'medium',
         category_id INTEGER,
         notifications TEXT,
-        is_active INTEGER DEFAULT 1
+        is_active INTEGER DEFAULT 1,
+        calendar_event_id TEXT
       );
     `;
     await executeSql(sql);
@@ -25,7 +26,7 @@ export class TaskRepository {
 
   static async create(task: TaskInsert): Promise<number> {
     const notifications = JSON.stringify(task.notifications || []);
-    const sql = `INSERT INTO tasks (title, description, deadline, completed, priority, category_id, notifications, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+    const sql = `INSERT INTO tasks (title, description, deadline, completed, priority, category_id, notifications, is_active, calendar_event_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const params = [
       task.title,
       task.description ?? null,
@@ -35,6 +36,7 @@ export class TaskRepository {
       task.categoryId ?? null,
       notifications,
       task.isActive ? 1 : 0,
+      task.calendarEventId ?? null,
     ];
     const res = await executeSql(sql, params);
     return res.lastInsertRowId;
@@ -88,6 +90,10 @@ export class TaskRepository {
       parts.push('is_active = ?');
       params.push(updates.isActive ? 1 : 0);
     }
+    if (updates.calendarEventId !== undefined) {
+      parts.push('calendar_event_id = ?');
+      params.push(updates.calendarEventId ?? null);
+    }
     if (parts.length === 0) return;
     parts.push("updated_at = CURRENT_TIMESTAMP");
     const sql = `UPDATE tasks SET ${parts.join(', ')} WHERE id = ?;`;
@@ -118,6 +124,7 @@ export class TaskRepository {
       categoryId: row.category_id ?? undefined,
       notifications: row.notifications ? JSON.parse(row.notifications) : [],
       isActive: !!row.is_active,
+      calendarEventId: row.calendar_event_id ?? undefined,
     };
   }
 }

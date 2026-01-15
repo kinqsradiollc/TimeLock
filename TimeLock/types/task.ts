@@ -18,6 +18,7 @@ export interface Task {
   categoryId?: number;
   notifications: NotificationOption[];
   isActive: boolean;
+  calendarEventId?: string; // Device calendar event ID if synced
 }
 
 export interface TaskFilter {
@@ -41,5 +42,6 @@ export function taskInsertRow(data: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>
     category_id: data.categoryId ?? null,
     notifications: JSON.stringify(data.notifications),
     is_active: data.isActive ? 1 : 0,
+    calendar_event_id: data.calendarEventId ?? null,
   } as const;
 }

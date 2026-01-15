@@ -59,6 +59,13 @@ export class DatabaseMigrations {
       console.log('[DB] Migration v1 completed');
     }
 
+    if (currentVersion < 2) {
+      console.log('[DB] Running migration v2: Add calendar sync tracking...');
+      await this.migration_v2_add_calendar_event_id();
+      await this.markMigrationApplied(2);
+      console.log('[DB] Migration v2 completed');
+    }
+
     console.log(`[DB] Database up to date (v${CURRENT_VERSION})`);
   }
 
@@ -93,6 +100,15 @@ export class DatabaseMigrations {
         console.warn(`[DB] Skipping duplicate category: ${category.name}`);
       }
     }
+  }
+
+  /**
+   * Migration v2: Add calendar_event_id column for sync tracking
+   */
+  private static async migration_v2_add_calendar_event_id(): Promise<void> {
+    // Add calendar_event_id column to tasks table
+    await executeSql('ALTER TABLE tasks ADD COLUMN calendar_event_id TEXT;');
+    console.log('[DB] Added calendar_event_id column to tasks table');
   }
 
   /**
