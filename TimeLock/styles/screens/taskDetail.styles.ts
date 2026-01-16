@@ -1,66 +1,20 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Spacing, Typography } from '../common';
+import { SharedStyles } from '../shared';
 
 export const taskDetailStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    gap: Spacing.md,
-  },
-  headerButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
+  container: SharedStyles.flexContainer,
+  header: SharedStyles.screenHeader,
+  headerButton: SharedStyles.headerButton,
   headerTitle: {
+    ...SharedStyles.headerTitle,
     flex: 1,
     textAlign: 'center',
     fontSize: Typography.lg,
-    fontWeight: Typography.bold,
   },
-  content: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: Spacing.lg,
-    gap: Spacing.lg,
-    paddingBottom: Spacing.xxxl,
-  },
-  card: {
-    borderRadius: 16,
-    padding: Spacing.lg,
-    borderWidth: 1,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 4,
-      },
-    }),
-  },
+  content: SharedStyles.flexContainer,
+  scrollContent: SharedStyles.scrollContentBottomSpacing,
+  card: SharedStyles.cardWithBorder,
   title: {
     fontSize: Typography.xxl,
     fontWeight: Typography.bold,
@@ -84,36 +38,20 @@ export const taskDetailStyles = StyleSheet.create({
     borderRadius: 12,
     gap: Spacing.xs,
   },
-  categoryDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
+  categoryDot: SharedStyles.dot,
   categoryText: {
     fontSize: Typography.sm,
     fontWeight: Typography.bold,
   },
-  priorityBadge: {
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
-    borderRadius: 12,
-  },
+  priorityBadge: SharedStyles.badge,
   priorityText: {
     fontSize: Typography.sm,
     fontWeight: Typography.bold,
     color: '#FFFFFF',
     textTransform: 'capitalize',
   },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.sm,
-    marginBottom: Spacing.md,
-  },
-  sectionTitle: {
-    fontSize: Typography.base,
-    fontWeight: Typography.bold,
-  },
+  sectionHeader: SharedStyles.sectionHeader,
+  sectionTitle: SharedStyles.sectionTitle,
   description: {
     fontSize: Typography.base,
     lineHeight: 24,
@@ -169,46 +107,12 @@ export const taskDetailStyles = StyleSheet.create({
     padding: Spacing.lg,
     gap: Spacing.md,
   },
-  completeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: Spacing.sm,
-    borderRadius: 16,
-    padding: Spacing.lg,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
+  completeButton: SharedStyles.primaryButton,
   completeButtonText: {
-    fontSize: Typography.md,
-    fontWeight: Typography.bold,
+    ...SharedStyles.buttonText,
     color: '#FFFFFF',
   },
-  deleteButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: Spacing.sm,
-    borderRadius: 16,
-    padding: Spacing.lg,
-    borderWidth: 2,
-  },
-  deleteButtonText: {
-    fontSize: Typography.md,
-    fontWeight: Typography.bold,
-  },
-  loadingText: {
-    textAlign: 'center',
-    marginTop: Spacing.xxxl,
-    fontSize: Typography.md,
-  },
+  deleteButton: SharedStyles.secondaryButton,
+  deleteButtonText: SharedStyles.buttonText,
+  loadingText: SharedStyles.loadingText,
 });

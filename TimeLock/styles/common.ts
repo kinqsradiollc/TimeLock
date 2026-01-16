@@ -11,3 +11,4 @@ export function useThemeColors() {
 export { LightColors, DarkColors, Colors } from './colors';
 export * from './spacing';
 export * from './typography';
+export { SharedStyles, StyleCombos } from './shared';

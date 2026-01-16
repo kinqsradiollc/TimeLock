@@ -1,22 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { Spacing, Typography } from '../common';
+import { SharedStyles } from '../shared';
 
 export const tasksStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: SharedStyles.flexContainer,
   listContent: {
     paddingTop: Spacing.sm,
     paddingBottom: Spacing.xl,
   },
-  emptyContainer: {
-    flex: 1,
-  },
-  loadingText: {
-    textAlign: 'center',
-    marginTop: Spacing.xxxl,
-    fontSize: Typography.md,
-  },
+  emptyContainer: SharedStyles.flexContainer,
+  loadingText: SharedStyles.loadingText,
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',

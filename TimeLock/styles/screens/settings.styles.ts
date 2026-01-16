@@ -1,50 +1,15 @@
 import { StyleSheet, Platform } from 'react-native';
 import { Spacing, Typography } from '@/styles/common';
+import { SharedStyles } from '../shared';
 
 export const settingsStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    gap: Spacing.md,
-  },
-  headerButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: Typography.xl,
-    fontWeight: Typography.bold,
-  },
-  content: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: Spacing.lg,
-  },
+  container: SharedStyles.flexContainer,
+  header: SharedStyles.screenHeader,
+  headerButton: SharedStyles.headerButton,
+  headerTitleContainer: SharedStyles.headerTitleContainer,
+  headerTitle: SharedStyles.headerTitle,
+  content: SharedStyles.flexContainer,
+  scrollContent: SharedStyles.scrollContent,
   section: {
     marginBottom: Spacing.xl,
   },
@@ -69,13 +34,7 @@ export const settingsStyles = StyleSheet.create({
   dangerItem: {
     marginTop: 1,
   },
-  iconContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  iconContainer: SharedStyles.iconContainerSmall,
   settingContent: {
     flex: 1,
     gap: 2,
@@ -98,45 +57,17 @@ export const settingsStyles = StyleSheet.create({
     fontSize: Typography.sm,
     textAlign: 'center',
   },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
+  modalOverlay: SharedStyles.modalOverlay,
   modalContent: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: Spacing.xl,
+    ...SharedStyles.modalContent,
     paddingBottom: Spacing.xxxl,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
   },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: Spacing.xl,
-  },
+  modalHeader: SharedStyles.modalHeader,
   modalTitle: {
+    ...SharedStyles.modalTitle,
     fontSize: Typography.xl,
-    fontWeight: Typography.bold,
   },
-  modalClose: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  modalClose: SharedStyles.iconButton,
   themeOptions: {
     gap: Spacing.md,
   },

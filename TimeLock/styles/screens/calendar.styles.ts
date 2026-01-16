@@ -1,13 +1,10 @@
 import { StyleSheet, Platform } from 'react-native';
 import { Spacing, Typography } from '../common';
+import { SharedStyles } from '../shared';
 
 export const calendarStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
+  container: SharedStyles.flexContainer,
+  content: SharedStyles.flexContainer,
   viewSelector: {
     flexDirection: 'row',
     gap: Spacing.sm,
@@ -64,13 +61,11 @@ export const calendarStyles = StyleSheet.create({
     alignItems: 'center',
   },
   iconButton: {
+    ...SharedStyles.iconButton,
     padding: Spacing.sm,
     borderRadius: 8,
   },
-  sectionTitle: {
-    fontSize: Typography.lg,
-    fontWeight: Typography.bold,
-  },
+  sectionTitle: SharedStyles.sectionTitleLarge,
   taskCount: {
     fontSize: Typography.sm,
     fontWeight: Typography.medium,
