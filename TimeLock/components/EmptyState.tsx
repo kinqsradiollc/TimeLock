@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { LightColors, DarkColors, Spacing, Typography } from '@/styles/common';
+import { View, Text } from 'react-native';
+import { LightColors, DarkColors } from '@/styles/common';
+import { emptyStateStyles as styles } from '@/styles/components/emptyState.styles';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface EmptyStateProps {
@@ -20,26 +21,3 @@ export function EmptyState({ message, subtitle }: EmptyStateProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: Spacing.xxxl,
-  },
-  emoji: {
-    fontSize: 64,
-    marginBottom: Spacing.lg,
-  },
-  message: {
-    fontSize: Typography.lg,
-    fontWeight: Typography.semibold,
-    textAlign: 'center',
-    marginBottom: Spacing.sm,
-  },
-  subtitle: {
-    fontSize: 14,
-    textAlign: 'center',
-  },
-});

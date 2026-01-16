@@ -1,8 +1,9 @@
 import { Tabs, useRouter } from 'expo-router';
 import React from 'react';
-import { TouchableOpacity, StyleSheet, View, Platform } from 'react-native';
+import { TouchableOpacity, View, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LightColors, DarkColors } from '@/styles/common';
+import { tabLayoutStyles as styles } from '@/styles/screens/tabLayout.styles';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export default function TabLayout() {
@@ -62,24 +63,3 @@ export default function TabLayout() {
     </Tabs>
   );
 }
-
-const styles = StyleSheet.create({
-  fabWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    top: -20,
-  },
-  fab: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-});

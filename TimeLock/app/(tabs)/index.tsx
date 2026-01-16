@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { View, Text, StyleSheet, SectionList, RefreshControl } from 'react-native';
+import { View, Text, SectionList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
@@ -8,7 +8,8 @@ import { CategoryRepository } from '@/repositories/CategoryRepository';
 import { TaskCard } from '@/components/TaskCard';
 import { EmptyState } from '@/components/EmptyState';
 import { PageHeader } from '@/components/PageHeader';
-import { LightColors, DarkColors, Spacing, Typography } from '@/styles/common';
+import { LightColors, DarkColors } from '@/styles/common';
+import { tasksStyles as styles } from '@/styles/screens/tasks.styles';
 import { useTheme } from '@/contexts/ThemeContext';
 import type { Task } from '@/types/task';
 import type { Category } from '@/types/category';
@@ -306,55 +307,4 @@ export default function TasksScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  listContent: {
-    paddingTop: Spacing.sm,
-    paddingBottom: Spacing.xl,
-  },
-  emptyContainer: {
-    flex: 1,
-  },
-  loadingText: {
-    textAlign: 'center',
-    marginTop: Spacing.xxxl,
-    fontSize: Typography.md,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.lg,
-    paddingBottom: Spacing.sm,
-    gap: Spacing.md,
-  },
-  sectionTitle: {
-    fontSize: Typography.sm,
-    fontWeight: Typography.bold,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  sectionLine: {
-    flex: 1,
-    height: 1,
-  },
-  emptyTodayContainer: {
-    marginHorizontal: Spacing.lg,
-    marginBottom: Spacing.md,
-    padding: Spacing.lg,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  emptyTodayText: {
-    fontSize: Typography.md,
-    fontWeight: Typography.semibold,
-    marginBottom: Spacing.xs,
-  },
-  emptyTodaySubtext: {
-    fontSize: Typography.sm,
-  },
-});
   
