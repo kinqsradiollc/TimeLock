@@ -1,49 +1,19 @@
 import { StyleSheet, Platform } from 'react-native';
 import { Spacing, Typography } from '@/styles/common';
+import { SharedStyles } from '../shared';
 
 export const categoryManagerStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
+  container: SharedStyles.flexContainer,
+  content: SharedStyles.flexContainer,
   contentContainer: {
     padding: Spacing.lg,
     gap: Spacing.lg,
   },
-  card: {
-    borderRadius: 16,
-    padding: Spacing.lg,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
-  },
-  labelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: Spacing.md,
-    gap: Spacing.sm,
-  },
-  label: {
-    fontSize: Typography.md,
-    fontWeight: Typography.semibold,
-    flex: 1,
-  },
+  card: SharedStyles.card,
+  labelRow: SharedStyles.labelRow,
+  label: SharedStyles.label,
   input: {
-    fontSize: Typography.md,
-    borderRadius: 12,
-    padding: Spacing.md,
-    borderWidth: 1,
-    minHeight: 48,
+    ...SharedStyles.inputWithBorder,
     marginBottom: Spacing.lg,
   },
   colorLabel: {
@@ -132,11 +102,7 @@ export const categoryManagerStyles = StyleSheet.create({
     gap: Spacing.md,
     flex: 1,
   },
-  categoryDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
+  categoryDot: SharedStyles.dotLarge,
   categoryName: {
     fontSize: Typography.base,
     fontWeight: Typography.medium,
@@ -146,28 +112,9 @@ export const categoryManagerStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.sm,
   },
-  actionButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyState: {
-    alignItems: 'center',
-    paddingVertical: Spacing.xxxl,
-    gap: Spacing.sm,
-  },
-  emptyText: {
-    fontSize: Typography.md,
-    fontWeight: Typography.semibold,
-  },
-  emptySubtext: {
-    fontSize: Typography.sm,
-  },
-  loadingText: {
-    textAlign: 'center',
-    marginTop: Spacing.xxxl,
-    fontSize: Typography.md,
-  },
+  actionButton: SharedStyles.iconButton,
+  emptyState: SharedStyles.emptyContainer,
+  emptyText: SharedStyles.emptyText,
+  emptySubtext: SharedStyles.emptySubtext,
+  loadingText: SharedStyles.loadingText,
 });

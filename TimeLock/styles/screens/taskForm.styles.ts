@@ -1,36 +1,11 @@
 import { StyleSheet, Platform } from 'react-native';
 import { Spacing, Typography } from '../common';
+import { SharedStyles } from '../shared';
 
 export const taskFormStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    gap: Spacing.md,
-  },
-  headerButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
+  container: SharedStyles.flexContainer,
+  header: SharedStyles.screenHeader,
+  headerButton: SharedStyles.headerButton,
   saveButtonContainer: {
     ...Platform.select({
       ios: {
@@ -44,62 +19,19 @@ export const taskFormStyles = StyleSheet.create({
       },
     }),
   },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: Typography.xl,
-    fontWeight: Typography.bold,
-  },
-  form: {
-    flex: 1,
-  },
-  formContent: {
-    padding: Spacing.lg,
-    gap: Spacing.lg,
-  },
-  card: {
-    borderRadius: 16,
-    padding: Spacing.lg,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
-  },
-  labelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: Spacing.md,
-    gap: Spacing.sm,
-  },
-  label: {
-    fontSize: Typography.md,
-    fontWeight: Typography.semibold,
-    flex: 1,
-  },
+  headerTitleContainer: SharedStyles.headerTitleContainer,
+  headerTitle: SharedStyles.headerTitle,
+  form: SharedStyles.flexContainer,
+  formContent: SharedStyles.scrollContentWithGap,
+  card: SharedStyles.card,
+  labelRow: SharedStyles.labelRow,
+  label: SharedStyles.label,
   required: {
     fontSize: Typography.md,
     fontWeight: Typography.bold,
   },
-  input: {
-    fontSize: Typography.md,
-    borderRadius: 12,
-    padding: Spacing.md,
-    minHeight: 48,
-  },
-  textArea: {
-    minHeight: 120,
-    textAlignVertical: 'top',
-    paddingTop: Spacing.md,
-  },
+  input: SharedStyles.input,
+  textArea: SharedStyles.textArea,
   dateTimeRow: {
     flexDirection: 'row',
     gap: Spacing.md,
@@ -154,11 +86,7 @@ export const taskFormStyles = StyleSheet.create({
     gap: Spacing.sm,
     minHeight: 44,
   },
-  categoryDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-  },
+  categoryDot: SharedStyles.dot,
   categoryText: {
     fontSize: Typography.base,
     fontWeight: Typography.medium,
@@ -177,48 +105,24 @@ export const taskFormStyles = StyleSheet.create({
     fontSize: Typography.sm,
     fontWeight: Typography.semibold,
   },
-  loadingText: {
-    textAlign: 'center',
-    marginTop: Spacing.xxxl,
-    fontSize: Typography.md,
-  },
+  loadingText: SharedStyles.loadingText,
   bottomSpacer: {
     height: Spacing.xxxl,
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
+  modalOverlay: SharedStyles.modalOverlay,
   modalContent: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    ...SharedStyles.modalContent,
     paddingBottom: Platform.OS === 'ios' ? 34 : Spacing.xl,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
   },
   modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    ...SharedStyles.modalHeader,
     paddingHorizontal: Spacing.xl,
     paddingTop: Spacing.lg,
     paddingBottom: Spacing.md,
     borderBottomWidth: 1,
+    marginBottom: 0,
   },
-  modalTitle: {
-    fontSize: Typography.lg,
-    fontWeight: Typography.bold,
-  },
+  modalTitle: SharedStyles.modalTitle,
   doneButton: {
     paddingVertical: Spacing.xs,
     paddingHorizontal: Spacing.sm,
