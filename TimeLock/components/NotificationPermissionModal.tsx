@@ -12,6 +12,7 @@ import { notificationPermissionModalStyles as styles } from '@/styles/components
 import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
 import { SettingsRepository } from '@/repositories/SettingsRepository';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 
 const PERMISSION_ASKED_KEY = 'notification_permission_asked';
 
@@ -20,6 +21,7 @@ export function NotificationPermissionModal() {
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
   const [visible, setVisible] = useState(false);
   const { requestPermissions } = useNotificationPermissions();
+  const haptics = useHaptics();
 
   useEffect(() => {
     checkShouldShow();
@@ -38,13 +40,18 @@ export function NotificationPermissionModal() {
   };
 
   const handleAllow = async () => {
+    haptics.medium();
     const granted = await requestPermissions();
     await SettingsRepository.set(PERMISSION_ASKED_KEY, 'true');
     await SettingsRepository.updateAppSettings({ notificationsEnabled: granted });
+    if (granted) {
+      haptics.success();
+    }
     setVisible(false);
   };
 
   const handleNotNow = async () => {
+    haptics.light();
     await SettingsRepository.set(PERMISSION_ASKED_KEY, 'true');
     await SettingsRepository.updateAppSettings({ notificationsEnabled: false });
     setVisible(false);

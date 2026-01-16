@@ -33,6 +33,7 @@ export class SettingsRepository {
     const defaultNotifications = await this.get('defaultNotifications');
     const theme = await this.get('theme');
     const calendarView = await this.get('calendarView');
+    const hapticsEnabled = await this.get('hapticsEnabled');
 
     // Parse and validate
     const settings: AppSettings = {
@@ -46,6 +47,7 @@ export class SettingsRepository {
         calendarView === 'month' || calendarView === 'week' || calendarView === 'day'
           ? calendarView
           : DEFAULT_APP_SETTINGS.calendarView,
+      hapticsEnabled: hapticsEnabled !== 'false', // Default to true if not set
     };
 
     return settings;
@@ -66,6 +68,9 @@ export class SettingsRepository {
     }
     if (updates.calendarView !== undefined) {
       await this.set('calendarView', updates.calendarView);
+    }
+    if (updates.hapticsEnabled !== undefined) {
+      await this.set('hapticsEnabled', updates.hapticsEnabled.toString());
     }
   }
 }

@@ -21,6 +21,7 @@ import { NOTIFICATION_OPTIONS } from '@/constants/notifications';
 import { LightColors, DarkColors } from '@/styles/common';
 import { taskFormStyles as styles } from '@/styles/screens/taskForm.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
 import type { Category } from '@/types/category';
 
@@ -30,6 +31,7 @@ export default function TaskFormScreen() {
   const taskId = params.id ? Number(params.id) : undefined;
   const isEditing = !!taskId;
   const { effectiveTheme } = useTheme();
+  const haptics = useHaptics();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
 
   const [title, setTitle] = useState('');
@@ -74,11 +76,13 @@ export default function TaskFormScreen() {
 
   const handleSave = async () => {
     if (!title.trim()) {
+      haptics.warning();
       Alert.alert('Validation Error', 'Please enter a task title');
       return;
     }
 
     try {
+      haptics.medium();
       const taskData = {
         title: title.trim(),
         description: description.trim() || undefined,
@@ -96,8 +100,10 @@ export default function TaskFormScreen() {
         await TaskRepository.create(taskData);
       }
 
+      haptics.success();
       router.back();
     } catch (error) {
+      haptics.error();
       console.error('Failed to save task:', error);
       Alert.alert('Error', 'Failed to save task');
     }
@@ -106,6 +112,7 @@ export default function TaskFormScreen() {
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
+      haptics.selection();
       setDeadline(selectedDate);
     }
   };
@@ -113,6 +120,7 @@ export default function TaskFormScreen() {
   const handleTimeChange = (event: any, selectedTime?: Date) => {
     setShowTimePicker(false);
     if (selectedTime) {
+      haptics.selection();
       setDeadline(selectedTime);
     }
   };
@@ -136,7 +144,10 @@ export default function TaskFormScreen() {
         <View style={[styles.header, { backgroundColor: colors.background }]}>
           <TouchableOpacity 
             style={[styles.headerButton, { backgroundColor: colors.surface }]}
-            onPress={() => router.back()}
+            onPress={() => {
+              haptics.light();
+              router.back();
+            }}
             activeOpacity={0.7}
           >
             <Ionicons name="close" size={24} color={colors.textPrimary} />
@@ -203,7 +214,10 @@ export default function TaskFormScreen() {
             <View style={styles.dateTimeRow}>
               <TouchableOpacity
                 style={[styles.dateTimeButton, { backgroundColor: colors.background }]}
-                onPress={() => setShowDatePicker(true)}
+                onPress={() => {
+                  haptics.light();
+                  setShowDatePicker(true);
+                }}
                 activeOpacity={0.7}
               >
                 <Ionicons name="calendar" size={18} color={colors.primary} />
@@ -213,7 +227,10 @@ export default function TaskFormScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.dateTimeButton, { backgroundColor: colors.background }]}
-                onPress={() => setShowTimePicker(true)}
+                onPress={() => {
+                  haptics.light();
+                  setShowTimePicker(true);
+                }}
                 activeOpacity={0.7}
               >
                 <Ionicons name="time" size={18} color={colors.primary} />
@@ -244,7 +261,10 @@ export default function TaskFormScreen() {
                   <View style={[styles.modalHeader, { borderBottomColor: colors.border }]}>
                     <Text style={[styles.modalTitle, { color: colors.textPrimary }]}>Select Date</Text>
                     <TouchableOpacity 
-                      onPress={() => setShowDatePicker(false)}
+                      onPress={() => {
+                        haptics.light();
+                        setShowDatePicker(false);
+                      }}
                       style={styles.doneButton}
                     >
                       <Text style={[styles.modalButton, { color: colors.primary }]}>Done</Text>
@@ -285,7 +305,10 @@ export default function TaskFormScreen() {
                   <View style={[styles.modalHeader, { borderBottomColor: colors.border }]}>
                     <Text style={[styles.modalTitle, { color: colors.textPrimary }]}>Select Time</Text>
                     <TouchableOpacity 
-                      onPress={() => setShowTimePicker(false)}
+                      onPress={() => {
+                        haptics.light();
+                        setShowTimePicker(false);
+                      }}
                       style={styles.doneButton}
                     >
                       <Text style={[styles.modalButton, { color: colors.primary }]}>Done</Text>
@@ -331,7 +354,10 @@ export default function TaskFormScreen() {
                         borderColor: isSelected ? priorityColors[p] : colors.border,
                       },
                     ]}
-                    onPress={() => setPriority(p)}
+                    onPress={() => {
+                      haptics.selection();
+                      setPriority(p);
+                    }}
                     activeOpacity={0.7}
                   >
                     <Ionicons 
@@ -368,7 +394,10 @@ export default function TaskFormScreen() {
                     borderColor: !categoryId ? colors.primary : colors.border,
                   },
                 ]}
-                onPress={() => setCategoryId(undefined)}
+                onPress={() => {
+                  haptics.selection();
+                  setCategoryId(undefined);
+                }}
                 activeOpacity={0.7}
               >
                 <Ionicons 
@@ -397,7 +426,10 @@ export default function TaskFormScreen() {
                         borderColor: isSelected ? colors.primary : colors.border,
                       },
                     ]}
-                    onPress={() => setCategoryId(category.id)}
+                    onPress={() => {
+                      haptics.selection();
+                      setCategoryId(category.id);
+                    }}
                     activeOpacity={0.7}
                   >
                     <View style={[styles.categoryDot, { backgroundColor: category.color }]} />

@@ -12,6 +12,7 @@ import CalendarSyncService from '@/services/CalendarSyncService';
 import { LightColors, DarkColors, Spacing, Typography } from '@/styles/common';
 import { calendarStyles as styles } from '@/styles/screens/calendar.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
 import type { Category } from '@/types/category';
 
@@ -19,6 +20,7 @@ export default function CalendarScreen() {
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
   const router = useRouter();
+  const haptics = useHaptics();
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -342,6 +344,7 @@ export default function CalendarScreen() {
           <TouchableOpacity
             style={[styles.viewButton, calendarView === 'month' && { backgroundColor: colors.primaryLight }]}
             onPress={() => {
+              haptics.selection();
               setCalendarView('month');
               setSelectedDate(todayStr);
             }}
@@ -354,6 +357,7 @@ export default function CalendarScreen() {
           <TouchableOpacity
             style={[styles.viewButton, calendarView === 'week' && { backgroundColor: colors.primaryLight }]}
             onPress={() => {
+              haptics.selection();
               setCalendarView('week');
               setSelectedDate(todayStr);
             }}
@@ -365,7 +369,10 @@ export default function CalendarScreen() {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.viewButton, calendarView === 'agenda' && { backgroundColor: colors.primaryLight }]}
-            onPress={() => setCalendarView('agenda')}
+            onPress={() => {
+              haptics.selection();
+              setCalendarView('agenda');
+            }}
             activeOpacity={0.7}
           >
             <Text style={[styles.viewButtonText, { color: calendarView === 'agenda' ? colors.primary : colors.textSecondary }]}>
@@ -380,7 +387,10 @@ export default function CalendarScreen() {
           <Calendar
             key={selectedDate}
             current={selectedDate}
-            onDayPress={(day: DateData) => setSelectedDate(day.dateString)}
+            onDayPress={(day: DateData) => {
+              haptics.light();
+              setSelectedDate(day.dateString);
+            }}
             markedDates={markedDates}
             theme={{
               calendarBackground: colors.surface,
@@ -438,7 +448,10 @@ export default function CalendarScreen() {
                         isSelected && { backgroundColor: colors.primary },
                         { borderColor: colors.border }
                       ]}
-                      onPress={() => setSelectedDate(dateString)}
+                      onPress={() => {
+                        haptics.light();
+                        setSelectedDate(dateString);
+                      }}
                       activeOpacity={0.7}
                     >
                       <Text style={[
@@ -476,14 +489,20 @@ export default function CalendarScreen() {
                 <View style={styles.selectionActions}>
                   <TouchableOpacity
                     style={styles.iconButton}
-                    onPress={cancelSelectionMode}
+                    onPress={() => {
+                      haptics.light();
+                      cancelSelectionMode();
+                    }}
                     activeOpacity={0.7}
                   >
                     <Ionicons name="close" size={24} color={colors.textPrimary} />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.iconButton, { opacity: selectedTasks.size > 0 ? 1 : 0.5 }]}
-                    onPress={showExportOptions}
+                    onPress={() => {
+                      haptics.medium();
+                      showExportOptions();
+                    }}
                     disabled={selectedTasks.size === 0}
                     activeOpacity={0.7}
                   >
@@ -493,7 +512,10 @@ export default function CalendarScreen() {
               ) : (
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={showExportOptions}
+                  onPress={() => {
+                    haptics.medium();
+                    showExportOptions();
+                  }}
                   activeOpacity={0.7}
                 >
                   <Ionicons name="cloud-upload-outline" size={24} color={colors.primary} />
@@ -528,6 +550,7 @@ export default function CalendarScreen() {
                         key={task.id}
                         style={[styles.agendaTask, { backgroundColor: colors.surfaceAlt }]}
                         onPress={() => {
+                          haptics.light();
                           if (selectionMode) {
                             toggleTaskSelection(task.id!);
                           } else {
@@ -591,14 +614,20 @@ export default function CalendarScreen() {
               <View style={styles.selectionActions}>
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={cancelSelectionMode}
+                  onPress={() => {
+                    haptics.light();
+                    cancelSelectionMode();
+                  }}
                   activeOpacity={0.7}
                 >
                   <Ionicons name="close" size={24} color={colors.textPrimary} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.iconButton, { opacity: selectedTasks.size > 0 ? 1 : 0.5 }]}
-                  onPress={showExportOptions}
+                  onPress={() => {
+                    haptics.medium();
+                    showExportOptions();
+                  }}
                   disabled={selectedTasks.size === 0}
                   activeOpacity={0.7}
                 >
@@ -608,7 +637,10 @@ export default function CalendarScreen() {
             ) : (
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={showExportOptions}
+                onPress={() => {
+                  haptics.medium();
+                  showExportOptions();
+                }}
                 activeOpacity={0.7}
               >
                 <Ionicons name="cloud-upload-outline" size={24} color={colors.primary} />
@@ -629,6 +661,7 @@ export default function CalendarScreen() {
                 key={task.id}
                 style={[styles.taskCard, { backgroundColor: colors.surface }]}
                 onPress={() => {
+                  haptics.light();
                   if (selectionMode) {
                     toggleTaskSelection(task.id!);
                   } else {

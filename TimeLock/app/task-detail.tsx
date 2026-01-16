@@ -17,6 +17,7 @@ import { CategoryRepository } from '@/repositories/CategoryRepository';
 import { LightColors, DarkColors } from '@/styles/common';
 import { taskDetailStyles as styles } from '@/styles/screens/taskDetail.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
 import type { Category } from '@/types/category';
 
@@ -26,6 +27,7 @@ export default function TaskDetailScreen() {
   const taskId = Number(params.id);
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
+  const haptics = useHaptics();
 
   const [task, setTask] = useState<Task | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
@@ -65,14 +67,17 @@ export default function TaskDetailScreen() {
 
     try {
       await TaskRepository.toggleCompletion(task.id!);
+      haptics.success();
       await loadTask();
     } catch (error) {
       console.error('Failed to toggle task completion:', error);
+      haptics.error();
       Alert.alert('Error', 'Failed to update task');
     }
   };
 
   const handleDelete = () => {
+    haptics.warning();
     Alert.alert(
       'Delete Task',
       'Are you sure you want to delete this task?',
@@ -83,10 +88,12 @@ export default function TaskDetailScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
+              haptics.heavy();
               await TaskRepository.delete(taskId);
               router.back();
             } catch (error) {
               console.error('Failed to delete task:', error);
+              haptics.error();
               Alert.alert('Error', 'Failed to delete task');
             }
           },
@@ -126,7 +133,10 @@ export default function TaskDetailScreen() {
       <View style={[styles.header, { backgroundColor: colors.background }]}>
         <TouchableOpacity 
           style={[styles.headerButton, { backgroundColor: colors.surface }]}
-          onPress={() => router.back()}
+          onPress={() => {
+            haptics.light();
+            router.back();
+          }}
           activeOpacity={0.7}
         >
           <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
@@ -134,7 +144,10 @@ export default function TaskDetailScreen() {
         <Text style={[styles.headerTitle, { color: colors.textPrimary }]}>Task Details</Text>
         <TouchableOpacity 
           style={[styles.headerButton, { backgroundColor: colors.primary }]}
-          onPress={() => router.push(`/task-form?id=${taskId}`)}
+          onPress={() => {
+            haptics.medium();
+            router.push(`/task-form?id=${taskId}`);
+          }}
           activeOpacity={0.7}
         >
           <Ionicons name="create-outline" size={24} color="#FFFFFF" />

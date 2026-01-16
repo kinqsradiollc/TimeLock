@@ -11,6 +11,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { LightColors, DarkColors } from '@/styles/common';
 import { tasksStyles as styles } from '@/styles/screens/tasks.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
 import type { Category } from '@/types/category';
 
@@ -18,6 +19,7 @@ export default function TasksScreen() {
   const router = useRouter();
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
+  const haptics = useHaptics();
   
   const [tasks, setTasks] = useState<Task[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -241,7 +243,10 @@ export default function TasksScreen() {
             iconBgColor: colors.primaryLight,
             value: activeTasks,
             label: 'Active',
-            onPress: () => setTaskStatusFilter('active'),
+            onPress: () => {
+              haptics.light();
+              setTaskStatusFilter('active');
+            },
             active: taskStatusFilter === 'active',
           },
           {
@@ -250,14 +255,26 @@ export default function TasksScreen() {
             iconBgColor: colors.successLight,
             value: completedTasks,
             label: 'Done',
-            onPress: () => setTaskStatusFilter('completed'),
+            onPress: () => {
+              haptics.light();
+              setTaskStatusFilter('completed');
+            },
             active: taskStatusFilter === 'completed',
           },
         ]}
         filters={[
-          { label: 'All', active: activeFilter === 'all', onPress: () => setActiveFilter('all') },
-          { label: 'Today', active: activeFilter === 'today', onPress: () => setActiveFilter('today') },
-          { label: 'Upcoming', active: activeFilter === 'upcoming', onPress: () => setActiveFilter('upcoming') },
+          { label: 'All', active: activeFilter === 'all', onPress: () => {
+            haptics.light();
+            setActiveFilter('all');
+          } },
+          { label: 'Today', active: activeFilter === 'today', onPress: () => {
+            haptics.light();
+            setActiveFilter('today');
+          } },
+          { label: 'Upcoming', active: activeFilter === 'upcoming', onPress: () => {
+            haptics.light();
+            setActiveFilter('upcoming');
+          } },
         ]}
       />
 

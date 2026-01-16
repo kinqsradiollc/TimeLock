@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LightColors, DarkColors } from '@/styles/common';
 import { pageHeaderStyles as styles } from '@/styles/components/pageHeader.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 
 interface StatCard {
   icon: keyof typeof Ionicons.glyphMap;
@@ -47,6 +48,7 @@ export function PageHeader({
   filters,
 }: PageHeaderProps) {
   const { effectiveTheme } = useTheme();
+  const haptics = useHaptics();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
 
   return (
@@ -56,7 +58,10 @@ export function PageHeader({
         {showBackButton && (
           <TouchableOpacity
             style={[styles.backButton, { backgroundColor: colors.surface }]}
-            onPress={onBackPress}
+            onPress={() => {
+              haptics.light();
+              onBackPress?.();
+            }}
             activeOpacity={0.7}
           >
             <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
@@ -75,7 +80,10 @@ export function PageHeader({
         {showSettings && (
           <TouchableOpacity
             style={[styles.settingsButton, { backgroundColor: colors.surface }]}
-            onPress={onSettingsPress}
+            onPress={() => {
+              haptics.light();
+              onSettingsPress?.();
+            }}
             activeOpacity={0.7}
           >
             <Ionicons name="settings-outline" size={24} color={colors.textPrimary} />
@@ -84,7 +92,10 @@ export function PageHeader({
         {showAvatar && (
           <TouchableOpacity
             style={[styles.avatarButton, { backgroundColor: colors.primary }]}
-            onPress={onAvatarPress}
+            onPress={() => {
+              haptics.light();
+              onAvatarPress?.();
+            }}
             activeOpacity={0.7}
           >
             <Ionicons name="person" size={24} color="#FFFFFF" />
@@ -108,7 +119,10 @@ export function PageHeader({
                     borderColor: stat.active ? colors.primary : 'transparent',
                   },
                 ]}
-                onPress={stat.onPress}
+                onPress={stat.onPress ? () => {
+                  haptics.light();
+                  stat.onPress?.();
+                } : undefined}
                 activeOpacity={stat.onPress ? 0.7 : 1}
               >
                 <View
@@ -148,7 +162,10 @@ export function PageHeader({
                     : colors.surface,
                 },
               ]}
-              onPress={filter.onPress}
+              onPress={() => {
+                haptics.light();
+                filter.onPress?.();
+              }}
               activeOpacity={0.7}
             >
               <Text

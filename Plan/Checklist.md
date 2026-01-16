@@ -83,7 +83,19 @@
 - [x] Implement consistent design system with shared style patterns
 - [x] Add loading states and skeletons
 - [x] Implement pull-to-refresh functionality
-- [x] Add haptic feedback for interactions
+- [x] **Add comprehensive haptic feedback system**
+  - [x] Create useHaptics hook with 7 feedback types (light, medium, heavy, success, warning, error, selection)
+  - [x] Add Settings toggle for haptics (enable/disable)
+  - [x] Implement real-time setting checks on every haptic call
+  - [x] Apply haptics to tab navigation (Tasks, Calendar tabs)
+  - [x] Apply haptics to all Calendar interactions (date selection, export, view switcher)
+  - [x] Apply haptics to Tasks screen (filters, stat cards)
+  - [x] Apply haptics to Task detail (edit, complete, delete)
+  - [x] Apply haptics to Task form (all inputs, pickers, save)
+  - [x] Apply haptics to Category manager (CRUD operations, color selection)
+  - [x] Apply haptics to Settings screen (direct calls to prevent re-renders)
+  - [x] Apply haptics to PageHeader, TaskCard, NotificationPermissionModal
+  - [x] Add migration v3 for haptics setting
 - [x] Create smooth animations and transitions
 - [x] Implement dark/light theme switching with system mode
 - [x] Organize all styles into dedicated files (screens/, components/, shared.ts)

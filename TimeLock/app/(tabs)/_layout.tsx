@@ -5,11 +5,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { LightColors, DarkColors } from '@/styles/common';
 import { tabLayoutStyles as styles } from '@/styles/screens/tabLayout.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 
 export default function TabLayout() {
   const router = useRouter();
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
+  const haptics = useHaptics();
 
   return (
     <Tabs
@@ -32,6 +34,11 @@ export default function TabLayout() {
             <Ionicons name="list" size={size} color={color} />
           ),
         }}
+        listeners={{
+          tabPress: () => {
+            haptics.light();
+          },
+        }}
       />
       <Tabs.Screen
         name="add"
@@ -41,7 +48,10 @@ export default function TabLayout() {
           tabBarButton: () => (
             <TouchableOpacity
               style={styles.fabWrapper}
-              onPress={() => router.push('/task-form')}
+              onPress={() => {
+                haptics.medium();
+                router.push('/task-form');
+              }}
               activeOpacity={0.8}
             >
               <View style={[styles.fab, { backgroundColor: colors.primary }]}>
@@ -58,6 +68,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" size={size} color={color} />
           ),
+        }}
+        listeners={{
+          tabPress: () => {
+            haptics.light();
+          },
         }}
       />
     </Tabs>
