@@ -94,6 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Improved toggle switch contrast in Settings for light theme (thumb now white when off, track uses medium gray).
 - Calendar month view now re-renders correctly when switching themes.
+- Database migrations now idempotent - safe to re-run without duplicate column/setting errors.
 
 ## Types of Changes
 

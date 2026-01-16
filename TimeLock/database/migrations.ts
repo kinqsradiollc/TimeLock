@@ -13,6 +13,36 @@ interface MigrationVersion {
 
 export class DatabaseMigrations {
   /**
+   * Helper: Check if a column exists in a table
+   */
+  private static async columnExists(tableName: string, columnName: string): Promise<boolean> {
+    try {
+      const result = await querySqlFirst<{ name: string }>(
+        `SELECT name FROM pragma_table_info('${tableName}') WHERE name = '${columnName}';`
+      );
+      return result?.name === columnName;
+    } catch (err) {
+      console.warn(`[DB] Unable to check if column ${columnName} exists in ${tableName}`, err);
+      return false;
+    }
+  }
+
+  /**
+   * Helper: Check if a table exists
+   */
+  private static async tableExists(tableName: string): Promise<boolean> {
+    try {
+      const result = await querySqlFirst<{ name: string }>(
+        `SELECT name FROM sqlite_master WHERE type='table' AND name='${tableName}';`
+      );
+      return result?.name === tableName;
+    } catch (err) {
+      console.warn(`[DB] Unable to check if table ${tableName} exists`, err);
+      return false;
+    }
+  }
+
+  /**
    * Initialize the migration tracking table
    */
   private static async initMigrationTable(): Promise<void> {
@@ -80,17 +110,33 @@ export class DatabaseMigrations {
    * Migration v1: Initial schema and seed data
    */
   private static async migration_v1_initial_schema(): Promise<void> {
-    // Create all tables
+    // Create all tables (using CREATE TABLE IF NOT EXISTS internally)
     await TaskRepository.init();
     await CategoryRepository.init();
     await SettingsRepository.init();
 
-    // Seed default settings
-    await SettingsRepository.set('notificationsEnabled', DEFAULT_APP_SETTINGS.notificationsEnabled.toString());
-    await SettingsRepository.set('defaultNotifications', JSON.stringify(DEFAULT_APP_SETTINGS.defaultNotifications));
-    await SettingsRepository.set('theme', DEFAULT_APP_SETTINGS.theme);
-    await SettingsRepository.set('calendarView', DEFAULT_APP_SETTINGS.calendarView);
-    await SettingsRepository.set('hapticsEnabled', DEFAULT_APP_SETTINGS.hapticsEnabled.toString());
+    // Seed default settings (check if they exist first)
+    const settingsToSeed = [
+      { key: 'notificationsEnabled', value: DEFAULT_APP_SETTINGS.notificationsEnabled.toString() },
+      { key: 'defaultNotifications', value: JSON.stringify(DEFAULT_APP_SETTINGS.defaultNotifications) },
+      { key: 'theme', value: DEFAULT_APP_SETTINGS.theme },
+      { key: 'calendarView', value: DEFAULT_APP_SETTINGS.calendarView },
+      { key: 'hapticsEnabled', value: DEFAULT_APP_SETTINGS.hapticsEnabled.toString() },
+    ];
+
+    for (const setting of settingsToSeed) {
+      try {
+        const existing = await SettingsRepository.get(setting.key);
+        if (existing === null) {
+          await SettingsRepository.set(setting.key, setting.value);
+          console.log(`[DB] Seeded setting: ${setting.key}`);
+        } else {
+          console.log(`[DB] Setting ${setting.key} already exists; skipping`);
+        }
+      } catch (err) {
+        console.warn(`[DB] Error checking/seeding setting ${setting.key}:`, err);
+      }
+    }
 
     // Seed default categories
     const defaultCategories = [
@@ -103,9 +149,10 @@ export class DatabaseMigrations {
     for (const category of defaultCategories) {
       try {
         await CategoryRepository.create(category);
+        console.log(`[DB] Seeded category: ${category.name}`);
       } catch (err) {
         // Ignore duplicate errors (UNIQUE constraint)
-        console.warn(`[DB] Skipping duplicate category: ${category.name}`);
+        console.log(`[DB] Category ${category.name} already exists; skipping`);
       }
     }
   }
@@ -114,8 +161,14 @@ export class DatabaseMigrations {
    * Migration v2: Add calendar_event_id column for sync tracking
    */
   private static async migration_v2_add_calendar_event_id(): Promise<void> {
-    // Add calendar_event_id column to tasks table
-    await executeSql('ALTER TABLE tasks ADD COLUMN calendar_event_id TEXT;');
+    // Check if column already exists
+    const exists = await this.columnExists('tasks', 'calendar_event_id');
+    if (exists) {
+      console.log('[DB] calendar_event_id column already exists; skipping');
+      return;
+    }
+
+    await executeSql("ALTER TABLE tasks ADD COLUMN calendar_event_id TEXT;");
     console.log('[DB] Added calendar_event_id column to tasks table');
   }
 
@@ -123,6 +176,17 @@ export class DatabaseMigrations {
    * Migration v3: Add haptics setting
    */
   private static async migration_v3_add_haptics_setting(): Promise<void> {
+    // Check if setting already exists
+    try {
+      const existing = await SettingsRepository.get('hapticsEnabled');
+      if (existing !== null) {
+        console.log('[DB] hapticsEnabled setting already exists; skipping');
+        return;
+      }
+    } catch (err) {
+      console.warn('[DB] Unable to check existing hapticsEnabled setting', err);
+    }
+
     // Add hapticsEnabled setting with default value
     await SettingsRepository.set('hapticsEnabled', DEFAULT_APP_SETTINGS.hapticsEnabled.toString());
     console.log('[DB] Added hapticsEnabled setting');
