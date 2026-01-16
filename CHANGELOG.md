@@ -5,77 +5,78 @@ All notable changes to TimeLock will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
-- Comprehensive documentation suite in `docs/` directory
-- Branching strategy guide (`BRANCHING.md`)
-- Code style guide (`CODE_STYLE.md`)
-- Contributing guidelines (`CONTRIBUTING.md`)
-- Development workflow documentation (`DEVELOPMENT.md`)
-- Shared style system (`styles/shared.ts`) with reusable patterns
-
-### Changed
-- Improved project structure with dedicated documentation branch
-- Enhanced README with accurate feature descriptions
-- Refactored all screen styles to use shared style patterns
-- Reduced code duplication by ~60+ lines across style files
-
-### Fixed
-- Documentation now accurately reflects implemented features (calendar export, not bidirectional sync)
-- Corrected feature claims to match actual codebase capabilities
-
-## [1.0.0] - 2026-01-16
-
-### Added
-- **Calendar Export**: One-way export to device calendars with duplicate prevention
-- **Task Management**: Complete CRUD operations for tasks with categories
-- **UI Components**: Comprehensive component library with consistent styling
-- **Database Layer**: Expo SQLite implementation with migration system
-- **Navigation**: Expo Router-based navigation with tab structure
-- **Styling System**: Organized style extraction with shared style patterns
-- **TypeScript**: Full TypeScript implementation with strict type checking
-
-### Features
-- **Task Creation**: Add new tasks with titles, descriptions, categories, and priorities
-- **Task Completion**: Mark tasks as complete with visual indicators
-- **Calendar Export**: Export tasks to device calendar with duplicate prevention and ICS file export
-- **Selective Export**: Choose specific tasks or export all tasks to calendar
-- **Category Management**: Create and manage custom task categories with colors
-- **Multiple Calendar Views**: Month, Week, and Agenda views for better task visualization
-- **Settings Screen**: App configuration and theme preferences
-- **Dark/Light Mode**: Theme support with system preference detection
-
-### Technical Improvements
-- **Code Organization**: Extracted all inline styles to dedicated files
-- **Shared Style System**: Created reusable style patterns library for consistency
-- **Component Architecture**: Modular component structure with proper separation
-- **Error Handling**: Comprehensive error handling throughout the app
-- **Performance**: Optimized rendering and reduced code duplication
-- **Type Safety**: Full TypeScript implementation with strict type checking
-- **Documentation**: Comprehensive guides for development, branching, and contribution
-
-### Dependencies
-- **Expo SDK 54**: Latest Expo features and improvements
-- **React Native**: Core mobile framework
-- **Expo SQLite**: Local database with migration support
-- **Expo Calendar**: Device calendar integration
-- **Expo File System**: File operations and export functionality
-- **TypeScript**: Type-safe development
-
 ---
 
-## Version History
+## [Unreleased]
 
-### Pre-1.0.0 (Development Phase)
+### Current Status: Development Build v1.0.0
 
-#### Alpha Releases
-- **0.1.0-alpha**: Initial project setup with basic task management
-- **0.2.0-alpha**: Added calendar integration and export functionality
-- **0.3.0-alpha**: Implemented category system and improved UI
-- **0.4.0-alpha**: Added settings screen and notification permissions
-- **0.5.0-alpha**: Code refactoring and style organization
-- **0.6.0-alpha**: Documentation and branching strategy implementation
+**Note**: This is an open-source project currently in active development. The app is NOT yet released on the App Store or Google Play Store. This version represents the initial development milestone with core functionality implemented.
+
+### ✅ Implemented Features (v1.0.0)
+
+#### Task Management
+- Create, edit, and delete tasks with titles, descriptions, and deadlines
+- Mark tasks as complete/incomplete with visual indicators
+- Priority levels: low, medium, high, urgent
+- User-created categories with custom colors
+- Category management (create, edit, delete)
+- Task detail view with full information
+
+#### Calendar Integration
+- Calendar export: One-way export to device calendars
+- Duplicate prevention for calendar exports
+- ICS file export functionality
+- Multiple calendar views: Month, Week, and Agenda
+- Visual indicators for tasks on calendar dates
+- Date picker for deadline selection
+- Calendar permissions management
+
+#### User Interface
+- Clean, intuitive interface with consistent design
+- Tab-based navigation (Home, Tasks, Calendar, Explore)
+- Task list with filtering and sorting
+- Empty state components
+- Dark/Light/System theme support with persistence
+- Haptic feedback for interactions
+- Shared style system with 40+ reusable patterns
+
+#### Data & Storage
+- Expo SQLite database with migration system
+- Repository pattern for data access (TaskRepository, CategoryRepository, SettingsRepository)
+- Complete CRUD operations for all entities
+- Type-safe data models with TypeScript interfaces
+- Settings persistence (theme, permissions)
+
+#### Technical Stack
+- React Native 0.81.5
+- Expo SDK 54
+- TypeScript with strict type checking
+- Expo Router for file-based navigation
+- Context API for state management
+- Modular component architecture
+
+#### Documentation
+- Comprehensive documentation suite in `docs/` directory
+- Branching strategy guide (`BRANCHING.md`)
+- Code style guide with design principles (`CODE_STYLE.md`)
+- Contributing guidelines with feature request lifecycle (`CONTRIBUTING.md`)
+- Development workflow documentation (`DEVELOPMENT.md`)
+- Project planning documents in `Plan/` directory
+
+### 🔄 Partially Implemented
+- Notification system (permissions UI ready, scheduling not implemented)
+- QR code task sharing (libraries installed, implementation pending)
+
+### ❌ Planned for Future Development
+- Local push notifications for task reminders
+- Time tracking with countdown timers
+- Bidirectional calendar sync (import from device calendar)
+- iOS Live Activities for lock screen widgets
+- Task search and advanced filtering
+- Recurring tasks support
+- Data backup and restore
+- Cloud sync across devices
 
 ---
 
@@ -135,7 +136,7 @@ We use [Semantic Versioning](https://semver.org/):
 - [ ] Create git tag
 - [ ] Create GitHub release
 - [ ] Update documentation if needed
-- [ ] Deploy to app stores
+- [ ] Deploy to app stores (when ready)
 
 ### Release Commands
 ```bash
@@ -151,27 +152,45 @@ git push --follow-tags origin main
 
 ---
 
-## Future Releases
+## Contributing to the Project
 
-### Planned for v1.1.0
-- [ ] Bidirectional calendar sync (import from device calendar)
-- [ ] Push notifications for task reminders
-- [ ] Task search and filtering
-- [ ] Recurring tasks support
+This is an **open-source project** and we welcome contributions! Whether you want to:
+- 🐛 Fix bugs
+- ✨ Add new features
+- 📚 Improve documentation
+- 🧪 Write tests
+- 🎨 Enhance UI/UX
 
-### Planned for v1.2.0
-- [ ] Task templates for common workflows
-- [ ] Data backup and restore
-- [ ] Advanced statistics and insights
-- [ ] Widget support (iOS/Android)
+Please read our [Contributing Guide](docs/CONTRIBUTING.md) to get started.
 
-### Planned for v2.0.0
-- [ ] Cloud sync across devices
-- [ ] Collaboration and sharing features
-- [ ] Multi-platform support (web, desktop)
-- [ ] API for third-party integrations
+### How to Suggest Features
+
+Check the [GitHub Issues](https://github.com/kinqsradiollc/TimeLock/issues) page for:
+- Current feature requests and discussions
+- Bugs and issues that need fixing
+- Good first issues for new contributors
+
+To suggest a new feature, open an issue using the feature request template.
 
 ---
 
-**For the latest updates, check the [GitHub Releases](https://github.com/your-username/TimeLock/releases) page.**</content>
+## Future App Store Release
+
+This app is planned for eventual release on the App Store and Google Play Store. The timeline for public release will be announced when the following criteria are met:
+
+### Pre-Release Checklist
+- [ ] Complete remaining Phase 4: Notifications implementation
+- [ ] Implement Phase 3: Time Tracking features
+- [ ] Comprehensive testing on multiple devices
+- [ ] Add accessibility features (screen reader support)
+- [ ] Performance optimization and bug fixes
+- [ ] App store assets (icons, screenshots, descriptions)
+- [ ] Privacy policy and terms of service
+- [ ] Beta testing with real users
+
+**Current Development Phase**: Building core features and establishing project foundation.
+
+---
+
+**For the latest development updates, check the [GitHub repository](https://github.com/kinqsradiollc/TimeLock).**</content>
 <parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/CHANGELOG.md
