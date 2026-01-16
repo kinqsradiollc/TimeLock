@@ -72,11 +72,26 @@
 
 ## ⏳ Time Tracking Features
 
-- [ ] Implement countdown timer component
-- [ ] Add time remaining calculations
-- [ ] Create progress indicators for tasks
-- [ ] Implement time tracking utilities with date-fns
-- [ ] Add visual feedback for urgent tasks
+- [x] Implement countdown timer component
+  - [x] Create reusable CountdownTimer component with 3 sizes
+  - [x] Real-time updates with configurable intervals
+  - [x] Urgent/overdue callbacks
+- [x] Add time remaining calculations
+  - [x] Calculate days, hours, minutes, seconds remaining
+  - [x] Detect urgent (<24hrs) and critical (<1hr) states
+- [x] Create progress indicators for tasks
+  - [x] Circular progress rings in TaskCard
+  - [x] Dynamic color coding based on urgency
+  - [x] Urgent indicator badge with flame icon
+- [x] Implement time tracking utilities with date-fns
+  - [x] Time remaining calculations
+  - [x] Progress percentage calculations
+  - [x] Urgency level detection
+  - [x] Human-readable formatting
+- [x] Add visual feedback for urgent tasks
+  - [x] Flame icon badge for urgent tasks (<24hrs)
+  - [x] Color progression: Blue → Amber → Orange → Red
+  - [x] Real-time 1-second countdown updates
 
 ## 🎨 UI/UX Polish
 

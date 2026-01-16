@@ -5,6 +5,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { LightColors, DarkColors } from '@/styles/common';
 import { taskCardStyles as styles } from '@/styles/components/taskCard.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import {
+  calculateTimeRemaining,
+  calculateProgress,
+  formatTimeDisplay,
+  getProgressColor,
+  shouldShowUrgentIndicator,
+} from '@/utils/timeTracking';
 import type { Task } from '@/types/task';
 
 interface TaskCardProps {
@@ -20,56 +27,31 @@ export function TaskCard({ task, onPress, categoryColor }: TaskCardProps) {
   // State for real-time countdown updates
   const [now, setNow] = useState(new Date());
 
-  // Update every 30 seconds for real-time countdown
+  // Update every second for real-time countdown
   useEffect(() => {
     const interval = setInterval(() => {
       setNow(new Date());
-    }, 30000); // Update every 30 seconds
+    }, 1000); // Update every second for accurate countdown
 
     return () => clearInterval(interval);
   }, []);
   
-  const deadline = new Date(task.deadline);
-  const createdAt = new Date(task.createdAt);
-  
-  const isOverdue = deadline < now;
-  const totalTime = deadline.getTime() - createdAt.getTime();
-  const elapsed = now.getTime() - createdAt.getTime();
-  const progress = Math.min(Math.max(elapsed / totalTime, 0), 1);
-  
-  // Calculate time remaining
-  const timeLeft = deadline.getTime() - now.getTime();
-  const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-  const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-  
-  const getTimeDisplay = () => {
-    if (isOverdue) return { value: 'Over', unit: 'due' };
-    if (daysLeft > 0) return { value: daysLeft, unit: daysLeft === 1 ? 'day' : 'days' };
-    if (hoursLeft > 0) return { value: hoursLeft, unit: hoursLeft === 1 ? 'hr' : 'hrs' };
-    return { value: minutesLeft, unit: minutesLeft === 1 ? 'min' : 'mins' };
-  };
-  
-  const timeDisplay = getTimeDisplay();
-  
-  // Get progress color based on urgency
-  const getProgressColor = () => {
-    if (isOverdue) return colors.error;
-    if (progress > 0.8) return '#EF4444'; // Red - urgent
-    if (progress > 0.5) return '#F59E0B'; // Orange - medium
-    return colors.primary; // Blue - good
-  };
-  
-  const progressColor = getProgressColor();
+  // Use time tracking utilities
+  const timeRemaining = calculateTimeRemaining(task.deadline, now);
+  const timeProgress = calculateProgress(task.createdAt, task.deadline, now);
+  const timeDisplay = formatTimeDisplay(timeRemaining);
+  const progressColor = getProgressColor(timeProgress.percentage, timeRemaining.isOverdue);
+  const showUrgentIndicator = shouldShowUrgentIndicator(timeRemaining);
   
   // Circle progress values
   const size = 64;
   const strokeWidth = 5;
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
-  const strokeDashoffset = circumference - progress * circumference;
+  const strokeDashoffset = circumference - timeProgress.percentage * circumference;
 
   const formatDeadlineTime = () => {
+    const deadline = new Date(task.deadline);
     return deadline.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   };
 
@@ -102,19 +84,24 @@ export function TaskCard({ task, onPress, categoryColor }: TaskCardProps) {
             <Text style={[styles.title, { color: colors.textPrimary }, task.completed && styles.completedText]} numberOfLines={2}>
               {task.title}
             </Text>
-            <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor() }]}>
-              <Text style={styles.priorityText}>
-                {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
-              </Text>
+            <View style={styles.badgeRow}>
+              {showUrgentIndicator && (
+                <View style={[styles.urgentBadge, { backgroundColor: `${progressColor}20` }]}>
+                  <Ionicons name="flame" size={12} color={progressColor} />
+                </View>
+              )}
+              <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor() }]}>
+                <Text style={styles.priorityText}>
+                  {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+                </Text>
+              </View>
             </View>
           </View>
           
           {/* Description */}
-          {task.description && (
-            <Text style={[styles.description, { color: colors.textSecondary }]} numberOfLines={1}>
-              {task.description}
-            </Text>
-          )}
+          <Text style={[styles.description, { color: colors.textSecondary }]} numberOfLines={1}>
+            {task.description || '-'}
+          </Text>
           
           {/* Time and Category Info */}
           <View style={styles.infoRow}>

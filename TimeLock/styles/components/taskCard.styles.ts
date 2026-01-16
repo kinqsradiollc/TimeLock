@@ -49,6 +49,18 @@ export const taskCardStyles = StyleSheet.create({
     textDecorationLine: 'line-through',
     opacity: 0.5,
   },
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  urgentBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   priorityBadge: {
     paddingHorizontal: Spacing.sm,
     paddingVertical: 3,
