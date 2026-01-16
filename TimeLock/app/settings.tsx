@@ -220,8 +220,9 @@ export default function SettingsScreen() {
                 <Switch
                   value={notificationsEnabled}
                   onValueChange={handleNotificationsToggle}
-                  trackColor={{ false: colors.border, true: colors.primaryLight }}
-                  thumbColor={notificationsEnabled ? colors.primary : colors.textTertiary}
+                  trackColor={{ false: '#d1d5db', true: colors.primaryLight }}
+                  thumbColor={notificationsEnabled ? colors.primary : '#ffffff'}
+                  ios_backgroundColor="#d1d5db"
                 />
               }
             />
@@ -233,8 +234,9 @@ export default function SettingsScreen() {
                 <Switch
                   value={soundEnabled}
                   onValueChange={handleSoundToggle}
-                  trackColor={{ false: colors.border, true: colors.primaryLight }}
-                  thumbColor={soundEnabled ? colors.primary : colors.textTertiary}
+                  trackColor={{ false: '#d1d5db', true: colors.primaryLight }}
+                  thumbColor={soundEnabled ? colors.primary : '#ffffff'}
+                  ios_backgroundColor="#d1d5db"
                 />
               }
             />
@@ -275,8 +277,9 @@ export default function SettingsScreen() {
                 <Switch
                   value={hapticsEnabled}
                   onValueChange={handleHapticsToggle}
-                  trackColor={{ false: colors.border, true: colors.primaryLight }}
-                  thumbColor={hapticsEnabled ? colors.primary : colors.textTertiary}
+                  trackColor={{ false: '#d1d5db', true: colors.primaryLight }}
+                  thumbColor={hapticsEnabled ? colors.primary : '#ffffff'}
+                  ios_backgroundColor="#d1d5db"
                 />
               }
             />

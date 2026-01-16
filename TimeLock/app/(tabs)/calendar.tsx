@@ -393,6 +393,7 @@ export default function CalendarScreen() {
             }}
             markedDates={markedDates}
             theme={{
+              backgroundColor: colors.surface,
               calendarBackground: colors.surface,
               textSectionTitleColor: colors.textSecondary,
               selectedDayBackgroundColor: colors.primary,
