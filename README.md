@@ -120,6 +120,7 @@ TimeLock/
 - ✅ Live date/time display in calendar header
 - ✅ Comprehensive documentation suite
 - ✅ Organized style architecture with reusable patterns
+ - ✅ UI fixes: improved toggle switch contrast and calendar theme rendering
 
 ### Key Features Implemented
 - **Calendar Export**: One-way export to device calendars (iOS Calendar, Google Calendar)
