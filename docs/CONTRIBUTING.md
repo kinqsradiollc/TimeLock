@@ -414,6 +414,72 @@ A clear description of any alternative solutions.
 Add any other context or screenshots about the feature request here.
 ```
 
+#### Feature Request Lifecycle
+
+**1. Submission**
+- User submits feature request using the template above
+- Issue is automatically labeled as `feature-request`
+
+**2. Triage (1-3 days)**
+- Maintainers review the request
+- Issue is labeled with:
+  - `priority: high|medium|low` - Based on impact
+  - `complexity: simple|medium|complex` - Implementation difficulty
+  - `good first issue` - If suitable for new contributors
+  - `help wanted` - If accepting contributions
+
+**3. Discussion Phase (3-7 days)**
+- Community provides feedback and alternatives
+- Maintainers may request clarification
+- Technical feasibility is assessed
+- Potential breaking changes are identified
+
+**4. Decision**
+- ✅ **Approved**: Moved to project backlog with milestone
+  - Added to project board
+  - Assigned to a milestone (e.g., v1.1.0, v1.2.0)
+  - Ready for implementation
+  
+- 🤔 **Under Review**: Needs more discussion
+  - Additional design work required
+  - Prototype needed first
+  - Community feedback needed
+  
+- ❌ **Declined**: Not aligned with project goals
+  - Reason provided in issue
+  - Issue closed with explanation
+  - May suggest alternatives or workarounds
+
+**5. Implementation**
+- Issue assigned to contributor (self-assign or maintainer-assigned)
+- Branch created: `feature/issue-number-short-description`
+- Development follows standard workflow
+- Regular updates posted to issue
+
+**6. Review & Merge**
+- PR submitted and linked to issue
+- Code review process
+- Testing and validation
+- Merged to `develop` branch
+- Issue automatically closed when merged
+
+**7. Release**
+- Feature included in next release
+- Documented in CHANGELOG
+- Original requester notified
+- Feature announced in release notes
+
+#### Example Timeline
+```
+Day 0:  Feature requested
+Day 2:  Triaged and labeled (priority: medium, complexity: simple)
+Day 5:  Approved for v1.2.0 milestone
+Day 10: Contributor self-assigns issue
+Day 20: PR submitted
+Day 22: PR approved and merged to develop
+Day 30: Released in v1.2.0
+```
+
 ## Pull Request Guidelines
 
 ### PR Title Format
