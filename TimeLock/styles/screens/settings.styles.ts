@@ -98,4 +98,48 @@ export const settingsStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  modalDescription: {
+    fontSize: Typography.sm,
+    lineHeight: Typography.sm * 1.5,
+    marginBottom: Spacing.lg,
+  },
+  notificationList: {
+    flex: 1,
+    marginBottom: Spacing.lg,
+  },
+  notificationOption: {
+    padding: Spacing.lg,
+    borderRadius: 12,
+    marginBottom: Spacing.sm,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  notificationOptionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notificationOptionLabel: {
+    fontSize: Typography.base,
+    fontWeight: Typography.medium,
+  },
+  saveButton: {
+    padding: Spacing.lg,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveButtonText: {
+    color: '#FFFFFF',
+    fontSize: Typography.base,
+    fontWeight: Typography.bold,
+  },
 });

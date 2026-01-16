@@ -79,6 +79,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Notification system (permissions UI ready, scheduling not implemented)
 - QR code task sharing (libraries installed, implementation pending)
 
+### ✨ Added
+- **Notification Service**: Task reminder system with Expo Notifications
+  - Schedule notifications for task deadlines with configurable reminder times
+  - Support for multiple reminders per task (e.g., 1 week + 1 day + 1 hour before)
+  - Default notification preferences in Settings (applied to new tasks)
+  - Per-task notification customization in task form
+  - Notification ID tracking for cancellation and rescheduling
+  - Platform-aware (iOS/Android only, web not supported)
+- **Database Migration v4**: Added `notification_ids` column to tasks table for tracking scheduled notifications
+- **Settings UI**: Multi-select notification preferences with 10 time options (1 minute to 2 weeks)
+- **Task Form UI**: Reminders section with modal for selecting notification times
+
+### 🔄 Partially Implemented (Updated)
+- Notification system (UI and service ready, TaskRepository integration pending)
+- QR code task sharing (libraries installed, implementation pending)
+
 ### ❌ Planned for Future Development
 - Local push notifications for task reminders
 - Time tracking with countdown timers

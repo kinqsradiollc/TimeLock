@@ -17,6 +17,7 @@ export interface Task {
   priority: Priority;
   categoryId?: number;
   notifications: NotificationOption[];
+  notificationIds?: string[]; // Scheduled notification IDs for cleanup
   isActive: boolean;
   calendarEventId?: string; // Device calendar event ID if synced
 }
@@ -41,6 +42,7 @@ export function taskInsertRow(data: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>
     priority: data.priority,
     category_id: data.categoryId ?? null,
     notifications: JSON.stringify(data.notifications),
+    notification_ids: data.notificationIds ? JSON.stringify(data.notificationIds) : null,
     is_active: data.isActive ? 1 : 0,
     calendar_event_id: data.calendarEventId ?? null,
   } as const;
