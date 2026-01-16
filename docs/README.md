@@ -97,10 +97,11 @@ TimeLock/
 
 ## 📖 Documentation
 
-- [Development Guide](docs/DEVELOPMENT.md) - Setup and development workflow
-- [Branching Strategy](docs/BRANCHING.md) - Git branching and workflow
-- [Code Style Guide](docs/CODE_STYLE.md) - Code organization and standards
-- [Contributing](docs/CONTRIBUTING.md) - How to contribute to the project
+- [Development Guide](DEVELOPMENT.md) - Setup and development workflow
+- [Branching Strategy](BRANCHING.md) - Git branching and workflow
+- [Code Style Guide](CODE_STYLE.md) - Code organization and standards
+- [Contributing](CONTRIBUTING.md) - How to contribute to the project
+- [Changelog](https://github.com/your-username/TimeLock/blob/main/CHANGELOG.md) - Version history and changes
 
 ## 🎯 Recent Updates
 
@@ -145,4 +146,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ by TimeLock Team**
+**Made with ❤️ by TimeLock Team**</content>
+<parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/README.md
