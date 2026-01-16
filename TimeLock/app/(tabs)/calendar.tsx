@@ -385,7 +385,7 @@ export default function CalendarScreen() {
         {calendarView === 'month' && (
         <View style={[styles.calendarCard, { backgroundColor: colors.surface }]}>
           <Calendar
-            key={selectedDate}
+            key={`${selectedDate}-${effectiveTheme}`}
             current={selectedDate}
             onDayPress={(day: DateData) => {
               haptics.light();
