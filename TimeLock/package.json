@@ -4,11 +4,22 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "dev": "expo start --clear",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "lint:fix": "expo lint --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "pre-commit": "npm run type-check && npm run lint && npm run test",
+    "docs": "open docs/README.md",
+    "clean-install": "rm -rf node_modules && npm install"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
