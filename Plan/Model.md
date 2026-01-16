@@ -98,6 +98,7 @@ interface AppSettings {
   defaultNotifications: NotificationOption[]; // Default notification times for new tasks
   theme: 'light' | 'dark' | 'system';
   calendarView: 'month' | 'week' | 'day';
+  hapticsEnabled: boolean; // Enable/disable haptic feedback (v1.0.0+)
 }
 ```
 
@@ -125,6 +126,25 @@ type ThemeOption = 'light' | 'dark' | 'system';
 Guidance for `SettingsRepository` implementations:
 - `getAppSettings()` should read the `theme` key and coerce it into `ThemeOption`, falling back to `'system'`.
 - `updateAppSettings()` should persist the `theme` string to the `settings` table when provided.
+
+## Haptic Feedback Management
+
+The app supports haptic feedback for all user interactions to provide tactile feedback.
+
+- **Storage**: the haptic preference is persisted in the `settings` table under the key `haptics` as a string value (`'true' | 'false'`).
+- **Default**: when no value is present, the default is `'true'` (enabled).
+- **Behavior**:
+  - `'true'`: haptic feedback is enabled for all interactions
+  - `'false'`: haptic feedback is disabled
+
+Example SQL to set default haptics on first run:
+```sql
+INSERT OR REPLACE INTO settings (key, value) VALUES ('haptics', 'true');
+```
+
+Guidance for `SettingsRepository` implementations:
+- `getAppSettings()` should read the `haptics` key and coerce it into boolean, falling back to `true`.
+- `updateAppSettings()` should persist the `haptics` boolean as a string to the `settings` table when provided.
 
 ## Implementation Status (v1.0.0)
 

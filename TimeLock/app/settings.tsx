@@ -29,6 +29,7 @@ export default function SettingsScreen() {
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [hapticsEnabled, setHapticsEnabled] = useState(true);
   const [loading, setLoading] = useState(true);
   const [showThemeModal, setShowThemeModal] = useState(false);
 
@@ -44,6 +45,7 @@ export default function SettingsScreen() {
       const settings = await SettingsRepository.getAppSettings();
       setNotificationsEnabled(settings.notificationsEnabled);
       setSoundEnabled(settings.soundEnabled);
+      setHapticsEnabled(settings.hapticsEnabled);
     } catch (error) {
       console.error('Failed to load settings:', error);
     } finally {
@@ -92,7 +94,25 @@ export default function SettingsScreen() {
     updateSetting({ soundEnabled: value });
   };
 
+  const handleHapticsToggle = (value: boolean) => {
+    setHapticsEnabled(value);
+    updateSetting({ hapticsEnabled: value });
+    // Provide immediate feedback only when enabling (after state update)
+    if (value) {
+      // Direct haptic call without going through hook to avoid re-render
+      if (Platform.OS === 'ios' || Platform.OS === 'android') {
+        const Haptics = require('expo-haptics');
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      }
+    }
+  };
+
   const handleThemeSelect = async (selectedTheme: ThemeOption) => {
+    // Direct haptic feedback for theme selection
+    if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+      const Haptics = require('expo-haptics');
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
     await setTheme(selectedTheme);
     setShowThemeModal(false);
   };
@@ -166,7 +186,13 @@ export default function SettingsScreen() {
       <View style={[styles.header, { backgroundColor: colors.background }]}>
         <TouchableOpacity
           style={[styles.headerButton, { backgroundColor: colors.surface }]}
-          onPress={() => router.back()}
+          onPress={() => {
+            if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+              const Haptics = require('expo-haptics');
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }
+            router.back();
+          }}
           activeOpacity={0.7}
         >
           <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
@@ -226,7 +252,33 @@ export default function SettingsScreen() {
               rightElement={
                 <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
               }
-              onPress={() => setShowThemeModal(true)}
+              onPress={() => {
+                if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+                  const Haptics = require('expo-haptics');
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+                setShowThemeModal(true);
+              }}
+            />
+          </View>
+        </View>
+
+        {/* Preferences Section */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>PREFERENCES</Text>
+          <View style={styles.sectionContent}>
+            <SettingItem
+              icon="phone-portrait-outline"
+              title="Haptic Feedback"
+              subtitle="Feel vibrations when interacting with the app"
+              rightElement={
+                <Switch
+                  value={hapticsEnabled}
+                  onValueChange={handleHapticsToggle}
+                  trackColor={{ false: colors.border, true: colors.primaryLight }}
+                  thumbColor={hapticsEnabled ? colors.primary : colors.textTertiary}
+                />
+              }
             />
           </View>
         </View>
@@ -255,7 +307,13 @@ export default function SettingsScreen() {
             />
             <TouchableOpacity
               style={[styles.settingItem, styles.dangerItem, { backgroundColor: colors.surface }]}
-              onPress={handleClearData}
+              onPress={() => {
+                if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+                  const Haptics = require('expo-haptics');
+                  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+                }
+                handleClearData();
+              }}
               activeOpacity={0.7}
             >
               <View style={[styles.iconContainer, { backgroundColor: '#FEE2E2' }]}>

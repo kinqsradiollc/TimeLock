@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LightColors, DarkColors } from '@/styles/common';
 import { taskCardStyles as styles } from '@/styles/components/taskCard.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
 
 interface TaskCardProps {
@@ -16,6 +17,7 @@ interface TaskCardProps {
 export function TaskCard({ task, onPress, categoryColor }: TaskCardProps) {
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
+  const haptics = useHaptics();
   
   // State for real-time countdown updates
   const [now, setNow] = useState(new Date());
@@ -28,6 +30,11 @@ export function TaskCard({ task, onPress, categoryColor }: TaskCardProps) {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handlePress = () => {
+    haptics.light();
+    onPress();
+  };
   
   const deadline = new Date(task.deadline);
   const createdAt = new Date(task.createdAt);

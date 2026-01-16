@@ -11,6 +11,7 @@ export interface AppSettings {
   defaultNotifications: NotificationOption[];
   theme: ThemeOption;
   calendarView: 'month' | 'week' | 'day';
+  hapticsEnabled: boolean;
 }
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
@@ -19,4 +20,5 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   defaultNotifications: [NOTIFICATION_OPTIONS.ONE_DAY], // ONE_DAY by default (canonical constant)
   theme: 'system',
   calendarView: 'month',
+  hapticsEnabled: true,
 };

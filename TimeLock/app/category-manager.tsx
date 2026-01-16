@@ -17,6 +17,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { LightColors, DarkColors } from '@/styles/common';
 import { categoryManagerStyles as styles } from '@/styles/screens/categoryManager.styles';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useHaptics } from '@/hooks/useHaptics';
 import type { Category } from '@/types/category';
 
 const PRESET_COLORS = [
@@ -30,6 +31,7 @@ export default function CategoryManagerScreen() {
   const router = useRouter();
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
+  const haptics = useHaptics();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -58,6 +60,7 @@ export default function CategoryManagerScreen() {
 
   const handleSave = async () => {
     if (!name.trim()) {
+      haptics.warning();
       Alert.alert('Validation Error', 'Please enter a category name');
       return;
     }
@@ -69,24 +72,28 @@ export default function CategoryManagerScreen() {
         await CategoryRepository.create({ name: name.trim(), color: selectedColor });
       }
       
+      haptics.success();
       setName('');
       setSelectedColor(PRESET_COLORS[0]);
       setEditingId(null);
       loadCategories();
     } catch (error) {
       console.error('Failed to save category:', error);
+      haptics.error();
       Alert.alert('Error', 'Failed to save category');
     }
   };
 
   const handleEdit = (category: Category) => {
     if (!category.id) return;
+    haptics.light();
     setEditingId(category.id);
     setName(category.name);
     setSelectedColor(category.color || PRESET_COLORS[0]);
   };
 
   const handleDelete = (id: number) => {
+    haptics.warning();
     Alert.alert(
       'Delete Category',
       'Are you sure? Tasks with this category will become uncategorized.',
@@ -97,10 +104,12 @@ export default function CategoryManagerScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
+              haptics.heavy();
               await CategoryRepository.delete(id);
               loadCategories();
             } catch (error) {
               console.error('Failed to delete category:', error);
+              haptics.error();
               Alert.alert('Error', 'Failed to delete category');
             }
           },
@@ -110,6 +119,7 @@ export default function CategoryManagerScreen() {
   };
 
   const handleCancel = () => {
+    haptics.light();
     setEditingId(null);
     setName('');
     setSelectedColor(PRESET_COLORS[0]);
@@ -171,7 +181,10 @@ export default function CategoryManagerScreen() {
                   { backgroundColor: color },
                   selectedColor === color && styles.colorOptionSelected,
                 ]}
-                onPress={() => setSelectedColor(color)}
+                onPress={() => {
+                  haptics.selection();
+                  setSelectedColor(color);
+                }}
                 activeOpacity={0.7}
               >
                 {selectedColor === color && (

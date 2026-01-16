@@ -66,6 +66,13 @@ export class DatabaseMigrations {
       console.log('[DB] Migration v2 completed');
     }
 
+    if (currentVersion < 3) {
+      console.log('[DB] Running migration v3: Add haptics setting...');
+      await this.migration_v3_add_haptics_setting();
+      await this.markMigrationApplied(3);
+      console.log('[DB] Migration v3 completed');
+    }
+
     console.log(`[DB] Database up to date (v${CURRENT_VERSION})`);
   }
 
@@ -83,6 +90,7 @@ export class DatabaseMigrations {
     await SettingsRepository.set('defaultNotifications', JSON.stringify(DEFAULT_APP_SETTINGS.defaultNotifications));
     await SettingsRepository.set('theme', DEFAULT_APP_SETTINGS.theme);
     await SettingsRepository.set('calendarView', DEFAULT_APP_SETTINGS.calendarView);
+    await SettingsRepository.set('hapticsEnabled', DEFAULT_APP_SETTINGS.hapticsEnabled.toString());
 
     // Seed default categories
     const defaultCategories = [
@@ -109,6 +117,15 @@ export class DatabaseMigrations {
     // Add calendar_event_id column to tasks table
     await executeSql('ALTER TABLE tasks ADD COLUMN calendar_event_id TEXT;');
     console.log('[DB] Added calendar_event_id column to tasks table');
+  }
+
+  /**
+   * Migration v3: Add haptics setting
+   */
+  private static async migration_v3_add_haptics_setting(): Promise<void> {
+    // Add hapticsEnabled setting with default value
+    await SettingsRepository.set('hapticsEnabled', DEFAULT_APP_SETTINGS.hapticsEnabled.toString());
+    console.log('[DB] Added hapticsEnabled setting');
   }
 
   /**

@@ -38,7 +38,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Task list with filtering and sorting
 - Empty state components
 - Dark/Light/System theme support with persistence
-- Haptic feedback for interactions
+- **Comprehensive haptic feedback system**
+  - Seven feedback types: light, medium, heavy, success, warning, error, selection
+  - User toggle in Settings to enable/disable
+  - Applied to all interactive elements: navigation, buttons, forms, pickers, CRUD operations
+  - Platform-aware (iOS/Android only)
+  - Real-time setting checks for immediate response
 - Shared style system with 40+ reusable patterns
 
 #### Data & Storage
