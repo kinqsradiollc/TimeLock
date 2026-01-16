@@ -5,11 +5,12 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 ## ✨ Features
 
 - **📋 Task Management**: Create, edit, and organize tasks with priorities and categories
+- **⏱️ Real-Time Countdown**: Live countdown timers with visual urgency indicators
 - **📅 Calendar Export**: Export tasks to device calendar with duplicate prevention
 - **🎨 Multiple Views**: Month, Week, and Agenda calendar views
 - **🌙 Dark Mode**: Beautiful dark and light themes
-- **� Haptic Feedback**: Comprehensive haptic responses for all interactions with user toggle
-- **�📊 Task Organization**: Tasks with priorities, categories, and deadlines
+- **📳 Haptic Feedback**: Comprehensive haptic responses for all interactions with user toggle
+- **📊 Task Organization**: Tasks with priorities, categories, and deadlines
 - **🏷️ Categories**: Organize tasks with custom categories and colors
 - **🔄 Selective Export**: Choose specific tasks or export all to calendar
 - **📱 Cross-Platform**: Works on iOS and Android
@@ -109,6 +110,7 @@ TimeLock/
 
 ### v1.0.0 (Current)
 - ✅ Complete styling system refactoring with shared patterns
+- ✅ Real-time countdown timers with visual urgency indicators
 - ✅ Comprehensive haptic feedback system with 7 feedback types
 - ✅ Calendar export with duplicate prevention
 - ✅ Multiple calendar views (Month/Week/Agenda)
@@ -123,6 +125,7 @@ TimeLock/
 - **Calendar Export**: One-way export to device calendars (iOS Calendar, Google Calendar)
 - **Selective Export**: Choose which tasks to export to calendar
 - **Duplicate Prevention**: Prevents re-exporting already synced tasks
+- **Time Tracking**: Real-time countdown timers with circular progress indicators and urgent visual feedback
 - **Haptic Feedback**: 7 feedback types (light, medium, heavy, success, warning, error, selection) with Settings toggle
 - **Category System**: Color-coded task organization
 - **Multiple Calendar Views**: Month, Week, and Agenda views
