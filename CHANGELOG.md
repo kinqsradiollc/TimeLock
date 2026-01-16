@@ -13,39 +13,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Code style guide (`CODE_STYLE.md`)
 - Contributing guidelines (`CONTRIBUTING.md`)
 - Development workflow documentation (`DEVELOPMENT.md`)
+- Shared style system (`styles/shared.ts`) with reusable patterns
 
 ### Changed
 - Improved project structure with dedicated documentation branch
-- Enhanced README with detailed project overview and setup instructions
+- Enhanced README with accurate feature descriptions
+- Refactored all screen styles to use shared style patterns
+- Reduced code duplication by ~60+ lines across style files
 
-## [1.0.0] - 2024-01-XX
+### Fixed
+- Documentation now accurately reflects implemented features (calendar export, not bidirectional sync)
+- Corrected feature claims to match actual codebase capabilities
+
+## [1.0.0] - 2026-01-16
 
 ### Added
-- **Calendar Integration**: Full calendar export functionality with selective task export
+- **Calendar Export**: One-way export to device calendars with duplicate prevention
 - **Task Management**: Complete CRUD operations for tasks with categories
 - **UI Components**: Comprehensive component library with consistent styling
 - **Database Layer**: Expo SQLite implementation with migration system
 - **Navigation**: Expo Router-based navigation with tab structure
-- **Styling System**: Organized style extraction with dedicated style files
+- **Styling System**: Organized style extraction with shared style patterns
 - **TypeScript**: Full TypeScript implementation with strict type checking
 
 ### Features
-- **Task Creation**: Add new tasks with titles, descriptions, and categories
+- **Task Creation**: Add new tasks with titles, descriptions, categories, and priorities
 - **Task Completion**: Mark tasks as complete with visual indicators
-- **Calendar Export**: Export tasks to device calendar with duplicate prevention
-- **Category Management**: Create and manage task categories
-- **Settings Screen**: App configuration and preferences
+- **Calendar Export**: Export tasks to device calendar with duplicate prevention and ICS file export
+- **Selective Export**: Choose specific tasks or export all tasks to calendar
+- **Category Management**: Create and manage custom task categories with colors
+- **Multiple Calendar Views**: Month, Week, and Agenda views for better task visualization
+- **Settings Screen**: App configuration and theme preferences
 - **Dark/Light Mode**: Theme support with system preference detection
-- **Haptic Feedback**: Tactile feedback for user interactions
-- **Notification Permissions**: Request and manage notification access
 
 ### Technical Improvements
 - **Code Organization**: Extracted all inline styles to dedicated files
+- **Shared Style System**: Created reusable style patterns library for consistency
 - **Component Architecture**: Modular component structure with proper separation
 - **Error Handling**: Comprehensive error handling throughout the app
-- **Performance**: Optimized rendering with proper memoization
-- **Accessibility**: Screen reader support and keyboard navigation
-- **Testing Setup**: Jest and React Native Testing Library configuration
+- **Performance**: Optimized rendering and reduced code duplication
+- **Type Safety**: Full TypeScript implementation with strict type checking
+- **Documentation**: Comprehensive guides for development, branching, and contribution
 
 ### Dependencies
 - **Expo SDK 54**: Latest Expo features and improvements
@@ -146,20 +154,21 @@ git push --follow-tags origin main
 ## Future Releases
 
 ### Planned for v1.1.0
-- [ ] Cloud sync functionality
-- [ ] Advanced calendar filters
-- [ ] Task templates
-- [ ] Improved accessibility features
+- [ ] Bidirectional calendar sync (import from device calendar)
+- [ ] Push notifications for task reminders
+- [ ] Task search and filtering
+- [ ] Recurring tasks support
 
 ### Planned for v1.2.0
-- [ ] Collaboration features
-- [ ] Advanced notifications
-- [ ] Data export/import
-- [ ] Performance optimizations
+- [ ] Task templates for common workflows
+- [ ] Data backup and restore
+- [ ] Advanced statistics and insights
+- [ ] Widget support (iOS/Android)
 
 ### Planned for v2.0.0
+- [ ] Cloud sync across devices
+- [ ] Collaboration and sharing features
 - [ ] Multi-platform support (web, desktop)
-- [ ] Advanced project management features
 - [ ] API for third-party integrations
 
 ---

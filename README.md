@@ -5,13 +5,12 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 ## ✨ Features
 
 - **📋 Task Management**: Create, edit, and organize tasks with priorities and categories
-- **📅 Calendar Integration**: Sync tasks with device calendar (iOS Calendar, Google Calendar)
-- **🔔 Smart Notifications**: Get timely reminders for upcoming deadlines
+- **📅 Calendar Export**: Export tasks to device calendar with duplicate prevention
 - **🎨 Multiple Views**: Month, Week, and Agenda calendar views
 - **🌙 Dark Mode**: Beautiful dark and light themes
-- **📊 Progress Tracking**: Visual progress indicators for task completion
+- **📊 Task Organization**: Tasks with priorities, categories, and deadlines
 - **🏷️ Categories**: Organize tasks with custom categories and colors
-- **🔄 Selective Export**: Export specific tasks or all tasks to calendar
+- **🔄 Selective Export**: Choose specific tasks or export all to calendar
 - **📱 Cross-Platform**: Works on iOS and Android
 
 ## 🚀 Quick Start
@@ -105,21 +104,24 @@ TimeLock/
 ## 🎯 Recent Updates
 
 ### v1.0.0 (Current)
-- ✅ Complete style refactoring - organized styles into dedicated files
+- ✅ Complete styling system refactoring with shared patterns
 - ✅ Calendar export with duplicate prevention
 - ✅ Multiple calendar views (Month/Week/Agenda)
+- ✅ ICS file export functionality
 - ✅ Enhanced export messages and user feedback
 - ✅ Local time handling (fixed UTC timezone issues)
 - ✅ Live date/time display in calendar header
-- ✅ Auto-scroll functionality in calendar and tasks views
+- ✅ Comprehensive documentation suite
+- ✅ Organized style architecture with reusable patterns
 
 ### Key Features Implemented
-- **Calendar Sync**: Bidirectional sync with device calendars
-- **Selective Export**: Choose which tasks to export
-- **Progress Tracking**: Visual countdown timers on task cards
+- **Calendar Export**: One-way export to device calendars (iOS Calendar, Google Calendar)
+- **Selective Export**: Choose which tasks to export to calendar
+- **Duplicate Prevention**: Prevents re-exporting already synced tasks
 - **Category System**: Color-coded task organization
-- **Notification System**: Permission-based notifications
+- **Multiple Calendar Views**: Month, Week, and Agenda views
 - **Theme Support**: Light/dark mode with system preference detection
+- **Shared Style System**: Reusable style patterns for consistent UI
 
 ## 🤝 Contributing
 

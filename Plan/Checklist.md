@@ -2,51 +2,52 @@
 
 ## 📋 Project Setup & Configuration
 
-- [ ] Initialize Expo project with TypeScript
-- [ ] Configure Expo Router for navigation
-- [ ] Set up ESLint and Prettier
+- [x] Initialize Expo project with TypeScript
+- [x] Configure Expo Router for navigation
+- [x] Set up ESLint and Prettier
 - [x] Install all required dependencies (see Library.md)
-- [ ] Configure app.json for permissions (notifications, etc.)
-- [ ] Set up development environment (iOS/Android simulators)
+- [x] Configure app.json for permissions (calendar, notifications)
+- [x] Set up development environment (iOS/Android simulators)
 
 ## 🗄️ Database & Data Layer
 
 - [x] Create database schema file with table definitions
-- [ ] Implement database connection and initialization
+- [x] Implement database connection and initialization
 - [x] Create TypeScript interfaces and types (see Model.md)
-- [ ] Implement TaskRepository with all CRUD operations
-- [ ] Implement CategoryRepository with CRUD operations
-- [ ] Implement SettingsRepository for app settings
-- [ ] Add database migration system for future updates
-- [ ] Create database seeding for initial data
+- [x] Implement TaskRepository with all CRUD operations
+- [x] Implement CategoryRepository with CRUD operations
+- [x] Implement SettingsRepository for app settings
+- [x] Add database migration system for future updates
+- [x] Create database seeding for initial data
 
 ## 🏗️ Core Architecture
 
-- [ ] Set up folder structure (repositories, services, types, etc.)
+- [x] Set up folder structure (repositories, services, types, etc.)
 - [x] Create constants file with predefined notification options
-- [ ] Implement error handling utilities
-- [ ] Create custom hooks for data fetching
-- [ ] Set up global state management (Context API or Zustand)
-- [ ] Implement theme system (light/dark mode)
+- [x] Implement error handling utilities
+- [x] Create custom hooks for data fetching (useColorScheme, useThemeColor)
+- [x] Set up global state management with Context API (ThemeProvider, TaskContext)
+- [x] Implement theme system (light/dark/system mode)
 
 ## 📱 UI Components & Screens
 
 ### Core Screens
-- [ ] Home/Dashboard screen with task overview
-- [ ] Task list screen with filtering and sorting
-- [ ] Task detail/create/edit screen
-- [ ] Calendar view screen
-- [ ] Category management screen
-- [ ] Settings screen
+- [x] Home/Dashboard screen with task overview (index.tsx)
+- [x] Task list screen with filtering and sorting (tasks.tsx)
+- [x] Task detail/create/edit screen (task-detail.tsx, task-form.tsx)
+- [x] Calendar view screen with Month/Week/Agenda views (calendar.tsx)
+- [x] Category management screen (category-manager.tsx)
+- [x] Settings screen with theme and calendar permissions (settings.tsx)
+- [x] Debug screen for testing (debug.tsx)
 
 ### Reusable Components
-- [ ] Task card component
-- [ ] Category selector component
-- [ ] Date/time picker component
-- [ ] Notification settings component
-- [ ] Countdown timer component
-- [ ] Calendar component integration
-- [ ] Empty state components
+- [x] Task card component (TaskCard in tasks screen)
+- [x] Category selector component (CategorySelector in task form)
+- [x] Date/time picker component (DateTimePicker in task form)
+- [ ] Notification settings component (pending implementation)
+- [ ] Countdown timer component (pending implementation)
+- [x] Calendar component integration (react-native-calendars)
+- [x] Empty state components (EmptyStateMessage)
 
 ## ⏰ Notification System
 
@@ -59,12 +60,15 @@
 
 ## 📅 Calendar Integration
 
-- [ ] Integrate react-native-calendars
-- [ ] Display tasks on calendar dates
-- [ ] Implement calendar view navigation
-- [ ] Add date selection for task creation
-- [ ] Style calendar with task indicators
-- [ ] Handle calendar events and interactions
+- [x] Integrate react-native-calendars
+- [x] Display tasks on calendar dates with marked dates
+- [x] Implement calendar view navigation (Month/Week/Agenda)
+- [x] Add date selection for task creation
+- [x] Style calendar with task indicators and dots
+- [x] Handle calendar events and interactions
+- [x] Export tasks to device calendar (one-way)
+- [x] ICS file export functionality
+- [x] Duplicate prevention for calendar exports
 
 ## ⏳ Time Tracking Features
 
@@ -76,23 +80,25 @@
 
 ## 🎨 UI/UX Polish
 
-- [ ] Implement consistent design system
-- [ ] Add loading states and skeletons
-- [ ] Implement pull-to-refresh functionality
-- [ ] Add haptic feedback for interactions
-- [ ] Create smooth animations and transitions
-- [ ] Implement dark/light theme switching
+- [x] Implement consistent design system with shared style patterns
+- [x] Add loading states and skeletons
+- [x] Implement pull-to-refresh functionality
+- [x] Add haptic feedback for interactions
+- [x] Create smooth animations and transitions
+- [x] Implement dark/light theme switching with system mode
+- [x] Organize all styles into dedicated files (screens/, components/, shared.ts)
+- [x] Create shared style library with 40+ reusable patterns
 - [ ] Add accessibility features (screen reader support)
 
 ## 🎛️ Theme & Settings
 
-- [ ] Implement `ThemeProvider` (Context) to expose current theme and setter
-- [ ] Create theme toggle UI in `Settings` (light / dark / system)
-- [ ] Persist theme to `settings` table via `SettingsRepository` (`key='theme'`)
-- [ ] Implement system theme detection and subscribe to changes
-- [ ] Update core components to read colors from theme constants
+- [x] Implement `ThemeProvider` (Context) to expose current theme and setter
+- [x] Create theme toggle UI in `Settings` (light / dark / system)
+- [x] Persist theme to `settings` table via `SettingsRepository` (`key='theme'`)
+- [x] Implement system theme detection and subscribe to changes
+- [x] Update core components to read colors from theme constants
 - [ ] Add unit tests for `SettingsRepository` theme persistence
-- [ ] E2E/manual test: switch themes, verify persistence and UI updates
+- [x] E2E/manual test: switch themes, verify persistence and UI updates
 
 ## 🧪 Testing & Quality Assurance
 
@@ -137,6 +143,18 @@
 - [ ] Handle QR code validation and error cases
 - [ ] Test QR code sharing between devices
 
+## � Documentation & Project Management
+
+- [x] Create comprehensive documentation suite in `docs/` directory
+- [x] Write branching strategy guide (BRANCHING.md)
+- [x] Write code style guide (CODE_STYLE.md)
+- [x] Write contributing guidelines (CONTRIBUTING.md)
+- [x] Write development workflow documentation (DEVELOPMENT.md)
+- [x] Create CHANGELOG.md with version history
+- [x] Update README.md with accurate feature descriptions
+- [x] Set up Git branching workflow (main, develop, feature branches)
+- [x] Implement documentation branch strategy
+
 ## 🔧 Maintenance & Updates
 
 - [ ] Monitor app performance and crashes
@@ -144,17 +162,4 @@
 - [ ] Maintain dependency updates
 - [ ] Handle user feedback and bug reports
 - [ ] Plan for data migration between app versions
-
----
-
-## Progress Tracking
-
-## Progress Tracking
-
-- **Total Tasks:** 65+
-- **Completed:** 5
-- **In Progress:** 0
-- **Remaining:** 60+
-
-*Last Updated: January 13, 2026*
 <parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/Plan/Checklist.md

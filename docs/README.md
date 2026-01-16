@@ -1,150 +1,125 @@
-# TimeLock 📱⏰
+# TimeLock Documentation 📚
 
-A modern, feature-rich task management app built with React Native and Expo. Stay organized, meet deadlines, and never miss a task again!
+Welcome to the TimeLock documentation! This guide will help you understand the project structure, development workflow, and contribution guidelines.
 
-## ✨ Features
+## 📖 Documentation Index
 
-- **📋 Task Management**: Create, edit, and organize tasks with priorities and categories
-- **📅 Calendar Integration**: Sync tasks with device calendar (iOS Calendar, Google Calendar)
-- **🔔 Smart Notifications**: Get timely reminders for upcoming deadlines
-- **🎨 Multiple Views**: Month, Week, and Agenda calendar views
-- **🌙 Dark Mode**: Beautiful dark and light themes
-- **📊 Progress Tracking**: Visual progress indicators for task completion
-- **🏷️ Categories**: Organize tasks with custom categories and colors
-- **🔄 Selective Export**: Export specific tasks or all tasks to calendar
-- **📱 Cross-Platform**: Works on iOS and Android
+### Getting Started
+- **[Development Guide](DEVELOPMENT.md)** - Complete setup instructions, project structure, and development workflow
+  - Prerequisites and installation
+  - Running the app on different platforms
+  - Development server and hot reload
+  - Testing and debugging
+  - Deployment process
 
-## 🚀 Quick Start
+### Development Guidelines
+- **[Branching Strategy](BRANCHING.md)** - Git workflow and branch management
+  - Branch types and naming conventions
+  - Feature development workflow
+  - Pull request process
+  - Merge strategies and conflict resolution
 
-### Prerequisites
+- **[Code Style Guide](CODE_STYLE.md)** - Coding standards and best practices
+  - TypeScript guidelines
+  - React Native patterns
+  - Style organization and shared patterns
+  - File naming conventions
+  - Code formatting rules
 
-- Node.js 18+
-- npm or yarn
-- Expo CLI
-- iOS Simulator (for iOS development) or Android Studio (for Android development)
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to TimeLock
+  - Finding issues to work on
+  - Development workflow
+  - Testing requirements
+  - Pull request guidelines
+  - Code review process
 
-### Installation
+### Project Resources
+- **[Main README](../README.md)** - Project overview and quick start
+- **[Changelog](../CHANGELOG.md)** - Version history and release notes
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/TimeLock.git
-cd TimeLock
+## 🎯 Quick Links
 
-# Install dependencies
-npm install
+### For New Contributors
+1. Read the [Development Guide](DEVELOPMENT.md) to set up your environment
+2. Review the [Code Style Guide](CODE_STYLE.md) to understand our standards
+3. Check the [Contributing Guide](CONTRIBUTING.md) for the contribution workflow
+4. Follow the [Branching Strategy](BRANCHING.md) when creating branches
 
-# Start the development server
-npm start
-```
+### For Existing Contributors
+- **Found a bug?** Check [Contributing Guide](CONTRIBUTING.md#reporting-issues) for reporting
+- **Need to create a feature?** Follow [Branching Strategy](BRANCHING.md#feature-development)
+- **Want to refactor code?** Review [Code Style Guide](CODE_STYLE.md) first
+- **Ready to merge?** See [Branching Strategy](BRANCHING.md#pull-request-guidelines)
 
-### Running the App
+## 🏗️ Project Architecture
 
-```bash
-# iOS
-npm run ios
+### Core Technologies
+- **React Native** with Expo SDK 54
+- **TypeScript** for type safety
+- **Expo Router** for navigation
+- **Expo SQLite** for local database
+- **Expo Calendar** for calendar integration
 
-# Android
-npm run android
-
-# Web (for testing)
-npm run web
-```
-
-## 📁 Project Structure
-
+### Code Organization
 ```
 TimeLock/
-├── app/                    # Expo Router app directory
-│   ├── (tabs)/            # Tab-based navigation
-│   ├── task-form.tsx      # Task creation/editing
-│   ├── task-detail.tsx    # Task details view
-│   ├── category-manager.tsx # Category management
-│   ├── settings.tsx       # App settings
-│   └── modal.tsx          # Modal screens
-├── components/            # Reusable components
-│   ├── TaskCard.tsx      # Task list item
-│   ├── PageHeader.tsx    # Page header with stats
-│   ├── EmptyState.tsx    # Empty state component
-│   └── NotificationPermissionModal.tsx
-├── styles/               # Style definitions
-│   ├── screens/          # Screen-specific styles
-│   ├── components/       # Component-specific styles
-│   ├── common.ts         # Common styles and constants
-│   ├── colors.ts         # Color definitions
-│   ├── spacing.ts        # Spacing constants
-│   └── typography.ts     # Typography constants
-├── services/             # Business logic services
-│   ├── CalendarSyncService.ts # Calendar integration
-│   └── ...
-├── repositories/         # Data access layer
-├── types/               # TypeScript type definitions
-├── hooks/               # Custom React hooks
-├── constants/           # App constants
-└── docs/                # Documentation
+├── app/              # Screens and navigation (Expo Router)
+├── components/       # Reusable UI components
+├── styles/          # Organized style system
+│   ├── shared.ts    # Shared style patterns
+│   ├── screens/     # Screen-specific styles
+│   └── components/  # Component-specific styles
+├── services/        # Business logic layer
+├── repositories/    # Data access layer
+├── types/           # TypeScript type definitions
+├── hooks/           # Custom React hooks
+└── constants/       # App-wide constants
 ```
 
-## 🛠️ Tech Stack
+## 🎨 Style System
 
-- **Framework**: React Native with Expo SDK 54
-- **Navigation**: Expo Router (file-based routing)
-- **Database**: Expo SQLite with migrations
-- **Calendar**: Expo Calendar API
-- **File System**: Expo File System (new API)
-- **Styling**: React Native StyleSheet with organized structure
-- **Icons**: Ionicons via @expo/vector-icons
-- **Date Handling**: date-fns for formatting
-- **State Management**: React hooks + Context API
+TimeLock uses a comprehensive shared style system:
+- **Shared Patterns**: Reusable style patterns in `styles/shared.ts`
+- **Screen Styles**: Dedicated files in `styles/screens/`
+- **Component Styles**: Dedicated files in `styles/components/`
+- **Constants**: Colors, spacing, and typography in separate files
 
-## 📖 Documentation
+See [Code Style Guide - Styling Organization](CODE_STYLE.md#styling-organization) for details.
 
-- [Development Guide](DEVELOPMENT.md) - Setup and development workflow
-- [Branching Strategy](BRANCHING.md) - Git branching and workflow
-- [Code Style Guide](CODE_STYLE.md) - Code organization and standards
-- [Contributing](CONTRIBUTING.md) - How to contribute to the project
-- [Changelog](https://github.com/your-username/TimeLock/blob/main/CHANGELOG.md) - Version history and changes
+## 🔄 Development Workflow
 
-## 🎯 Recent Updates
+1. **Branch from `develop`** or `main` depending on the change type
+2. **Follow naming conventions** from the branching strategy
+3. **Write clean code** following the style guide
+4. **Test thoroughly** on iOS and Android
+5. **Create pull request** with clear description
+6. **Address review feedback** and merge
 
-### v1.0.0 (Current)
-- ✅ Complete style refactoring - organized styles into dedicated files
-- ✅ Calendar export with duplicate prevention
-- ✅ Multiple calendar views (Month/Week/Agenda)
-- ✅ Enhanced export messages and user feedback
-- ✅ Local time handling (fixed UTC timezone issues)
-- ✅ Live date/time display in calendar header
-- ✅ Auto-scroll functionality in calendar and tasks views
+## 📝 Documentation Updates
 
-### Key Features Implemented
-- **Calendar Sync**: Bidirectional sync with device calendars
-- **Selective Export**: Choose which tasks to export
-- **Progress Tracking**: Visual countdown timers on task cards
-- **Category System**: Color-coded task organization
-- **Notification System**: Permission-based notifications
-- **Theme Support**: Light/dark mode with system preference detection
+When making changes that affect documentation:
+1. Update relevant guide files in `docs/`
+2. Update main README.md if features change
+3. Add entry to CHANGELOG.md
+4. Ensure code examples are accurate
+5. Test all documentation links
 
-## 🤝 Contributing
+## 🤝 Getting Help
 
-We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.md) for details.
+- **Questions about setup?** Check [Development Guide](DEVELOPMENT.md)
+- **Confused about code style?** Review [Code Style Guide](CODE_STYLE.md)
+- **Need contribution help?** See [Contributing Guide](CONTRIBUTING.md)
+- **Git workflow questions?** Read [Branching Strategy](BRANCHING.md)
 
-### Development Workflow
+## 📊 Project Status
 
-1. **Create a feature branch** from `main`
-2. **Make your changes** following our code style
-3. **Test thoroughly** on multiple devices
-4. **Create a pull request** with detailed description
-5. **Code review** and merge
+**Current Version**: 1.0.0  
+**Status**: Active Development  
+**License**: MIT
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ using React Native and Expo
-- Icons by Ionicons
-- Calendar integration powered by Expo Calendar API
+See [Changelog](../CHANGELOG.md) for detailed version history.
 
 ---
 
-**Made with ❤️ by TimeLock Team**</content>
+**Happy coding! 🚀**</content>
 <parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/README.md

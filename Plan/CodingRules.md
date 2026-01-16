@@ -3,9 +3,10 @@
 This document defines the coding standards and rules for the TimeLock project. Follow these guidelines to keep the codebase consistent, maintainable, and safe.
 
 ## 1. Languages & Style
-- Use **TypeScript** for all application code. Avoid using `any` unless absolutely necessary and justified in a comment.
+- Use **TypeScript** for all application code with strict mode enabled. Avoid using `any` unless absolutely necessary and justified in a comment.
 - Prefer explicit types for public interfaces and exported functions.
-- Use modern ECMAScript features supported by the project's toolchain.
+- Use modern ECMAScript features supported by the project's toolchain (ES2020+).
+- All files must use `.ts` or `.tsx` extensions (never `.js` or `.jsx`).
 
 ## 2. Formatting & Linting
 - Use **Prettier** for code formatting. Project should include a `.prettierrc` with agreed settings.
@@ -46,6 +47,12 @@ This document defines the coding standards and rules for the TimeLock project. F
 - Use a centralized theme file (`constants/theme.ts`) exporting color tokens for `light` and `dark` modes.
 - Components must read colors from theme tokens (do not hardcode hex values in components).
 - Support `system` theme mode and a persisted user preference.
+- **Style Organization**: All styles must be extracted to dedicated files
+  - Use `styles/shared.ts` for reusable style patterns (40+ patterns available)
+  - Screen-specific styles go in `styles/screens/`
+  - Component-specific styles go in `styles/components/`
+  - Never use inline styles in JSX unless truly dynamic
+  - Import from `styles/common.ts` for centralized style access
 
 ## 10. Accessibility
 - All interactive elements must be accessible: set `accessibilityLabel`, `accessibilityRole`, and use accessible touch targets.
