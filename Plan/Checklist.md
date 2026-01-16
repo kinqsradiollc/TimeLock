@@ -162,4 +162,3 @@
 - [ ] Maintain dependency updates
 - [ ] Handle user feedback and bug reports
 - [ ] Plan for data migration between app versions
-<parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/Plan/Checklist.md

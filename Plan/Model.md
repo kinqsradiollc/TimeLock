@@ -18,6 +18,7 @@ CREATE TABLE tasks (
   category_id INTEGER,
   notifications TEXT, -- JSON array of predefined notification times in minutes before deadline
   is_active BOOLEAN DEFAULT 1,
+  calendar_event_id TEXT, -- Device calendar event ID for exported tasks (v1.0.0+)
   FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 ```
@@ -76,6 +77,7 @@ interface Task {
   categoryId?: number; // References categories table
   notifications: NotificationOption[]; // Array of predefined notification times
   isActive: boolean;
+  calendarEventId?: string; // Device calendar event ID if exported (v1.0.0+)
 }
 ```
 
@@ -124,9 +126,28 @@ Guidance for `SettingsRepository` implementations:
 - `getAppSettings()` should read the `theme` key and coerce it into `ThemeOption`, falling back to `'system'`.
 - `updateAppSettings()` should persist the `theme` string to the `settings` table when provided.
 
+## Implementation Status (v1.0.0)
+
+### ✅ Fully Implemented
+- All three database tables (tasks, categories, settings)
+- Complete repository pattern with CRUD operations
+- Task model with calendar event tracking
+- Category management
+- Settings persistence (theme, permissions)
+- Database migration system
+- Type-safe interfaces matching database schema
+
+### 📦 Partially Implemented
+- Notification system (data model ready, scheduling pending)
+
+### ❌ Not Yet Implemented
+- QR code task sharing (interfaces defined, implementation pending)
+
 ## Repository Pattern
 
 The app uses a repository pattern to abstract data access operations. Each entity has its own repository class:
+
+**All repositories are fully implemented in v1.0.0**
 
 ### TaskRepository
 - `create(task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>): Promise<number>`
