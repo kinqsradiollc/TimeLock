@@ -8,7 +8,8 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 - **📅 Calendar Export**: Export tasks to device calendar with duplicate prevention
 - **🎨 Multiple Views**: Month, Week, and Agenda calendar views
 - **🌙 Dark Mode**: Beautiful dark and light themes
-- **📊 Task Organization**: Tasks with priorities, categories, and deadlines
+- **� Haptic Feedback**: Comprehensive haptic responses for all interactions with user toggle
+- **�📊 Task Organization**: Tasks with priorities, categories, and deadlines
 - **🏷️ Categories**: Organize tasks with custom categories and colors
 - **🔄 Selective Export**: Choose specific tasks or export all to calendar
 - **📱 Cross-Platform**: Works on iOS and Android
@@ -26,7 +27,7 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/TimeLock.git
+git clone https://github.com/kinqsradiollc/TimeLock.git
 cd TimeLock
 
 # Install dependencies
@@ -79,6 +80,9 @@ TimeLock/
 ├── types/               # TypeScript type definitions
 ├── hooks/               # Custom React hooks
 ├── constants/           # App constants
+├── hooks/               # Custom React hooks
+│   ├── useHaptics.ts   # Haptic feedback hook
+│   └── ...
 └── docs/                # Documentation
 ```
 
@@ -105,6 +109,7 @@ TimeLock/
 
 ### v1.0.0 (Current)
 - ✅ Complete styling system refactoring with shared patterns
+- ✅ Comprehensive haptic feedback system with 7 feedback types
 - ✅ Calendar export with duplicate prevention
 - ✅ Multiple calendar views (Month/Week/Agenda)
 - ✅ ICS file export functionality
@@ -118,6 +123,7 @@ TimeLock/
 - **Calendar Export**: One-way export to device calendars (iOS Calendar, Google Calendar)
 - **Selective Export**: Choose which tasks to export to calendar
 - **Duplicate Prevention**: Prevents re-exporting already synced tasks
+- **Haptic Feedback**: 7 feedback types (light, medium, heavy, success, warning, error, selection) with Settings toggle
 - **Category System**: Color-coded task organization
 - **Multiple Calendar Views**: Month, Week, and Agenda views
 - **Theme Support**: Light/dark mode with system preference detection

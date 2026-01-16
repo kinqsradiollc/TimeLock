@@ -45,7 +45,7 @@ This guide covers everything you need to know to set up, develop, and contribute
 
 ```bash
 # Clone the main repository
-git clone https://github.com/yourusername/TimeLock.git
+git clone https://github.com/kinqsradiollc/TimeLock.git
 cd TimeLock
 
 # If working on a specific branch
