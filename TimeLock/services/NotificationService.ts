@@ -1,7 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import type { Task } from '@/types/task';
-import type { NotificationOption } from '@/types/notification';
 
 /**
  * NotificationService - Manages local push notifications for task reminders
@@ -13,12 +12,14 @@ import type { NotificationOption } from '@/types/notification';
  * - Track notification IDs for cleanup
  */
 
-// Configure notification behavior
+// Configure notification behavior - ensures notifications show when app is in foreground
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldShowAlert: true,     // iOS: Show alert when app is in foreground
+    shouldPlaySound: true,      // Play sound for foreground notifications
+    shouldSetBadge: true,       // Update app badge count
   }),
 });
 
@@ -138,6 +139,7 @@ export class NotificationService {
             }),
           },
           trigger: {
+            type: Notifications.SchedulableTriggerInputTypes.DATE,
             date: triggerDate,
           },
         });
@@ -170,7 +172,10 @@ export class NotificationService {
     }
 
     try {
-      await Notifications.cancelScheduledNotificationsAsync(notificationIds);
+      // Cancel each notification individually
+      for (const id of notificationIds) {
+        await Notifications.cancelScheduledNotificationAsync(id);
+      }
       console.log(`[Notifications] Cancelled ${notificationIds.length} notification(s)`);
     } catch (error) {
       console.error('[Notifications] Failed to cancel notifications:', error);
