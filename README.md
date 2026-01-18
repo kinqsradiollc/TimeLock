@@ -118,7 +118,7 @@ TimeLock/
 - ✅ ICS file export functionality
 - ✅ Enhanced export messages and user feedback
 - ✅ Local time handling (fixed UTC timezone issues)
-- ✅ Live date/time display in calendar header
+- ✅ Live date/time display in calendar header and home page greeting
 - ✅ Comprehensive documentation suite
 - ✅ Organized style architecture with reusable patterns
 - ✅ UI fixes: improved toggle switch contrast and calendar theme rendering

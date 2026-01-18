@@ -76,38 +76,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project planning documents in `Plan/` directory
 
 ### 🔄 Partially Implemented
-- Notification system (permissions UI ready, scheduling not implemented)
 - QR code task sharing (libraries installed, implementation pending)
 
 ### ✨ Added
-- **Notification Service**: Complete task reminder system with Expo Notifications
-  - Schedule notifications for task deadlines with configurable reminder times
+- **Complete Notification System**: Fully integrated task reminder system
+  - NotificationService with scheduling, cancellation, and rescheduling APIs
+  - TaskRepository integration - automatic scheduling on task creation
+  - Automatic rescheduling when deadline or reminders change
+  - Automatic cancellation when tasks completed or deleted
   - Support for multiple reminders per task (e.g., 1 week + 1 day + 1 hour before)
   - Default notification preferences in Settings (applied to new tasks)
   - Per-task notification customization in task form
-  - Notification ID tracking for cancellation and rescheduling
+  - Notification ID tracking in database for cleanup
+  - Foreground notification support with alerts, sound, and badges
+  - Permission request flow with NotificationPermissionModal
   - Platform-aware (iOS/Android only, web not supported)
-  - Foreground notification display with alert, sound, and badge
-  - Permission request flow with modal UI
-  - Automatic rescheduling when task deadline/reminders change
-  - Automatic cancellation when tasks completed or deleted
-- **TaskRepository Integration**: Notification lifecycle management
-  - Schedule notifications on task creation
-  - Reschedule notifications on task updates (deadline/reminders changed)
-  - Cancel notifications on task completion
-  - Cancel notifications on task deletion
-  - Restore notifications when reopening completed tasks
+  - Android notification channel: 'task-reminders' with HIGH importance
 - **Database Migration v4**: Added `notification_ids` column to tasks table for tracking scheduled notifications
 - **Settings UI**: Multi-select notification preferences with 10 time options (1 minute to 2 weeks)
 - **Task Form UI**: Reminders section with modal for selecting notification times
-- **Time Display**: Added current time to greeting (e.g., "Good Morning • 9:45 AM")
+- **Home Page**: Live time display in greeting (e.g., "Good Morning • 9:45 AM")
 
-### 🔄 Partially Implemented
+### 🔄 Partially Implemented (Updated)
 - QR code task sharing (libraries installed, implementation pending)
 
 ### ❌ Planned for Future Development
-- Local push notifications for task reminders
-- Time tracking with countdown timers
+- Notification tap actions (deep link to task detail)
+- Badge count management for pending tasks
 - Bidirectional calendar sync (import from device calendar)
 - iOS Live Activities for lock screen widgets
 - Task search and advanced filtering
