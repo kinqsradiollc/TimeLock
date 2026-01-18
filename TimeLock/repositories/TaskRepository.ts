@@ -1,5 +1,6 @@
 import { executeSql, querySql, querySqlFirst } from '../database';
 import type { Task } from '../types/task';
+import { NotificationService } from '../services/NotificationService';
 
 export type TaskInsert = Omit<Task, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -39,7 +40,33 @@ export class TaskRepository {
       task.calendarEventId ?? null,
     ];
     const res = await executeSql(sql, params);
-    return res.lastInsertRowId;
+    const taskId = res.lastInsertRowId;
+
+    // Schedule notifications for the new task
+    try {
+      const fullTask: Task = {
+        ...task,
+        id: taskId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      const scheduledNotifications = await NotificationService.scheduleTaskReminders(fullTask);
+      
+      // Store notification IDs in the database
+      if (scheduledNotifications.length > 0) {
+        const notificationIds = scheduledNotifications.map(n => n.notificationId);
+        await executeSql(
+          'UPDATE tasks SET notification_ids = ? WHERE id = ?',
+          [JSON.stringify(notificationIds), taskId]
+        );
+        console.log(`[TaskRepository] Scheduled ${notificationIds.length} notification(s) for task ${taskId}`);
+      }
+    } catch (error) {
+      console.error('[TaskRepository] Failed to schedule notifications:', error);
+      // Don't fail task creation if notifications fail
+    }
+
+    return taskId;
   }
 
   static async findAll(): Promise<Task[]> {
@@ -56,6 +83,10 @@ export class TaskRepository {
   }
 
   static async update(id: number, updates: Partial<Task>): Promise<void> {
+    // Get current task for notification comparison
+    const currentTask = await this.findById(id);
+    if (!currentTask) return;
+
     const parts: string[] = [];
     const params: any[] = [];
     if (updates.title !== undefined) {
@@ -99,16 +130,91 @@ export class TaskRepository {
     const sql = `UPDATE tasks SET ${parts.join(', ')} WHERE id = ?;`;
     params.push(id);
     await executeSql(sql, params);
+
+    // Reschedule notifications if deadline or notifications array changed
+    try {
+      const needsReschedule = 
+        (updates.deadline !== undefined && updates.deadline !== currentTask.deadline) ||
+        (updates.notifications !== undefined && 
+         JSON.stringify(updates.notifications) !== JSON.stringify(currentTask.notifications));
+
+      if (needsReschedule) {
+        const updatedTask = await this.findById(id);
+        if (updatedTask && currentTask.notificationIds) {
+          const scheduledNotifications = await NotificationService.rescheduleTaskReminders(
+            updatedTask,
+            currentTask.notificationIds
+          );
+          
+          // Update notification IDs
+          const notificationIds = scheduledNotifications.map(n => n.notificationId);
+          await executeSql(
+            'UPDATE tasks SET notification_ids = ? WHERE id = ?',
+            [JSON.stringify(notificationIds), id]
+          );
+          console.log(`[TaskRepository] Rescheduled ${notificationIds.length} notification(s) for task ${id}`);
+        }
+      }
+
+      // Cancel notifications if task is marked completed
+      if (updates.completed === true && currentTask.notificationIds) {
+        await NotificationService.cancelTaskNotifications(currentTask.notificationIds);
+        await executeSql(
+          'UPDATE tasks SET notification_ids = ? WHERE id = ?',
+          [JSON.stringify([]), id]
+        );
+        console.log(`[TaskRepository] Cancelled notifications for completed task ${id}`);
+      }
+    } catch (error) {
+      console.error('[TaskRepository] Failed to update notifications:', error);
+      // Don't fail task update if notifications fail
+    }
   }
 
   static async delete(id: number): Promise<void> {
+    // Cancel notifications before deleting
+    try {
+      const task = await this.findById(id);
+      if (task?.notificationIds && task.notificationIds.length > 0) {
+        await NotificationService.cancelTaskNotifications(task.notificationIds);
+        console.log(`[TaskRepository] Cancelled notifications for deleted task ${id}`);
+      }
+    } catch (error) {
+      console.error('[TaskRepository] Failed to cancel notifications:', error);
+      // Continue with deletion even if notification cancellation fails
+    }
+
     await executeSql(`DELETE FROM tasks WHERE id = ?;`, [id]);
   }
 
   static async toggleCompletion(id: number): Promise<void> {
     const task = await this.findById(id);
     if (!task) return;
-    await this.update(id, { completed: !task.completed });
+    
+    // If marking as complete, cancel notifications (handled in update)
+    // If marking as incomplete, reschedule notifications
+    if (task.completed) {
+      // Marking as incomplete - reschedule notifications
+      await this.update(id, { completed: false });
+      
+      try {
+        const updatedTask = await this.findById(id);
+        if (updatedTask) {
+          const scheduledNotifications = await NotificationService.scheduleTaskReminders(updatedTask);
+          const notificationIds = scheduledNotifications.map(n => n.notificationId);
+          await executeSql(
+            'UPDATE tasks SET notification_ids = ? WHERE id = ?',
+            [JSON.stringify(notificationIds), id]
+          );
+          console.log(`[TaskRepository] Rescheduled notifications for reopened task ${id}`);
+        }
+      } catch (error) {
+        console.error('[TaskRepository] Failed to reschedule notifications:', error);
+      }
+    } else {
+      // Marking as complete - cancellation handled in update method
+      await this.update(id, { completed: true });
+    }
   }
 
   private static rowToTask(row: any): Task {

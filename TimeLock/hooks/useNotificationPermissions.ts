@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
+import { NotificationService } from '@/services/NotificationService';
 
 export function useNotificationPermissions() {
   const [permissionStatus, setPermissionStatus] = useState<'granted' | 'denied' | 'undetermined'>('undetermined');
@@ -10,31 +9,18 @@ export function useNotificationPermissions() {
   }, []);
 
   const checkPermissions = async () => {
-    const { status } = await Notifications.getPermissionsAsync();
-    setPermissionStatus(status as 'granted' | 'denied' | 'undetermined');
+    const hasPermission = await NotificationService.hasPermissions();
+    setPermissionStatus(hasPermission ? 'granted' : 'undetermined');
   };
 
   const requestPermissions = async (): Promise<boolean> => {
     try {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      
-      let finalStatus = existingStatus;
-      
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync({
-          ios: {
-            allowAlert: true,
-            allowBadge: true,
-            allowSound: true,
-          },
-        });
-        finalStatus = status;
-      }
-
-      setPermissionStatus(finalStatus as 'granted' | 'denied' | 'undetermined');
-      return finalStatus === 'granted';
+      const granted = await NotificationService.requestPermissions();
+      setPermissionStatus(granted ? 'granted' : 'denied');
+      return granted;
     } catch (error) {
       console.error('Error requesting notification permissions:', error);
+      setPermissionStatus('denied');
       return false;
     }
   };

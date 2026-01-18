@@ -130,7 +130,14 @@ TimeLock/
 - **Selective Export**: Choose which tasks to export to calendar
 - **Duplicate Prevention**: Prevents re-exporting already synced tasks
 - **Time Tracking**: Real-time countdown timers with circular progress indicators and urgent visual feedback
-- **Notification Service**: Customizable task reminders with multiple notification times (1 minute to 2 weeks before deadline)
+- **Smart Notifications**: Complete notification system with:
+  - Customizable task reminders (1 minute to 2 weeks before deadline)
+  - Multiple reminders per task
+  - Default notification preferences in Settings
+  - Per-task notification customization
+  - Automatic scheduling, rescheduling, and cancellation
+  - Foreground notifications with sound and badges
+  - Permission request flow with modal UI
 - **Haptic Feedback**: 7 feedback types (light, medium, heavy, success, warning, error, selection) with Settings toggle
 - **Category System**: Color-coded task organization
 - **Multiple Calendar Views**: Month, Week, and Agenda views

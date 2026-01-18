@@ -111,13 +111,17 @@ export class NotificationService {
     const now = new Date();
     const scheduledNotifications: ScheduledNotification[] = [];
 
+    console.log(`[Notifications] Task "${task.title}" deadline: ${deadline.toISOString()}`);
+    console.log(`[Notifications] Current time: ${now.toISOString()}`);
+    console.log(`[Notifications] Time until deadline: ${Math.floor((deadline.getTime() - now.getTime()) / 60000)} minutes`);
+
     // Schedule a notification for each reminder offset in task.notifications
     for (const minutesBefore of task.notifications) {
       const triggerDate = new Date(deadline.getTime() - minutesBefore * 60 * 1000);
 
       // Skip if trigger time is in the past
       if (triggerDate <= now) {
-        console.log(`[Notifications] Skipping past reminder: ${minutesBefore} minutes before`);
+        console.log(`[Notifications] ❌ Skipping past reminder: ${minutesBefore} minutes before (trigger: ${triggerDate.toISOString()})`);
         continue;
       }
 
@@ -150,10 +154,16 @@ export class NotificationService {
           triggerDate,
         });
 
-        console.log(`[Notifications] Scheduled: ${task.title} - ${minutesBefore}min before at ${triggerDate.toISOString()}`);
+        console.log(`[Notifications] ✅ Scheduled: ${task.title} - ${minutesBefore}min before at ${triggerDate.toLocaleString()}`);
       } catch (error) {
         console.error(`[Notifications] Failed to schedule reminder for ${minutesBefore} minutes:`, error);
       }
+    }
+
+    if (scheduledNotifications.length === 0) {
+      console.log(`[Notifications] ⚠️ No future notifications scheduled for "${task.title}"`);
+    } else {
+      console.log(`[Notifications] 📅 Total scheduled: ${scheduledNotifications.length} notification(s)`);
     }
 
     return scheduledNotifications;
