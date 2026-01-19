@@ -33,8 +33,8 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 - **🔄 Selective Export**: Choose specific tasks or export all to calendar
 - **📱 QR Code Sharing**: Share tasks between devices via QR codes
 - **🎯 iOS Live Activities**: Lock screen widgets with countdown timers and Dynamic Island support (iOS 16.1+)
-- **� Data Management**: Export, import, and backup all your data
-- **�📱 Cross-Platform**: Works on iOS and Android
+- **📊 Data Management**: Export, import, and backup all your data
+- **📱 Cross-Platform**: Works on iOS and Android
 
 ## 🚀 Quick Start
 
