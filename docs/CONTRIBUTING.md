@@ -1,6 +1,18 @@
 # Contributing Guide 🤝
 
-Welcome to TimeLock! We're excited that you're interested in contributing to our React Native task management app. This guide will help you get started with development, understand our processes, and make meaningful contributions.
+Welcome to TimeLock! We're excited that you're interested in contributing to our React Native task management template. This guide will help you get started with development, understand our processes, and make meaningful contributions.
+
+## 🎯 Project Overview
+
+**TimeLock is an open-source React Native template project** designed as a complete foundation for task management applications. This project:
+
+- **Will never be released on app stores** but serves as a template
+- **Provides a complete codebase** that developers can fork and customize
+- **Accepts community contributions** for improvements and new features
+- **Serves as an educational resource** for React Native development
+- **Enables self-hosting** - users can build and deploy their own versions
+
+Whether you're here to contribute, learn, or build your own app, you're in the right place!
 
 ## 📋 Table of Contents
 
@@ -94,14 +106,14 @@ TimeLock uses Expo SQLite for local data storage. The database schema is automat
 - Fix UI/UX issues
 
 #### ✨ New Features
-- Add new functionality
+- Add new functionality to the template
 - Improve existing features
 - Enhance user experience
 
 #### 📚 Documentation
 - Update guides and docs
 - Add code comments
-- Create tutorials
+- Create tutorials for template usage
 
 #### 🧪 Testing
 - Write unit tests
@@ -112,6 +124,11 @@ TimeLock uses Expo SQLite for local data storage. The database schema is automat
 - Style improvements
 - Accessibility enhancements
 - Performance optimizations
+
+#### 🍴 Template Improvements
+- Better customization options
+- Easier forking process
+- Enhanced documentation for template users
 
 ### Finding Issues to Work On
 

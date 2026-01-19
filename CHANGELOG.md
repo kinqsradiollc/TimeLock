@@ -9,9 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Current Status: Development Build v1.0.0
+### Current Status: Open Source Template v1.0.0
 
-**Note**: This is an open-source project currently in active development. The app is NOT yet released on the App Store or Google Play Store. This version represents the initial development milestone with core functionality implemented.
+**Note**: TimeLock is an open-source React Native project designed as a template for task management applications. This project will NOT be released on the App Store or Google Play Store. Instead, it serves as a comprehensive foundation that developers can fork, customize, and deploy as their own applications.
+
+### 🎯 Project Purpose
+- **Template Project**: Complete, production-ready codebase for task management apps
+- **Open Source**: Free for anyone to use, modify, and distribute
+- **Community Driven**: Accept contributions and feature requests
+- **Self-Hosting**: Users can build and deploy their own versions
+- **Learning Resource**: Educational example of modern React Native development
+
+### ✅ Complete Feature Set (v1.0.0)
 
 ### ✅ Implemented Features (v1.0.0)
 
@@ -199,6 +208,109 @@ git push --follow-tags origin main
 
 ---
 
+## Open Source Template Project
+
+TimeLock is designed as an **open-source template** for React Native task management applications. This means:
+
+### 🎯 What This Project Is
+- **Complete Codebase**: Production-ready React Native app with full feature set
+- **Educational Resource**: Learn modern React Native development patterns
+- **Community Project**: Accept contributions from developers worldwide
+- **Template Foundation**: Fork and customize for your own task management needs
+- **Self-Hosting**: Users can build and deploy their own versions
+
+### 🚫 What This Project Is NOT
+- **App Store Release**: Will never be published on iOS App Store or Google Play
+- **Commercial Product**: Not a monetized application
+- **Closed Source**: Always open source and free
+
+### 🔄 How to Use This Template
+
+#### For Personal Use
+```bash
+# Fork the repository
+git clone https://github.com/your-username/TimeLock.git
+cd TimeLock
+
+# Customize branding, colors, features
+# Modify package.json, app.json
+# Add your own features or remove unwanted ones
+
+# Build for your devices
+npm run ios     # iOS
+npm run android # Android
+npm run web     # Web
+```
+
+#### For Learning
+- Study the architecture and patterns
+- Learn Expo Router navigation
+- Understand SQLite integration
+- Explore notification systems
+- Review testing approaches
+
+#### For Contributing
+- Report bugs via GitHub Issues
+- Suggest features via GitHub Discussions
+- Submit pull requests for improvements
+- Help maintain documentation
+
+### 📱 Building Your Own Version
+
+#### Customization Steps
+1. **Fork the repository**
+2. **Update branding** in `app.json` and assets
+3. **Modify colors** in `styles/colors.ts`
+4. **Add/remove features** as needed
+5. **Update package.json** with your app details
+6. **Build and test** on target platforms
+7. **Deploy** to app stores if desired
+
+#### Required Changes for App Store
+```json
+// app.json
+{
+  "expo": {
+    "name": "YourAppName",
+    "slug": "your-app-slug",
+    "version": "1.0.0",
+    "icon": "./assets/your-icon.png",
+    "splash": {
+      "image": "./assets/your-splash.png"
+    }
+  }
+}
+```
+
+### 🤝 Community Guidelines
+
+#### Contributing
+- **Anyone can contribute** - no permission needed
+- **All contributions welcome** - bugs, features, docs, tests
+- **Follow existing patterns** - maintain code quality
+- **Respect the community** - be constructive and helpful
+
+#### Feature Requests
+- Use [GitHub Discussions](https://github.com/kinqsradiollc/TimeLock/discussions) for ideas
+- Community votes help prioritize features
+- Contributors implement approved features
+
+#### Issue Reporting
+- Use [GitHub Issues](https://github.com/kinqsradiollc/TimeLock/issues) for bugs
+- Provide clear reproduction steps
+- Include environment details
+- Check existing issues first
+
+### 📊 Project Statistics
+- **Status**: Complete and stable
+- **License**: MIT (free for all uses)
+- **Platform**: iOS, Android, Web
+- **Framework**: React Native + Expo
+- **Database**: SQLite
+- **State**: Production-ready template
+
+---
+
 ## Contributing to the Project
 
 This is an **open-source project** and we welcome contributions! Whether you want to:
@@ -218,24 +330,6 @@ Check the [GitHub Issues](https://github.com/kinqsradiollc/TimeLock/issues) page
 - Good first issues for new contributors
 
 To suggest a new feature, open an issue using the feature request template.
-
----
-
-## Future App Store Release
-
-This app is planned for eventual release on the App Store and Google Play Store. The timeline for public release will be announced when the following criteria are met:
-
-### Pre-Release Checklist
-- [ ] Complete remaining Phase 4: Notifications implementation
-- [ ] Implement Phase 3: Time Tracking features
-- [ ] Comprehensive testing on multiple devices
-- [ ] Add accessibility features (screen reader support)
-- [ ] Performance optimization and bug fixes
-- [ ] App store assets (icons, screenshots, descriptions)
-- [ ] Privacy policy and terms of service
-- [ ] Beta testing with real users
-
-**Current Development Phase**: Building core features and establishing project foundation.
 
 ---
 
