@@ -33,7 +33,8 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 - **🔄 Selective Export**: Choose specific tasks or export all to calendar
 - **📱 QR Code Sharing**: Share tasks between devices via QR codes
 - **🎯 iOS Live Activities**: Lock screen widgets with countdown timers and Dynamic Island support (iOS 16.1+)
-- **📱 Cross-Platform**: Works on iOS and Android
+- **� Data Management**: Export, import, and backup all your data
+- **�📱 Cross-Platform**: Works on iOS and Android
 
 ## 🚀 Quick Start
 
@@ -91,6 +92,9 @@ All planned features have been successfully implemented and tested. TimeLock v1.
 - **Multiple Views**: Month, Week, and Agenda calendar views
 - **Dark Mode**: Beautiful light and dark themes
 - **Haptic Feedback**: 7 feedback types with user toggle
+- **QR Code Sharing**: Share tasks via QR codes between devices
+- **iOS Live Activities**: Lock screen widgets with countdown timers (iOS 16.1+)
+- **Data Management**: Export, import, and clear all data with backup/restore functionality
 - **Cross-Platform**: Native iOS and Android support
 
 ### 🚀 Future Development
@@ -148,4 +152,21 @@ We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.
 3. **Test thoroughly** on multiple devices
 4. **Create a pull request** with detailed description
 5. **Code review** and merge
+
+### Reporting Issues and Requesting Features
+
+We use GitHub Issues to track bugs, feature requests, and questions. To ensure we can help you effectively, please use our issue templates:
+
+- **🐛 Bug Report**: Use this template to report bugs or unexpected behavior
+- **✨ Feature Request**: Use this template to suggest new features or enhancements  
+- **❓ Question**: Use this template for general questions about the project
+
+**How to create an issue:**
+1. Go to the [Issues tab](https://github.com/kinqsradiollc/TimeLock/issues)
+2. Click "New Issue"
+3. Select the appropriate template
+4. Fill out all required fields
+5. Submit the issue
+
+For feature requests, please check if a similar request already exists before creating a new one.
 

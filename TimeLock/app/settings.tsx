@@ -15,12 +15,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import * as DocumentPicker from 'expo-document-picker';
 import { LightColors, DarkColors } from '@/styles/common';
 import { settingsStyles as styles } from '@/styles/screens/settings.styles';
 import { SettingsRepository } from '@/repositories/SettingsRepository';
 import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
 import { useTheme } from '@/contexts/ThemeContext';
 import { NOTIFICATION_CHOICES } from '@/constants/notifications';
+import { DataService } from '@/services/DataService';
 import type { ThemeOption } from '@/types/theme';
 import type { NotificationOption } from '@/types/notification';
 
@@ -167,22 +169,44 @@ export default function SettingsScreen() {
     setShowNotificationModal(false);
   };
 
-  const handleClearData = () => {
-    Alert.alert(
-      'Clear All Data',
-      'This will delete all tasks, categories, and settings. This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear',
-          style: 'destructive',
-          onPress: () => {
-            // TODO: Implement data clearing
-            Alert.alert('Coming Soon', 'This feature will be available soon');
-          },
-        },
-      ]
-    );
+  const handleExportData = async () => {
+    if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+      const Haptics = require('expo-haptics');
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    await DataService.exportData();
+  };
+
+  const handleImportData = async () => {
+    if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+      const Haptics = require('expo-haptics');
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'application/json',
+        copyToCacheDirectory: true,
+      });
+
+      if (result.canceled) return;
+
+      const file = result.assets[0];
+      if (file) {
+        await DataService.importData(file.uri);
+      }
+    } catch (error) {
+      console.error('Failed to pick document:', error);
+      Alert.alert('Error', 'Failed to select file. Please try again.');
+    }
+  };
+
+  const handleClearData = async () => {
+    if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+      const Haptics = require('expo-haptics');
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+    }
+    await DataService.clearAllData();
   };
 
   const SettingItem = ({
@@ -353,7 +377,7 @@ export default function SettingsScreen() {
               rightElement={
                 <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
               }
-              onPress={() => Alert.alert('Coming Soon', 'Export feature will be available soon')}
+              onPress={handleExportData}
             />
             <SettingItem
               icon="cloud-upload-outline"
@@ -362,17 +386,11 @@ export default function SettingsScreen() {
               rightElement={
                 <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
               }
-              onPress={() => Alert.alert('Coming Soon', 'Import feature will be available soon')}
+              onPress={handleImportData}
             />
             <TouchableOpacity
               style={[styles.settingItem, styles.dangerItem, { backgroundColor: colors.surface }]}
-              onPress={() => {
-                if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
-                  const Haptics = require('expo-haptics');
-                  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-                }
-                handleClearData();
-              }}
+              onPress={handleClearData}
               activeOpacity={0.7}
             >
               <View style={[styles.iconContainer, { backgroundColor: '#FEE2E2' }]}>

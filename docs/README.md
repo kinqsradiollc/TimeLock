@@ -128,6 +128,7 @@ cd TimeLock
 - Understand SQLite database integration
 - Explore notification systems
 - Explore iOS Live Activities implementation
+- Learn data backup and restore patterns
 - Review comprehensive testing approaches
 
 ### 🚀 Future Development

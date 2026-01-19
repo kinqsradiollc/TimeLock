@@ -428,6 +428,7 @@ npm run web     # Web
 - Understand SQLite database patterns
 - Explore notification system implementation
 - Learn iOS Live Activities implementation
+- Review data backup and restore patterns
 - Review comprehensive styling system
 
 ### 🚀 Future Development

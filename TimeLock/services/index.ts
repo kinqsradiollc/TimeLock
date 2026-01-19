@@ -4,3 +4,4 @@
 export { NotificationService } from './NotificationService';
 export { CalendarSyncService } from './CalendarSyncService';
 export { LiveActivitiesService } from './LiveActivitiesService';
+export { DataService } from './DataService';

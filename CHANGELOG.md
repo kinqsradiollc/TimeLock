@@ -109,6 +109,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Styling with dark theme colors and circular timer
   - Auto-generated widget in ios/LiveActivity/ directory
   - Comprehensive setup guide in docs/LIVE_ACTIVITIES_SETUP.md
+- **Data Management System**: Complete backup and restore functionality
+  - DataService for export, import, and clear operations
+  - JSON backup format with versioning support (v1.0)
+  - Export all tasks, categories, and settings to timestamped files
+  - Import data from backup files with validation
+  - Clear all data with automatic notification and live activity cleanup
+  - Settings UI integration (Export Data, Import Data, Clear All Data)
+  - File sharing via expo-sharing for cross-platform support
+  - Document picker integration via expo-document-picker
+  - Backup data structure excludes runtime fields (notificationIds, liveActivityId)
+  - Import flow with single confirmation dialog (no duplicate confirmations)
+  - Automatic recreation of notifications and live activities for imported tasks
+  - Uses modern expo-file-system File API for file operations
 - **Complete Notification System**: Fully integrated task reminder system
   - NotificationService with scheduling, cancellation, and rescheduling APIs
   - TaskRepository integration - automatic scheduling on task creation

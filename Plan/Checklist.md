@@ -118,7 +118,6 @@
 - [x] Implement dark/light theme switching with system mode
 - [x] Organize all styles into dedicated files (screens/, components/, shared.ts)
 - [x] Create shared style library with 40+ reusable patterns
-- [ ] Add accessibility features (screen reader support)
 
 ## 🎛️ Theme & Settings
 
@@ -155,9 +154,19 @@
   - [x] Configure widget with countdown timers and progress bars
   - [x] Test on physical iOS device (iOS 16.1+)
 - [x] Implement task sharing/export (completed via QR code sharing)
-- [ ] Implement cloud backup/sync
 
-## � QR Code Task Sharing
+- [x] **Implement Data Management**
+  - [x] Create DataService for export, import, and clear operations
+  - [x] Add export data functionality with JSON backup files
+  - [x] Implement import data from backup files
+  - [x] Add clear all data functionality with confirmation dialogs
+  - [x] Integrate with Settings UI
+  - [x] Install expo-document-picker for file selection
+  - [x] Install expo-sharing for file sharing
+  - [x] Handle backup data validation and error cases
+  - [x] Implement selective data clearing (notifications and live activities)
+
+## 📱 QR Code Task Sharing
 
 - [x] Install QR code libraries (react-native-qrcode-svg, expo-camera)
 - [x] Create QR code generation component for tasks (QRCodeModal.tsx)
@@ -169,7 +178,7 @@
 - [x] Handle QR code validation and error cases (duplicate prevention, invalid data)
 - [x] Test QR code sharing between devices (processing flag, scan prevention)
 
-## � Documentation & Project Management
+## 📝 Documentation & Project Management
 
 - [x] Create comprehensive documentation suite in `docs/` directory
 - [x] Write branching strategy guide (BRANCHING.md)

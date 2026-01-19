@@ -62,6 +62,17 @@ TimeLock is an open-source React Native template project that serves as a comple
 - Duplicate task prevention (optional, user can allow duplicates)
 - White QR code pattern on black background for better visibility
 
+### 7. Data Management ✅ IMPLEMENTED
+- Export all data to JSON backup files (DataService.exportData)
+- Import data from backup files with validation (DataService.importData)
+- Clear all data with confirmation dialogs (DataService.clearAllData)
+- Automatic notification and live activity cleanup on data operations
+- Settings UI integration (Export Data, Import Data, Clear All Data)
+- File sharing via expo-sharing for cross-platform compatibility
+- Document picker integration via expo-document-picker
+- Backup data versioning for future compatibility
+- Timestamped backup filenames for organization
+
 ## Technical Architecture
 
 ### Frontend
@@ -175,11 +186,13 @@ TimeLock is an open-source React Native template project that serves as a comple
 - Dynamic updates
 - Lock screen integration
 
-### Phase 6: Advanced Features 🔄 PARTIAL
+### Phase 6: Advanced Features ✅ COMPLETED
 - ✅ Libraries installed for QR code sharing
-- ❌ QR code task sharing implementation
-- ❌ Enhanced notification features
-- ❌ Task import/export functionality
+- ✅ QR code task sharing implementation
+- ✅ Enhanced notification features
+- ✅ Task import/export functionality (DataService)
+- ✅ Data backup and restore (JSON format)
+- ✅ Clear all data functionality
 
 ### Phase 7: Polish & Testing 🔄 IN PROGRESS
 - ✅ UI improvements and animations

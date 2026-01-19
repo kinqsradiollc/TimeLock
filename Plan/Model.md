@@ -250,5 +250,49 @@ interface TaskShareData {
 - QR codes contain only task details, no user-specific data
 - No sensitive information is shared
 - Users can review task details before importing
-- Category names are shared instead of IDs for cross-user compatibility</content>
+- Category names are shared instead of IDs for cross-user compatibility
+
+## Data Management & Backup
+
+### Backup Data Structure
+When exporting data, the following structure is used (JSON format):
+
+```typescript
+interface BackupData {
+  version: string; // Backup format version
+  timestamp: string; // When the backup was created
+  tasks: Omit<Task, 'notificationIds' | 'liveActivityId'>[]; // Tasks without runtime fields
+  categories: Category[]; // All categories
+  settings: AppSettings; // App settings
+}
+```
+
+### Export Functionality
+- Exports all tasks, categories, and settings to JSON file
+- Creates timestamped filename (e.g., `timelock-backup-2026-01-19T14-30-00.json`)
+- Uses expo-file-system for file operations
+- Uses expo-sharing for cross-platform file sharing
+- Excludes runtime data (notificationIds, liveActivityId)
+
+### Import Functionality
+- Validates backup file format and version
+- Requires user confirmation before replacing data
+- Clears existing data before import (without showing confirmation again)
+- Imports categories first (needed for task foreign keys)
+- Imports settings and tasks
+- Recreates notifications and live activities for imported tasks
+
+### Clear All Data
+- Cancels all scheduled notifications
+- Ends all active live activities
+- Deletes all tasks, categories, and settings
+- Resets database auto-increment counters
+- Requires user confirmation
+- Optional skipConfirmation parameter for internal use (import flow)
+
+### DataService Methods
+- `exportData(): Promise<void>` - Export all data to JSON file
+- `importData(fileUri: string): Promise<void>` - Import data from backup file
+- `clearAllData(skipConfirmation?: boolean): Promise<void>` - Clear all user data
+- `validateBackupData(data: any): boolean` - Validate backup file structure</content>
 <parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/Plan/Model.md
