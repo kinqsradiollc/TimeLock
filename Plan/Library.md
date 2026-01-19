@@ -17,13 +17,13 @@ This document outlines the libraries used in the TimeLock deadline management ap
 - **Documentation**: [Expo SQLite Docs](https://docs.expo.dev/versions/latest/sdk/sqlite/)
 - **Implementation**: TaskRepository, CategoryRepository, SettingsRepository with full CRUD operations
 
-### expo-notifications 📦
-- **Status**: Installed, permissions UI ready, scheduling not yet implemented
+### expo-notifications ✅
+- **Status**: Installed and fully implemented
 - **Purpose**: Handle push notifications and local notifications
-- **Usage**: Send reminders for upcoming deadlines, task notifications
+- **Usage**: Send reminders for upcoming deadlines, task notifications with rich formatting
 - **Installation**: `npx expo install expo-notifications`
 - **Documentation**: [Expo Notifications Docs](https://docs.expo.dev/versions/latest/sdk/notifications/)
-- **Next Steps**: Implement notification scheduling service
+- **Implementation**: Complete NotificationService with scheduling, cancellation, rescheduling, deep linking, and rich notification formatting with priority emoji and deadline details
 
 ### react-native-calendars ✅
 - **Status**: Installed and fully implemented
@@ -49,13 +49,13 @@ This document outlines the libraries used in the TimeLock deadline management ap
 - **Documentation**: [Expo Live Activities](https://docs.expo.dev/versions/latest/sdk/live-activities/)
 - **Note**: Planned for future release (v1.1.0+)
 
-### react-native-countdown-circle-timer 📦
-- **Status**: Installed but not yet implemented
+### react-native-countdown-circle-timer ✅
+- **Status**: Installed and fully implemented
 - **Purpose**: Animated countdown timer components
-- **Usage**: Visual countdown for time remaining on tasks
+- **Usage**: Visual countdown for time remaining on tasks with real-time updates
 - **Installation**: `npx expo install react-native-countdown-circle-timer`
 - **Documentation**: [Countdown Circle Timer](https://github.com/vydimitrov/react-native-countdown-circle-timer)
-- **Note**: Planned for time tracking feature (Phase 3)
+- **Implementation**: Circular progress indicators with dynamic color coding, urgent badges, and 1-second interval updates
 
 ### react-native-qrcode-svg 📦
 - **Status**: Installed but not yet implemented
@@ -65,18 +65,18 @@ This document outlines the libraries used in the TimeLock deadline management ap
 - **Documentation**: [QR Code SVG](https://github.com/awesomejerry/react-native-qrcode-svg)
 - **Note**: Planned for Phase 6 (Advanced Features)
 
-### expo-barcode-scanner 📦
-- **Status**: Installed but not yet implemented
-- **Purpose**: Scan QR codes to import shared tasks
-- **Usage**: Camera-based QR code scanning for task import
-- **Installation**: `npx expo install expo-barcode-scanner`
-- **Documentation**: [Expo Barcode Scanner](https://docs.expo.dev/versions/latest/sdk/barcode-scanner/)
-- **Note**: Planned for Phase 6 (Advanced Features)
+### react-native-vision-camera ✅
+- **Status**: Installed (replaces deprecated expo-barcode-scanner)
+- **Purpose**: Camera handling for future QR code scanning feature
+- **Usage**: Camera-based QR code scanning for task import (when implemented)
+- **Installation**: `npx expo install react-native-vision-camera`
+- **Documentation**: [React Native Vision Camera](https://react-native-vision-camera.com/)
+- **Note**: Modern alternative to expo-barcode-scanner which is deprecated. Implementation planned for Phase 6 (Advanced Features)
 
 ## Additional Expo Libraries ✅
 
 - **expo-router**: File-based routing (fully implemented)
-- **expo-haptics**: Haptic feedback (implemented for tab navigation)
+- **expo-haptics**: Haptic feedback (fully implemented with 7 feedback types, Settings toggle, applied throughout entire app)
 - **@expo/vector-icons**: Icon library (used throughout UI)
 - **react-native-reanimated**: Animations (ready for use)
 - **expo-image**: Image handling (available)
@@ -87,18 +87,23 @@ This document outlines the libraries used in the TimeLock deadline management ap
 
 ## v1.0.0 Summary
 
-**Fully Implemented (6 libraries):**
-- expo-sqlite (database layer)
-- react-native-calendars (calendar views)
-- date-fns (date utilities)
-- expo-calendar (calendar export)
-- expo-file-system (ICS export)
+**Fully Implemented (10 libraries):**
+- expo-sqlite (database layer with migrations)
+- react-native-calendars (calendar views with Month/Week/Agenda)
+- date-fns (date utilities and formatting)
+- expo-calendar (one-way calendar export)
+- expo-file-system (ICS file export)
 - @react-native-community/datetimepicker (date/time picker)
+- expo-notifications (complete notification system with deep linking)
+- react-native-countdown-circle-timer (real-time countdown timers)
+- expo-haptics (comprehensive haptic feedback system)
+- react-native-svg (SVG support for icons and graphics)
 
-**Installed, Not Yet Implemented (5 libraries):**
-- expo-notifications (permissions UI only)
-- expo-live-activities (experimental)
-- react-native-countdown-circle-timer (pending Phase 3)
-- react-native-qrcode-svg (pending Phase 6)
-- expo-barcode-scanner (pending Phase 6)</content>
+**Installed, Not Yet Implemented (3 libraries):**
+- expo-live-activities (experimental, planned for future iOS features)
+- react-native-qrcode-svg (QR code generation, pending Phase 6)
+- react-native-vision-camera (camera for QR scanning, pending Phase 6)
+
+**Removed Libraries:**
+- expo-barcode-scanner (deprecated, replaced by react-native-vision-camera)</content>
 <parameter name="filePath">/Users/anhdang/Documents/Github/TimeLock/Plan/Library.md
