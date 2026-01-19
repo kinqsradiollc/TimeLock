@@ -71,7 +71,7 @@ npm run android
 npm run web
 ```
 
-## � Documentation
+## 📝 Documentation
 
 - [Development Guide](docs/DEVELOPMENT.md) - Setup and development workflow
 - [Branching Strategy](docs/BRANCHING.md) - Git branching and workflow
