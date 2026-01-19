@@ -53,12 +53,14 @@ TimeLock is an open-source React Native template project that serves as a comple
 - Task progress on Dynamic Island
 - Quick actions from lock screen
 
-### 6. Task Sharing (QR Code) 🔄 PARTIAL SETUP
-- Libraries installed (react-native-qrcode-svg, expo-barcode-scanner)
-- Generate QR codes for individual tasks (not implemented)
-- Share tasks via QR codes containing task details (not implemented)
-- Scan QR codes to import shared tasks (not implemented)
-- Quick task duplication between users (not implemented)
+### 6. Task Sharing (QR Code) ✅ IMPLEMENTED
+- Generate QR codes for individual tasks (QRCodeModal component)
+- Share tasks via QR codes containing task details (title, description, deadline, priority)
+- Scan QR codes to import shared tasks (scan-qr.tsx screen)
+- Quick task duplication between users (expo-camera integration)
+- Camera permissions and error handling (permission requests, invalid QR validation)
+- Duplicate task prevention (optional, user can allow duplicates)
+- White QR code pattern on black background for better visibility
 
 ## Technical Architecture
 

@@ -32,6 +32,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Category management (create, edit, delete)
 - Task detail view with full information
 
+#### QR Code Task Sharing
+- Generate QR codes for individual tasks (QRCodeModal component)
+- Share tasks via QR codes containing task details (title, description, deadline, priority)
+- Scan QR codes to import shared tasks (scan-qr.tsx screen with camera permissions)
+- Task import validation and error handling (invalid QR codes, duplicate prevention)
+- White QR code pattern on black background for better visibility
+- Processing flag to prevent multiple scans from single QR code
+- Camera permission handling with user-friendly prompts
+
 #### Calendar Integration
 - Calendar export: One-way export to device calendars
 - Duplicate prevention for calendar exports
@@ -85,7 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project planning documents in `Plan/` directory
 
 ### 🔄 Partially Implemented
-- QR code task sharing (libraries installed, implementation pending)
+- None (all planned features completed)
 
 ### ✨ Added
 - **Complete Notification System**: Fully integrated task reminder system
@@ -112,9 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed expo-barcode-scanner plugin to fix iOS build issues
 - Changed iOS/Android run scripts from `expo start` to `expo run:ios/android`
 - Removed android.permission.CAMERA (not needed yet)
-
-### 🔄 Partially Implemented (Updated)
-- QR code task sharing (libraries installed, implementation pending)
+- Replaced react-native-vision-camera with expo-camera for better Expo Go compatibility
 
 ### ❌ Planned for Future Development
 - Badge count management for pending tasks

@@ -12,6 +12,10 @@ export const taskDetailStyles = StyleSheet.create({
     textAlign: 'center',
     fontSize: Typography.lg,
   },
+  headerRight: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+  },
   content: SharedStyles.flexContainer,
   scrollContent: SharedStyles.scrollContentBottomSpacing,
   card: SharedStyles.cardWithBorder,

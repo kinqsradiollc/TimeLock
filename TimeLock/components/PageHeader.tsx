@@ -31,6 +31,8 @@ interface PageHeaderProps {
   onBackPress?: () => void;
   showSettings?: boolean;
   onSettingsPress?: () => void;
+  showQRScanner?: boolean;
+  onQRScannerPress?: () => void;
   stats?: StatCard[];
   filters?: FilterOption[];
 }
@@ -44,6 +46,8 @@ export function PageHeader({
   onBackPress,
   showSettings = true,
   onSettingsPress,
+  showQRScanner = false,
+  onQRScannerPress,
   stats,
   filters,
 }: PageHeaderProps) {
@@ -77,6 +81,18 @@ export function PageHeader({
             {title}
           </Text>
         </View>
+        {showQRScanner && (
+          <TouchableOpacity
+            style={[styles.settingsButton, { backgroundColor: colors.surface }]}
+            onPress={() => {
+              haptics.medium();
+              onQRScannerPress?.();
+            }}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="qr-code-outline" size={24} color={colors.textPrimary} />
+          </TouchableOpacity>
+        )}
         {showSettings && (
           <TouchableOpacity
             style={[styles.settingsButton, { backgroundColor: colors.surface }]}

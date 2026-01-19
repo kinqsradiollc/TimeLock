@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { View, Text, SectionList, RefreshControl } from 'react-native';
+import { View, Text, SectionList, RefreshControl, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { TaskRepository } from '@/repositories/TaskRepository';
 import { CategoryRepository } from '@/repositories/CategoryRepository';
 import { TaskCard } from '@/components/TaskCard';
@@ -242,10 +243,12 @@ export default function TasksScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
       <PageHeader
         greeting={getGreeting()}
-        title="Let's be productive! 🚀"
+        title="Let's be productive!"
         showAvatar={false}
         showSettings={true}
         onSettingsPress={() => router.push('/settings')}
+        showQRScanner={true}
+        onQRScannerPress={() => router.push('/scan-qr')}
         stats={[
           {
             icon: 'list',

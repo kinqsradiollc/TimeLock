@@ -19,7 +19,7 @@ import { taskDetailStyles as styles } from '@/styles/screens/taskDetail.styles';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
-import type { Category } from '@/types/category';
+import { QRCodeModal } from '@/components/QRCodeModal';
 
 export default function TaskDetailScreen() {
   const router = useRouter();
@@ -28,6 +28,8 @@ export default function TaskDetailScreen() {
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
   const haptics = useHaptics();
+
+  const [showQRModal, setShowQRModal] = useState(false);
 
   const [task, setTask] = useState<Task | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
@@ -142,16 +144,28 @@ export default function TaskDetailScreen() {
           <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: colors.textPrimary }]}>Task Details</Text>
-        <TouchableOpacity 
-          style={[styles.headerButton, { backgroundColor: colors.primary }]}
-          onPress={() => {
-            haptics.medium();
-            router.push(`/task-form?id=${taskId}`);
-          }}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="create-outline" size={24} color="#FFFFFF" />
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity 
+            style={[styles.headerButton, { backgroundColor: colors.surface }]}
+            onPress={() => {
+              haptics.light();
+              setShowQRModal(true);
+            }}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="share-outline" size={24} color={colors.textPrimary} />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.headerButton, { backgroundColor: colors.primary }]}
+            onPress={() => {
+              haptics.medium();
+              router.push(`/task-form?id=${taskId}`);
+            }}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="create-outline" size={24} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView 
@@ -269,6 +283,12 @@ export default function TaskDetailScreen() {
           <Text style={[styles.deleteButtonText, { color: colors.error }]}>Delete Task</Text>
         </TouchableOpacity>
       </View>
+
+      <QRCodeModal 
+        task={task} 
+        visible={showQRModal} 
+        onClose={() => setShowQRModal(false)} 
+      />
     </SafeAreaView>
   );
 }

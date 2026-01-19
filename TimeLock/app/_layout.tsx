@@ -107,6 +107,13 @@ function AppContent() {
               contentStyle: { backgroundColor: colors.background },
             }} 
           />
+          <Stack.Screen 
+            name="scan-qr" 
+            options={{ 
+              headerShown: false,
+              contentStyle: { backgroundColor: colors.background },
+            }} 
+          />
         </Stack>
         
         <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />

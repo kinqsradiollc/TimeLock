@@ -31,7 +31,8 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 - **📊 Task Organization**: Tasks with priorities, categories, and deadlines
 - **🏷️ Categories**: Organize tasks with custom categories and colors
 - **🔄 Selective Export**: Choose specific tasks or export all to calendar
-- **📱 Cross-Platform**: Works on iOS and Android
+**📱 QR Code Sharing**: Share tasks between devices via QR codes
+- **📱 Cross-Platform**: Works on iOS and Android- 
 
 ## 🚀 Quick Start
 
