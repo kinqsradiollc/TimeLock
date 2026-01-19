@@ -1,4 +1,6 @@
 // services/index.ts
-// Placeholder exports for app services (notification service, scheduling, import/export, etc.)
+// Central exports for all app services
 
-export {};
+export { NotificationService } from './NotificationService';
+export { CalendarSyncService } from './CalendarSyncService';
+export { LiveActivitiesService } from './LiveActivitiesService';

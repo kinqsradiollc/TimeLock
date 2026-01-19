@@ -4,7 +4,7 @@ import { CategoryRepository } from '../repositories/CategoryRepository';
 import { SettingsRepository } from '../repositories/SettingsRepository';
 import { DEFAULT_APP_SETTINGS } from '../types/settings';
 
-const CURRENT_VERSION = Number(process.env.EXPO_PUBLIC_DB_VERSION) || 4;
+const CURRENT_VERSION = Number(process.env.EXPO_PUBLIC_DB_VERSION) || 5;
 
 interface MigrationVersion {
   version: number;
@@ -110,6 +110,13 @@ export class DatabaseMigrations {
       console.log('[DB] Migration v4 completed');
     }
 
+    if (currentVersion < 5) {
+      console.log('[DB] Running migration v5: Add live activity ID tracking...');
+      await this.migration_v5_add_live_activity_id();
+      await this.markMigrationApplied(5);
+      console.log('[DB] Migration v5 completed');
+    }
+
     console.log(`[DB] Database up to date (v${CURRENT_VERSION})`);
   }
 
@@ -212,6 +219,21 @@ export class DatabaseMigrations {
 
     await executeSql("ALTER TABLE tasks ADD COLUMN notification_ids TEXT;");
     console.log('[DB] Added notification_ids column to tasks table');
+  }
+
+  /**
+   * Migration v5: Add live_activity_id column for iOS Live Activities tracking
+   */
+  private static async migration_v5_add_live_activity_id(): Promise<void> {
+    // Check if column already exists
+    const exists = await this.columnExists('tasks', 'live_activity_id');
+    if (exists) {
+      console.log('[DB] live_activity_id column already exists; skipping');
+      return;
+    }
+
+    await executeSql("ALTER TABLE tasks ADD COLUMN live_activity_id TEXT;");
+    console.log('[DB] Added live_activity_id column to tasks table');
   }
 
   /**

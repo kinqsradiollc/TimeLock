@@ -37,7 +37,7 @@
     "expo-haptics": "~15.0.8",
     "expo-image": "~3.0.11",
     "expo-linking": "~8.0.11",
-    "expo-live-activities": "^0.0.0",
+    "expo-live-activity": "^0.4.2",
     "expo-notifications": "~0.32.16",
     "expo-router": "~6.0.21",
     "expo-splash-screen": "~31.0.13",

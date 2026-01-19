@@ -1,6 +1,7 @@
 import { executeSql, querySql, querySqlFirst } from '../database';
 import type { Task } from '../types/task';
 import { NotificationService } from '../services/NotificationService';
+import { LiveActivitiesService } from '../services/LiveActivitiesService';
 
 export type TaskInsert = Omit<Task, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -19,7 +20,8 @@ export class TaskRepository {
         category_id INTEGER,
         notifications TEXT,
         is_active INTEGER DEFAULT 1,
-        calendar_event_id TEXT
+        calendar_event_id TEXT,
+        live_activity_id TEXT
       );
     `;
     await executeSql(sql);
@@ -27,7 +29,7 @@ export class TaskRepository {
 
   static async create(task: TaskInsert): Promise<number> {
     const notifications = JSON.stringify(task.notifications || []);
-    const sql = `INSERT INTO tasks (title, description, deadline, completed, priority, category_id, notifications, is_active, calendar_event_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    const sql = `INSERT INTO tasks (title, description, deadline, completed, priority, category_id, notifications, is_active, calendar_event_id, live_activity_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const params = [
       task.title,
       task.description ?? null,
@@ -38,20 +40,23 @@ export class TaskRepository {
       notifications,
       task.isActive ? 1 : 0,
       task.calendarEventId ?? null,
+      null, // live_activity_id will be set after creation
     ];
     const res = await executeSql(sql, params);
     const taskId = res.lastInsertRowId;
 
+    // Create full task object for services
+    const fullTask: Task = {
+      ...task,
+      id: taskId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
     // Schedule notifications for the new task
     try {
-      const fullTask: Task = {
-        ...task,
-        id: taskId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
       const scheduledNotifications = await NotificationService.scheduleTaskReminders(fullTask);
-      
+
       // Store notification IDs in the database
       if (scheduledNotifications.length > 0) {
         const notificationIds = scheduledNotifications.map(n => n.notificationId);
@@ -64,6 +69,23 @@ export class TaskRepository {
     } catch (error) {
       console.error('[TaskRepository] Failed to schedule notifications:', error);
       // Don't fail task creation if notifications fail
+    }
+
+    // Start live activity for the new task (iOS only)
+    try {
+      if (!task.completed && task.deadline) {
+        const activityId = await LiveActivitiesService.startTaskActivity(fullTask);
+        if (activityId) {
+          await executeSql(
+            'UPDATE tasks SET live_activity_id = ? WHERE id = ?',
+            [activityId, taskId]
+          );
+          console.log(`[TaskRepository] Started live activity ${activityId} for task ${taskId}`);
+        }
+      }
+    } catch (error) {
+      console.error('[TaskRepository] Failed to start live activity:', error);
+      // Don't fail task creation if live activity fails
     }
 
     return taskId;
@@ -169,19 +191,63 @@ export class TaskRepository {
       console.error('[TaskRepository] Failed to update notifications:', error);
       // Don't fail task update if notifications fail
     }
+
+    // Handle live activities
+    try {
+      const updatedTask = await this.findById(id);
+      if (updatedTask) {
+        // If task is completed, end live activity
+        if (updates.completed === true && currentTask.liveActivityId) {
+          await LiveActivitiesService.endTaskActivity(currentTask.liveActivityId);
+          await executeSql(
+            'UPDATE tasks SET live_activity_id = ? WHERE id = ?',
+            [null, id]
+          );
+          console.log(`[TaskRepository] Ended live activity for completed task ${id}`);
+        }
+        // If task is uncompleted and has deadline, start/update live activity
+        else if (updates.completed === false && updatedTask.deadline && !updatedTask.completed) {
+          if (currentTask.liveActivityId) {
+            // Update existing activity
+            await LiveActivitiesService.updateTaskActivity(currentTask.liveActivityId, updatedTask);
+          } else {
+            // Start new activity
+            const activityId = await LiveActivitiesService.startTaskActivity(updatedTask);
+            if (activityId) {
+              await executeSql(
+                'UPDATE tasks SET live_activity_id = ? WHERE id = ?',
+                [activityId, id]
+              );
+              console.log(`[TaskRepository] Started live activity ${activityId} for task ${id}`);
+            }
+          }
+        }
+        // If deadline changed and task is active, update live activity
+        else if (updates.deadline !== undefined && updatedTask.deadline && !updatedTask.completed && currentTask.liveActivityId) {
+          await LiveActivitiesService.updateTaskActivity(currentTask.liveActivityId, updatedTask);
+        }
+      }
+    } catch (error) {
+      console.error('[TaskRepository] Failed to update live activity:', error);
+      // Don't fail task update if live activity fails
+    }
   }
 
   static async delete(id: number): Promise<void> {
-    // Cancel notifications before deleting
+    // Cancel notifications and live activities before deleting
     try {
       const task = await this.findById(id);
       if (task?.notificationIds && task.notificationIds.length > 0) {
         await NotificationService.cancelTaskNotifications(task.notificationIds);
         console.log(`[TaskRepository] Cancelled notifications for deleted task ${id}`);
       }
+      if (task?.liveActivityId) {
+        await LiveActivitiesService.endTaskActivity(task.liveActivityId);
+        console.log(`[TaskRepository] Ended live activity for deleted task ${id}`);
+      }
     } catch (error) {
-      console.error('[TaskRepository] Failed to cancel notifications:', error);
-      // Continue with deletion even if notification cancellation fails
+      console.error('[TaskRepository] Failed to cancel notifications/live activities:', error);
+      // Continue with deletion even if cancellation fails
     }
 
     await executeSql(`DELETE FROM tasks WHERE id = ?;`, [id]);
@@ -231,6 +297,7 @@ export class TaskRepository {
       notifications: row.notifications ? JSON.parse(row.notifications) : [],
       isActive: !!row.is_active,
       calendarEventId: row.calendar_event_id ?? undefined,
+      liveActivityId: row.live_activity_id ?? undefined,
     };
   }
 }

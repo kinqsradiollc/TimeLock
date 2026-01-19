@@ -20,6 +20,7 @@ export interface Task {
   notificationIds?: string[]; // Scheduled notification IDs for cleanup
   isActive: boolean;
   calendarEventId?: string; // Device calendar event ID if synced
+  liveActivityId?: string; // iOS Live Activity ID if active
 }
 
 export interface TaskFilter {

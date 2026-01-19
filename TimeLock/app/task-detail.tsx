@@ -19,6 +19,7 @@ import { taskDetailStyles as styles } from '@/styles/screens/taskDetail.styles';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
+import type { Category } from '@/types/category';
 import { QRCodeModal } from '@/components/QRCodeModal';
 
 export default function TaskDetailScreen() {
