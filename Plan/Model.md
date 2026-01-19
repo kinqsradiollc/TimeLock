@@ -19,6 +19,8 @@ CREATE TABLE tasks (
   notifications TEXT, -- JSON array of predefined notification times in minutes before deadline
   is_active BOOLEAN DEFAULT 1,
   calendar_event_id TEXT, -- Device calendar event ID for exported tasks (v1.0.0+)
+  notification_ids TEXT, -- JSON array of scheduled notification IDs for cleanup (v1.0.0+)
+  live_activity_id TEXT, -- iOS Live Activity ID for lock screen widget (v1.0.0+)
   FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 ```
@@ -78,6 +80,8 @@ interface Task {
   notifications: NotificationOption[]; // Array of predefined notification times
   isActive: boolean;
   calendarEventId?: string; // Device calendar event ID if exported (v1.0.0+)
+  notificationIds?: string[]; // Scheduled notification IDs for cleanup (v1.0.0+)
+  liveActivityId?: string; // iOS Live Activity ID if active (v1.0.0+)
 }
 ```
 
@@ -152,16 +156,19 @@ Guidance for `SettingsRepository` implementations:
 - All three database tables (tasks, categories, settings)
 - Complete repository pattern with CRUD operations
 - Task model with calendar event tracking
+- Task model with notification ID tracking (migration v4)
+- Task model with iOS Live Activity tracking (migration v5)
 - Category management
-- Settings persistence (theme, permissions)
+- Settings persistence (theme, permissions, haptics)
 - Database migration system
 - Type-safe interfaces matching database schema
+- iOS Live Activities integration with automatic lifecycle management
 
 ### 📦 Partially Implemented
-- Notification system (data model ready, scheduling pending)
+- None (all planned features complete)
 
 ### ❌ Not Yet Implemented
-- QR code task sharing (interfaces defined, implementation pending)
+- Cloud sync and backup features
 
 ## Repository Pattern
 

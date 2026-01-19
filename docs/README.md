@@ -127,6 +127,7 @@ cd TimeLock
 - Learn Expo Router navigation patterns
 - Understand SQLite database integration
 - Explore notification systems
+- Explore iOS Live Activities implementation
 - Review comprehensive testing approaches
 
 ### 🚀 Future Development

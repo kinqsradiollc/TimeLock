@@ -427,6 +427,7 @@ npm run web     # Web
 - Learn Expo Router file-based navigation
 - Understand SQLite database patterns
 - Explore notification system implementation
+- Learn iOS Live Activities implementation
 - Review comprehensive styling system
 
 ### 🚀 Future Development

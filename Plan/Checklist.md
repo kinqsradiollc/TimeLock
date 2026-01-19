@@ -143,12 +143,18 @@
 
 ## 🚀 Advanced Features (Phase 2)
 
-- [ ] Implement iOS Live Activities
-- [ ] Add push notification support
+- [x] **Implement iOS Live Activities**
+  - [x] Install expo-live-activity package
+  - [x] Create LiveActivitiesService with start/update/end methods
+  - [x] Integrate with TaskRepository for automatic lifecycle management
+  - [x] Add database migration v5 for live_activity_id column
+  - [x] Configure app.json with expo-live-activity plugin
+  - [x] Run expo prebuild to generate native iOS widget
+  - [x] Add platform-aware checks for iOS-only functionality
+  - [x] Implement priority emojis and urgency indicators
+  - [x] Configure widget with countdown timers and progress bars
+  - [x] Test on physical iOS device (iOS 16.1+)
 - [x] Implement task sharing/export (completed via QR code sharing)
-- [ ] Add recurring tasks feature
-- [ ] Implement task templates
-- [ ] Add task attachments/media support
 - [ ] Implement cloud backup/sync
 
 ## � QR Code Task Sharing

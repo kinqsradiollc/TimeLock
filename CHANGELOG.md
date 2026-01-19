@@ -97,6 +97,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - None (all planned features completed)
 
 ### ✨ Added
+- **iOS Live Activities**: Lock screen widgets with countdown timers
+  - LiveActivitiesService for managing activity lifecycle (start, update, end)
+  - Automatic integration with TaskRepository (create, update, delete, complete)
+  - Database migration v5 for live_activity_id tracking
+  - Native iOS widget with expo-live-activity plugin
+  - Lock screen display with countdown timer and progress bar
+  - Dynamic Island support for iPhone 14 Pro+ (compact, expanded, minimal views)
+  - Priority emojis (🟢🟡🟠🔴) and urgency indicators (⚠️ Critical, ⏰ Urgent)
+  - Platform-aware checks (iOS only, requires iOS 16.1+)
+  - Styling with dark theme colors and circular timer
+  - Auto-generated widget in ios/LiveActivity/ directory
+  - Comprehensive setup guide in docs/LIVE_ACTIVITIES_SETUP.md
 - **Complete Notification System**: Fully integrated task reminder system
   - NotificationService with scheduling, cancellation, and rescheduling APIs
   - TaskRepository integration - automatic scheduling on task creation
@@ -127,11 +139,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Badge count management for pending tasks
 - Bidirectional calendar sync (import from device calendar)
 - Recurring tasks support
-- iOS Live Activities for lock screen widgets
 - Task search and advanced filtering
-- Recurring tasks support
 - Data backup and restore
 - Cloud sync across devices
+- Push notification updates for Live Activities via APNs
+- Interactive Live Activity buttons (mark complete from lock screen)
 
 ---
 
