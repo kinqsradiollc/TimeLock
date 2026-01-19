@@ -86,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic cancellation when tasks completed or deleted
   - Support for multiple reminders per task (e.g., 1 week + 1 day + 1 hour before)
   - **Rich notification format**: Title shows task name, body includes priority emoji (🟢🟡🟠🔴), deadline date/time, and time remaining
+  - **Notification tap handler**: Deep links to task detail screen when notification is tapped
   - Default notification preferences in Settings (applied to new tasks)
   - Per-task notification customization in task form
   - Notification ID tracking in database for cleanup
@@ -107,9 +108,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - QR code task sharing (libraries installed, implementation pending)
 
 ### ❌ Planned for Future Development
-- Notification tap actions (deep link to task detail)
 - Badge count management for pending tasks
 - Bidirectional calendar sync (import from device calendar)
+- Recurring tasks support
 - iOS Live Activities for lock screen widgets
 - Task search and advanced filtering
 - Recurring tasks support

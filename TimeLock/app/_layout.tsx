@@ -1,9 +1,10 @@
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as Notifications from 'expo-notifications';
 import 'react-native-reanimated';
 
 import { DatabaseMigrations } from '@/database/migrations';
@@ -18,6 +19,27 @@ export const unstable_settings = {
 function AppContent() {
   const { effectiveTheme } = useTheme();
   const colors = effectiveTheme === 'dark' ? DarkColors : LightColors;
+  const router = useRouter();
+
+  // Handle notification taps - navigate to task detail
+  useEffect(() => {
+    // Handle notification tap when app is in foreground or background
+    const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+      const taskId = response.notification.request.content.data.taskId;
+      
+      if (taskId) {
+        console.log(`[Notifications] Tapped notification for task ${taskId}, navigating to detail...`);
+        
+        // Navigate to task detail screen
+        router.push({
+          pathname: '/task-detail',
+          params: { id: taskId.toString() }
+        });
+      }
+    });
+
+    return () => subscription.remove();
+  }, [router]);
   
   const navigationTheme = effectiveTheme === 'dark' 
     ? {

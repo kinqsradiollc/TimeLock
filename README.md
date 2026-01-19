@@ -134,6 +134,7 @@ TimeLock/
   - Customizable task reminders (1 minute to 2 weeks before deadline)
   - Multiple reminders per task
   - Rich notification format with priority emoji, deadline, and time remaining
+  - **Tap to open**: Notifications deep link directly to task detail screen
   - Default notification preferences in Settings
   - Per-task notification customization
   - Automatic scheduling, rescheduling, and cancellation

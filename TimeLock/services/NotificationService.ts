@@ -10,6 +10,7 @@ import type { Task } from '@/types/task';
  * - Cancel notifications when tasks are completed or deleted
  * - Handle multiple reminders per task
  * - Track notification IDs for cleanup
+ * - Handle notification tap actions (deep link to task detail)
  */
 
 // Configure notification behavior - ensures notifications show when app is in foreground
@@ -272,6 +273,36 @@ export class NotificationService {
     }
     const days = Math.floor(minutesBefore / 1440);
     return `${days} day${days !== 1 ? 's' : ''} before due`;
+  }
+
+  /**
+   * Set up notification tap handler
+   * Call this in your app's root component to enable deep linking
+   * 
+   * @param onTap - Callback function that receives the taskId from notification data
+   * @returns Subscription object to clean up listener
+   * 
+   * @example
+   * ```tsx
+   * useEffect(() => {
+   *   const subscription = NotificationService.setupNotificationTapHandler((taskId) => {
+   *     router.push(`/task-detail?id=${taskId}`);
+   *   });
+   *   return () => subscription.remove();
+   * }, []);
+   * ```
+   */
+  static setupNotificationTapHandler(
+    onTap: (taskId: number) => void
+  ): Notifications.Subscription {
+    return Notifications.addNotificationResponseReceivedListener(response => {
+      const taskId = response.notification.request.content.data.taskId;
+      
+      if (taskId) {
+        console.log(`[Notifications] User tapped notification for task ${taskId}`);
+        onTap(Number(taskId));
+      }
+    });
   }
 }
 
