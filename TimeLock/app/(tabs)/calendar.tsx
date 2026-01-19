@@ -555,7 +555,10 @@ export default function CalendarScreen() {
                           if (selectionMode) {
                             toggleTaskSelection(task.id!);
                           } else {
-                            router.push(`/modal?taskId=${task.id}`);
+                            router.push({
+                              pathname: '/task-detail',
+                              params: { id: task.id!.toString() }
+                            });
                           }
                         }}
                         activeOpacity={0.7}
@@ -666,7 +669,10 @@ export default function CalendarScreen() {
                   if (selectionMode) {
                     toggleTaskSelection(task.id!);
                   } else {
-                    router.push(`/task-detail?id=${task.id}`);
+                    router.push({
+                      pathname: '/task-detail',
+                      params: { id: task.id!.toString() }
+                    });
                   }
                 }}
                 activeOpacity={0.7}
