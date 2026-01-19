@@ -4,7 +4,7 @@ import { CategoryRepository } from '../repositories/CategoryRepository';
 import { SettingsRepository } from '../repositories/SettingsRepository';
 import { DEFAULT_APP_SETTINGS } from '../types/settings';
 
-const CURRENT_VERSION = Number(process.env.EXPO_PUBLIC_DB_VERSION) || 1;
+const CURRENT_VERSION = Number(process.env.EXPO_PUBLIC_DB_VERSION) || 4;
 
 interface MigrationVersion {
   version: number;
@@ -103,6 +103,13 @@ export class DatabaseMigrations {
       console.log('[DB] Migration v3 completed');
     }
 
+    if (currentVersion < 4) {
+      console.log('[DB] Running migration v4: Add notification IDs tracking...');
+      await this.migration_v4_add_notification_ids();
+      await this.markMigrationApplied(4);
+      console.log('[DB] Migration v4 completed');
+    }
+
     console.log(`[DB] Database up to date (v${CURRENT_VERSION})`);
   }
 
@@ -190,6 +197,21 @@ export class DatabaseMigrations {
     // Add hapticsEnabled setting with default value
     await SettingsRepository.set('hapticsEnabled', DEFAULT_APP_SETTINGS.hapticsEnabled.toString());
     console.log('[DB] Added hapticsEnabled setting');
+  }
+
+  /**
+   * Migration v4: Add notification_ids column for tracking scheduled notifications
+   */
+  private static async migration_v4_add_notification_ids(): Promise<void> {
+    // Check if column already exists
+    const exists = await this.columnExists('tasks', 'notification_ids');
+    if (exists) {
+      console.log('[DB] notification_ids column already exists; skipping');
+      return;
+    }
+
+    await executeSql("ALTER TABLE tasks ADD COLUMN notification_ids TEXT;");
+    console.log('[DB] Added notification_ids column to tasks table');
   }
 
   /**

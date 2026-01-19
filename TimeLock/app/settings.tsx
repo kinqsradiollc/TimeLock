@@ -9,6 +9,7 @@ import {
   useColorScheme,
   Platform,
   Modal,
+  FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -19,7 +20,9 @@ import { settingsStyles as styles } from '@/styles/screens/settings.styles';
 import { SettingsRepository } from '@/repositories/SettingsRepository';
 import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
 import { useTheme } from '@/contexts/ThemeContext';
+import { NOTIFICATION_CHOICES } from '@/constants/notifications';
 import type { ThemeOption } from '@/types/theme';
+import type { NotificationOption } from '@/types/notification';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -30,8 +33,10 @@ export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [hapticsEnabled, setHapticsEnabled] = useState(true);
+  const [defaultNotifications, setDefaultNotifications] = useState<NotificationOption[]>([1440]);
   const [loading, setLoading] = useState(true);
   const [showThemeModal, setShowThemeModal] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -46,6 +51,7 @@ export default function SettingsScreen() {
       setNotificationsEnabled(settings.notificationsEnabled);
       setSoundEnabled(settings.soundEnabled);
       setHapticsEnabled(settings.hapticsEnabled);
+      setDefaultNotifications(settings.defaultNotifications);
     } catch (error) {
       console.error('Failed to load settings:', error);
     } finally {
@@ -126,6 +132,39 @@ export default function SettingsScreen() {
     const current = themeLabels[theme];
     const effective = effectiveTheme === 'dark' ? 'Dark' : 'Light';
     return theme === 'system' ? `${current} (${effective})` : current;
+  };
+
+  const getDefaultNotificationsText = () => {
+    if (defaultNotifications.length === 0) {
+      return 'None selected';
+    }
+    const labels = defaultNotifications
+      .map(minutes => NOTIFICATION_CHOICES.find(c => c.minutes === minutes)?.label)
+      .filter(Boolean);
+    return labels.length > 2 
+      ? `${labels.length} reminders selected`
+      : labels.join(', ');
+  };
+
+  const handleNotificationSelect = (minutes: NotificationOption) => {
+    if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+      const Haptics = require('expo-haptics');
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    setDefaultNotifications(prev => 
+      prev.includes(minutes)
+        ? prev.filter(m => m !== minutes)
+        : [...prev, minutes].sort((a, b) => b - a) // Sort descending (longest first)
+    );
+  };
+
+  const handleSaveDefaultNotifications = async () => {
+    if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+      const Haptics = require('expo-haptics');
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    await updateSetting({ defaultNotifications });
+    setShowNotificationModal(false);
   };
 
   const handleClearData = () => {
@@ -225,6 +264,23 @@ export default function SettingsScreen() {
                   ios_backgroundColor="#d1d5db"
                 />
               }
+            />
+            <SettingItem
+              icon="time-outline"
+              title="Default Reminders"
+              subtitle={getDefaultNotificationsText()}
+              rightElement={
+                <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
+              }
+              onPress={() => {
+                console.log('Opening notification modal, current state:', showNotificationModal);
+                if (hapticsEnabled && (Platform.OS === 'ios' || Platform.OS === 'android')) {
+                  const Haptics = require('expo-haptics');
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+                setShowNotificationModal(true);
+                console.log('Modal state set to true');
+              }}
             />
             <SettingItem
               icon="volume-high-outline"
@@ -456,6 +512,82 @@ export default function SettingsScreen() {
                 )}
               </TouchableOpacity>
             </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      {/* Default Notifications Selection Modal */}
+      <Modal
+        visible={showNotificationModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowNotificationModal(false)}
+      >
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowNotificationModal(false)}
+        >
+          <View 
+            style={[styles.modalContent, { backgroundColor: colors.surface, maxHeight: '80%', height: 600 }]}
+          >
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: colors.textPrimary }]}>Default Reminders</Text>
+              <TouchableOpacity
+                onPress={() => setShowNotificationModal(false)}
+                style={styles.modalClose}
+              >
+                <Ionicons name="close" size={24} color={colors.textPrimary} />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.modalDescription, { color: colors.textSecondary }]}>
+              Select when you want to be reminded before task deadlines. These will be applied to new tasks by default.
+            </Text>
+            
+            <FlatList
+              data={NOTIFICATION_CHOICES}
+              keyExtractor={(item) => item.key}
+              renderItem={({ item }) => {
+                const isSelected = defaultNotifications.includes(item.minutes);
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.notificationOption,
+                      { backgroundColor: colors.background },
+                      isSelected && { borderColor: colors.primary, borderWidth: 2 },
+                    ]}
+                    onPress={() => handleNotificationSelect(item.minutes)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.notificationOptionContent}>
+                      <View style={[
+                        styles.checkbox,
+                        { borderColor: isSelected ? colors.primary : colors.textTertiary },
+                        isSelected && { backgroundColor: colors.primary }
+                      ]}>
+                        {isSelected && (
+                          <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+                        )}
+                      </View>
+                      <Text style={[styles.notificationOptionLabel, { color: colors.textPrimary }]}>
+                        {item.label}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+              contentContainerStyle={{ paddingBottom: 16 }}
+              showsVerticalScrollIndicator={true}
+            />
+
+            <TouchableOpacity
+              style={[styles.saveButton, { backgroundColor: colors.primary }]}
+              onPress={handleSaveDefaultNotifications}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.saveButtonText}>Save</Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
       </Modal>

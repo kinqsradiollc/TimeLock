@@ -9,6 +9,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   Modal,
+  FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -17,13 +18,15 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { TaskRepository } from '@/repositories/TaskRepository';
 import { CategoryRepository } from '@/repositories/CategoryRepository';
-import { NOTIFICATION_OPTIONS } from '@/constants/notifications';
+import { SettingsRepository } from '@/repositories/SettingsRepository';
+import { NOTIFICATION_OPTIONS, NOTIFICATION_CHOICES } from '@/constants/notifications';
 import { LightColors, DarkColors } from '@/styles/common';
 import { taskFormStyles as styles } from '@/styles/screens/taskForm.styles';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useHaptics } from '@/hooks/useHaptics';
 import type { Task } from '@/types/task';
 import type { Category } from '@/types/category';
+import type { NotificationOption } from '@/types/notification';
 
 export default function TaskFormScreen() {
   const router = useRouter();
@@ -40,8 +43,10 @@ export default function TaskFormScreen() {
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'urgent'>('medium');
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedNotifications, setSelectedNotifications] = useState<NotificationOption[]>([NOTIFICATION_OPTIONS.ONE_DAY]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Reload data when screen comes into focus
@@ -56,6 +61,9 @@ export default function TaskFormScreen() {
       const categoriesData = await CategoryRepository.findAll();
       setCategories(categoriesData);
 
+      // Load default notifications from settings
+      const settings = await SettingsRepository.getAppSettings();
+
       if (taskId) {
         const task = await TaskRepository.findById(taskId);
         if (task) {
@@ -64,7 +72,11 @@ export default function TaskFormScreen() {
           setDeadline(new Date(task.deadline));
           setPriority(task.priority);
           setCategoryId(task.categoryId);
+          setSelectedNotifications(task.notifications || settings.defaultNotifications);
         }
+      } else {
+        // Use default notifications for new tasks
+        setSelectedNotifications(settings.defaultNotifications);
       }
     } catch (error) {
       console.error('Failed to load data:', error);
@@ -89,7 +101,7 @@ export default function TaskFormScreen() {
         deadline: deadline.toISOString(),
         priority,
         categoryId,
-        notifications: [NOTIFICATION_OPTIONS.ONE_DAY], // Default: 1 day before
+        notifications: selectedNotifications,
         completed: false,
         isActive: true,
       };
@@ -123,6 +135,27 @@ export default function TaskFormScreen() {
       haptics.selection();
       setDeadline(selectedTime);
     }
+  };
+
+  const getNotificationsText = () => {
+    if (selectedNotifications.length === 0) {
+      return 'No reminders';
+    }
+    const labels = selectedNotifications
+      .map(minutes => NOTIFICATION_CHOICES.find(c => c.minutes === minutes)?.label)
+      .filter(Boolean);
+    return labels.length > 2 
+      ? `${labels.length} reminders`
+      : labels.join(', ');
+  };
+
+  const handleNotificationToggle = (minutes: NotificationOption) => {
+    haptics.selection();
+    setSelectedNotifications(prev => 
+      prev.includes(minutes)
+        ? prev.filter(m => m !== minutes)
+        : [...prev, minutes].sort((a, b) => b - a)
+    );
   };
 
   if (loading) {
@@ -379,6 +412,27 @@ export default function TaskFormScreen() {
             </View>
           </View>
 
+          {/* Reminders */}
+          <View style={[styles.card, { backgroundColor: colors.surface }]}>
+            <View style={styles.labelRow}>
+              <Ionicons name="notifications-outline" size={20} color={colors.primary} />
+              <Text style={[styles.label, { color: colors.textPrimary }]}>Reminders</Text>
+            </View>
+            <TouchableOpacity
+              style={[styles.notificationButton, { backgroundColor: colors.background, borderColor: colors.border }]}
+              onPress={() => {
+                haptics.light();
+                setShowNotificationModal(true);
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.notificationButtonText, { color: colors.textPrimary }]}>
+                {getNotificationsText()}
+              </Text>
+              <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
+            </TouchableOpacity>
+          </View>
+
           {/* Category */}
           <View style={[styles.card, { backgroundColor: colors.surface }]}>
             <View style={styles.labelRow}>
@@ -459,6 +513,88 @@ export default function TaskFormScreen() {
 
           <View style={styles.bottomSpacer} />
         </ScrollView>
+
+        {/* Notification Selection Modal */}
+        <Modal
+          visible={showNotificationModal}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowNotificationModal(false)}
+        >
+          <TouchableOpacity 
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setShowNotificationModal(false)}
+          >
+            <View 
+              style={[styles.modalContent, { backgroundColor: colors.surface, maxHeight: '80%', height: 600 }]}
+            >
+              <View style={styles.modalHeader}>
+                <Text style={[styles.modalTitle, { color: colors.textPrimary }]}>Reminders</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    haptics.light();
+                    setShowNotificationModal(false);
+                  }}
+                  style={styles.modalClose}
+                >
+                  <Ionicons name="close" size={24} color={colors.textPrimary} />
+                </TouchableOpacity>
+              </View>
+
+              <Text style={[styles.modalDescription, { color: colors.textSecondary }]}>
+                Select when you want to be reminded before this task's deadline.
+              </Text>
+
+              <FlatList
+                data={NOTIFICATION_CHOICES}
+                keyExtractor={(item) => item.key}
+                renderItem={({ item }) => {
+                  const isSelected = selectedNotifications.includes(item.minutes);
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        styles.notificationOption,
+                        { backgroundColor: colors.background },
+                        isSelected && { borderColor: colors.primary, borderWidth: 2 },
+                      ]}
+                      onPress={() => handleNotificationToggle(item.minutes)}
+                      activeOpacity={0.7}
+                    >
+                      <View style={styles.notificationOptionContent}>
+                        <View style={[
+                          styles.checkbox,
+                          { borderColor: isSelected ? colors.primary : colors.textTertiary },
+                          isSelected && { backgroundColor: colors.primary }
+                        ]}>
+                          {isSelected && (
+                            <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+                          )}
+                        </View>
+                        <Text style={[styles.notificationOptionLabel, { color: colors.textPrimary }]}>
+                          {item.label}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}
+                contentContainerStyle={{ paddingBottom: 16 }}
+                showsVerticalScrollIndicator={true}
+              />
+
+              <TouchableOpacity
+                style={[styles.saveButton, { backgroundColor: colors.primary }]}
+                onPress={() => {
+                  haptics.medium();
+                  setShowNotificationModal(false);
+                }}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.saveButtonText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

@@ -112,17 +112,14 @@ export const taskFormStyles = StyleSheet.create({
   modalOverlay: SharedStyles.modalOverlay,
   modalContent: {
     ...SharedStyles.modalContent,
-    paddingBottom: Platform.OS === 'ios' ? 34 : Spacing.xl,
+    paddingBottom: Spacing.xxxl,
   },
-  modalHeader: {
-    ...SharedStyles.modalHeader,
-    paddingHorizontal: Spacing.xl,
-    paddingTop: Spacing.lg,
-    paddingBottom: Spacing.md,
-    borderBottomWidth: 1,
-    marginBottom: 0,
+  modalHeader: SharedStyles.modalHeader,
+  modalTitle: {
+    ...SharedStyles.modalTitle,
+    fontSize: Typography.xl,
   },
-  modalTitle: SharedStyles.modalTitle,
+  modalClose: SharedStyles.iconButton,
   doneButton: {
     paddingVertical: Spacing.xs,
     paddingHorizontal: Spacing.sm,
@@ -140,5 +137,58 @@ export const taskFormStyles = StyleSheet.create({
   picker: {
     width: '100%',
     alignSelf: 'center',
+  },
+  notificationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 12,
+    padding: Spacing.md,
+    borderWidth: 1.5,
+    minHeight: 52,
+  },
+  notificationButtonText: {
+    fontSize: Typography.base,
+    fontWeight: Typography.medium,
+  },
+  modalDescription: {
+    fontSize: Typography.sm,
+    lineHeight: Typography.sm * 1.5,
+    marginBottom: Spacing.lg,
+  },
+  notificationOption: {
+    padding: Spacing.lg,
+    borderRadius: 12,
+    marginBottom: Spacing.sm,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  notificationOptionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notificationOptionLabel: {
+    fontSize: Typography.base,
+    fontWeight: Typography.medium,
+  },
+  saveButton: {
+    padding: Spacing.lg,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveButtonText: {
+    color: '#FFFFFF',
+    fontSize: Typography.base,
+    fontWeight: Typography.bold,
   },
 });

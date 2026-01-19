@@ -191,23 +191,23 @@ export default function TasksScreen() {
   };
 
   // Auto-scroll to Today section when tasks load
-  useEffect(() => {
-    if (!loading && groupedTasks.length > 0) {
-      const todayIndex = groupedTasks.findIndex(section => 
-        formatSectionDate(section.title) === 'Today'
-      );
-      if (todayIndex !== -1) {
-        setTimeout(() => {
-          sectionListRef.current?.scrollToLocation({
-            sectionIndex: todayIndex,
-            itemIndex: 0,
-            animated: true,
-            viewPosition: 0,
-          });
-        }, 100);
-      }
-    }
-  }, [loading, groupedTasks]);
+  // useEffect(() => {
+  //   if (!loading && groupedTasks.length > 0) {
+  //     const todayIndex = groupedTasks.findIndex(section => 
+  //       formatSectionDate(section.title) === 'Today'
+  //     );
+  //     if (todayIndex !== -1) {
+  //       setTimeout(() => {
+  //         sectionListRef.current?.scrollToLocation({
+  //           sectionIndex: todayIndex,
+  //           itemIndex: 0,
+  //           animated: true,
+  //           viewPosition: 0,
+  //         });
+  //       }, 100);
+  //     }
+  //   }
+  // }, [loading, groupedTasks]);
 
   // Loading check after all hooks
   if (loading) {
@@ -219,10 +219,20 @@ export default function TasksScreen() {
   }
 
   const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good Morning';
-    if (hour < 18) return 'Good Afternoon';
-    return 'Good Evening';
+    const now = new Date();
+    const hour = now.getHours();
+    const timeString = now.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true 
+    });
+    
+    let greeting = '';
+    if (hour < 12) greeting = 'Good Morning';
+    else if (hour < 18) greeting = 'Good Afternoon';
+    else greeting = 'Good Evening';
+    
+    return `${greeting} • ${timeString}`;
   };
 
   const activeTasks = tasks.filter(t => !t.completed).length;

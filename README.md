@@ -6,7 +6,8 @@ A modern, feature-rich task management app built with React Native and Expo. Sta
 
 - **📋 Task Management**: Create, edit, and organize tasks with priorities and categories
 - **⏱️ Real-Time Countdown**: Live countdown timers with visual urgency indicators
-- **📅 Calendar Export**: Export tasks to device calendar with duplicate prevention
+- **🔔 Smart Notifications**: Customizable task reminders with multiple notification times
+- **�📅 Calendar Export**: Export tasks to device calendar with duplicate prevention
 - **🎨 Multiple Views**: Month, Week, and Agenda calendar views
 - **🌙 Dark Mode**: Beautiful dark and light themes
 - **📳 Haptic Feedback**: Comprehensive haptic responses for all interactions with user toggle
@@ -117,7 +118,7 @@ TimeLock/
 - ✅ ICS file export functionality
 - ✅ Enhanced export messages and user feedback
 - ✅ Local time handling (fixed UTC timezone issues)
-- ✅ Live date/time display in calendar header
+- ✅ Live date/time display in calendar header and home page greeting
 - ✅ Comprehensive documentation suite
 - ✅ Organized style architecture with reusable patterns
 - ✅ UI fixes: improved toggle switch contrast and calendar theme rendering
@@ -129,6 +130,15 @@ TimeLock/
 - **Selective Export**: Choose which tasks to export to calendar
 - **Duplicate Prevention**: Prevents re-exporting already synced tasks
 - **Time Tracking**: Real-time countdown timers with circular progress indicators and urgent visual feedback
+- **Smart Notifications**: Complete notification system with rich details:
+  - Customizable task reminders (1 minute to 2 weeks before deadline)
+  - Multiple reminders per task
+  - Rich notification format with priority emoji, deadline, and time remaining
+  - Default notification preferences in Settings
+  - Per-task notification customization
+  - Automatic scheduling, rescheduling, and cancellation
+  - Foreground notifications with sound and badges
+  - Permission request flow with modal UI
 - **Haptic Feedback**: 7 feedback types (light, medium, heavy, success, warning, error, selection) with Settings toggle
 - **Category System**: Color-coded task organization
 - **Multiple Calendar Views**: Month, Week, and Agenda views
