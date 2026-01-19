@@ -130,9 +130,10 @@ TimeLock/
 - **Selective Export**: Choose which tasks to export to calendar
 - **Duplicate Prevention**: Prevents re-exporting already synced tasks
 - **Time Tracking**: Real-time countdown timers with circular progress indicators and urgent visual feedback
-- **Smart Notifications**: Complete notification system with:
+- **Smart Notifications**: Complete notification system with rich details:
   - Customizable task reminders (1 minute to 2 weeks before deadline)
   - Multiple reminders per task
+  - Rich notification format with priority emoji, deadline, and time remaining
   - Default notification preferences in Settings
   - Per-task notification customization
   - Automatic scheduling, rescheduling, and cancellation

@@ -126,15 +126,39 @@ export class NotificationService {
       }
 
       try {
+        // Format deadline time
+        const deadlineTime = deadline.toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        });
+        const deadlineDate = deadline.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric' 
+        });
+        
+        // Format time remaining for notification title
+        const timeRemainingText = this.formatReminderTime(minutesBefore);
+        
+        // Build notification body with priority and deadline
+        const priorityEmoji = {
+          low: '🟢',
+          medium: '🟡',
+          high: '🟠',
+          urgent: '🔴',
+        };
+        const emoji = priorityEmoji[task.priority as keyof typeof priorityEmoji] || '🟡';
+        
         const notificationId = await Notifications.scheduleNotificationAsync({
           content: {
-            title: '⏰ Task Reminder',
-            body: task.title,
+            title: `⏰ ${task.title}`,
+            body: `${emoji} ${task.priority.toUpperCase()} • Due ${deadlineDate} at ${deadlineTime}\n`,
             data: {
               taskId: task.id,
               taskTitle: task.title,
               deadline: task.deadline,
               reminderMinutes: minutesBefore,
+              priority: task.priority,
             },
             sound: true,
             priority: Notifications.AndroidNotificationPriority.HIGH,
@@ -240,14 +264,14 @@ export class NotificationService {
    */
   static formatReminderTime(minutesBefore: number): string {
     if (minutesBefore < 60) {
-      return `${minutesBefore} minute${minutesBefore !== 1 ? 's' : ''} before`;
+      return `${minutesBefore} minute${minutesBefore !== 1 ? 's' : ''} before due`;
     }
     if (minutesBefore < 1440) {
       const hours = Math.floor(minutesBefore / 60);
-      return `${hours} hour${hours !== 1 ? 's' : ''} before`;
+      return `${hours} hour${hours !== 1 ? 's' : ''} before due`;
     }
     const days = Math.floor(minutesBefore / 1440);
-    return `${days} day${days !== 1 ? 's' : ''} before`;
+    return `${days} day${days !== 1 ? 's' : ''} before due`;
   }
 }
 

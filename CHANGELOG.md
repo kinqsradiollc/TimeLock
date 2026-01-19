@@ -85,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic rescheduling when deadline or reminders change
   - Automatic cancellation when tasks completed or deleted
   - Support for multiple reminders per task (e.g., 1 week + 1 day + 1 hour before)
+  - **Rich notification format**: Title shows task name, body includes priority emoji (🟢🟡🟠🔴), deadline date/time, and time remaining
   - Default notification preferences in Settings (applied to new tasks)
   - Per-task notification customization in task form
   - Notification ID tracking in database for cleanup
@@ -96,6 +97,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Settings UI**: Multi-select notification preferences with 10 time options (1 minute to 2 weeks)
 - **Task Form UI**: Reminders section with modal for selecting notification times
 - **Home Page**: Live time display in greeting (e.g., "Good Morning • 9:45 AM")
+
+### 🔧 Changed
+- Removed expo-barcode-scanner plugin to fix iOS build issues
+- Changed iOS/Android run scripts from `expo start` to `expo run:ios/android`
+- Removed android.permission.CAMERA (not needed yet)
 
 ### 🔄 Partially Implemented (Updated)
 - QR code task sharing (libraries installed, implementation pending)
@@ -112,10 +118,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-### Fixed
-- Improved toggle switch contrast in Settings for light theme (thumb now white when off, track uses medium gray).
-- Calendar month view now re-renders correctly when switching themes.
-- Database migrations now idempotent - safe to re-run without duplicate column/setting errors.
+### 🔧 Fixed
+- Improved toggle switch contrast in Settings for light theme (thumb now white when off, track uses medium gray)
+- Calendar month view now re-renders correctly when switching themes
+- Database migrations now idempotent - safe to re-run without duplicate column/setting errors
+- iOS build issues with expo-barcode-scanner module conflicts
+- Notification API compatibility (singular cancelScheduledNotificationAsync with loop)
+- Notification trigger type specification for proper scheduling
 
 ## Types of Changes
 
